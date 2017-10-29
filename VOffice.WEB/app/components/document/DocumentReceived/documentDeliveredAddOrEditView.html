@@ -1,0 +1,316 @@
+﻿<form class="form-horizontal" novalidate name="documentDeliveredAddOrEdit" role="form" ng-submit="">
+    <div id="fog-modal-small">
+        <div class="sk-spinner sk-spinner-rotating-plane">
+        </div>
+        <h2>Vui lòng đợi...</h2>
+    </div>
+     <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-12">
+            <h2>Cập nhật văn bản đi</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/">Trang chủ </a>
+                </li>
+                <li class="active">
+                    <strong>Cập nhật văn bản đi</strong>
+                </li>
+
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+        <div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="form-box-header">
+                    <div class="pull-left form-actions">
+                        <p class="required-notic">(Những trường <span class="label-required">*</span> là bắt buộc nhập)</p>
+                    </div>
+                    <div class="pull-right form-actions">
+                        <button class="btn btn-sm btn-primary" type="button" ng-click="saveAndClose()" ng-hide="isValidData"  ng-disabled="documentDeliveredAddOrEdit.$invalid">Cập nhật</button>
+                        <!--<button class="btn btn-sm btn-primary" type="button" ng-click="saveAndAdd()" ng-disabled="documentDeliveredAddOrEdit.$invalid">Lưu và tạo mới</button>-->
+                        <button type="button" class="btn btn-sm btn-white" ng-click="bindList()">Hủy bỏ</button>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label>Số văn bản</label>
+                                <input type="text" id="txtDocumentNumber" name="documentNumber" placeholder="Số văn bản" class="input-sm form-control" maxlength="50" ng-model="documentDelivered.documentNumber" ng-init="focusDocumentNumber();" />
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label>Văn bản QPPL</label><br />
+                                <label class="fontweight-normal"> <input type="checkbox" value="" checked="" ng-model="documentDelivered.legalDocument"> <i></i> Là văn bản pháp luật</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Trích yếu</label> <span class="label-required">*</span>
+                                <input type="text" id="txtTitle" name="title" placeholder="Trích yếu" class="input-sm form-control" maxlength="500" ng-model="documentDelivered.title" required />
+                                <span ng-show="documentDeliveredAddOrEdit.title.$invalid && !documentDeliveredAddOrEdit.title.$pristine" class="field-validation-error">Trích yếu không để trống</span>
+                            </div>
+                        </div>
+                        <div class="form-group   ">
+                            <div class="col-sm-12">
+                                <label>Nơi nhận ngoài hệ thống </label>
+                                <angucomplete-alt id="txtNoiNhanNgoaiHeThong"
+                                                  input-name="_NoiNhanNgoaiHeThong"
+                                                  input-changed="externalSendReceiveDivisionInputChanged"
+                                                  placeholder="Nơi nhận ngoài hệ thống"
+                                                  maxlength="50"
+                                                  pause="100"
+                                                  selected-object="selectedExternalSendReceiveDivision"
+                                                  local-data="externalSendReceiveDivision"
+                                                  search-fields="title"
+                                                  title-field="title"
+                                                  minlength="1"
+                                                  initial-value="initialExternalDivision"
+                                                  input-class="form-control form-control-small input-sm" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Nơi nhận</label> <span class="label-required">*</span>
+                                <div class="input-group">
+                                    <input class="input-sm form-control" disabled="" name="_recipientDivision" type="text" ng-model="documentDelivered.recipientsDivision">
+                                    <span ng-show="documentDeliveredAddOrEdit._recipientDivision.invalid" class="field-validation-error">Nơi nhận không để trống.</span>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary" ng-click="openModalDepartmentTest(departmentSelected, documentDelivered.recipientsDivision, departmentSelectedId, departmentConfig)">
+                                            Chọn
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group  b-margin-0">
+                            <div class="col-sm-12">
+                                <label>Người kí</label> <span class="label-required">*</span>
+                                <input type="hidden" ng-model="documentDelivered.signedById" />
+
+                                <tags-input placeholder="Người kí" ng-model="signedBy"
+                                            display-property="fullName" replace-spaces-with-dashes="false"
+                                            key-property="id" max-tags="1" on-tag-added="forceOneTag($tag)"
+                                            template="staff-template">
+                                    <auto-complete source="loadStaff($query)"
+                                                   min-length="0"
+                                                   debounce-delay="0"
+                                                   template="autocomplete-template"
+                                                   max-results-to-show="10"></auto-complete>
+                                </tags-input>
+                                <!--<angucomplete-alt id="txtSignedBy"
+                                                  input-name="_documentSignBy"
+                                                  input-changed="documentSignByInputChanged"
+                                                  focus-in="focusInDocumentSignBy()"
+                                                  focus-out="focusOutDocumentSignBy()"
+                                                  placeholder="Người kí"
+                                                  maxlength="50"
+                                                  pause="100"
+                                                  selected-object="selectedDocumentSignedBy"
+                                                  local-data="documentSignedBy"
+                                                  search-fields="fullName"
+                                                  title-field="fullName"
+                                                  minlength="1"
+                                                  initial-value="initialDocumentSignBy"
+                                                  input-class="form-control form-control-small input-sm" />-->
+
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <span ng-show="documentDeliveredAddOrEdit._documentSignBy.$invalid && !documentDeliveredAddOrEdit._documentSignBy.$pristine" class="field-validation-error">Người kí không để trống</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:5px;">
+                            <div class="col-sm-6">
+                                <label>Lĩnh vực</label> <span class="label-required">*</span>
+
+                                <tags-input placeholder="Lĩnh vực" ng-model="documentFields"
+                                            name="_documentField"
+                                            display-property="title" replace-spaces-with-dashes="false"
+                                            on-tag-added="addTagsDocumetnField($tag)"
+                                            key-property="id" required>
+                                    <auto-complete source="loadDocumentField($query)"
+                                                   min-length="0"
+                                                   debounce-delay="0"
+                                                   max-results-to-show="10"></auto-complete>
+                                </tags-input>
+                                <span ng-show="!documentDeliveredAddOrEdit._documentField.$valid && !documentDeliveredAddOrEdit._documentField.$pristine" class="field-validation-error"> Lĩnh vực không để trống</span>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Loại </label> <span class="label-required">*</span>
+                                <select id="txtDocumentType" name="_loaiVanBan" class="form-control m-b input-sm" ng-model="selectedDocumentType" ng-options="x as x.title for x in documentType track by x.id" required></select>
+                                <!--<angucomplete-alt id="txtLoaiVanBan"
+                                                  input-name="_loaiVanBan"
+                                                  placeholder="Loại văn bản"
+                                                  maxlength="50"
+                                                  pause="100"
+                                                  selected-object="selectedDocumentType"
+                                                  local-data="documentType"
+                                                  search-fields="title"
+                                                  title-field="title"
+                                                  minlength="1"
+                                                  initial-value="initialDocumentType"
+                                                  spellcheck="true"
+                                                  ng-required="required"
+                                                  add-from-autocomplete-only ="true"
+                                                  input-class="form-control form-control-small" />-->
+                                <span ng-show="documentDeliveredAddOrEdit._loaiVanBan.$invalid && !documentDeliveredAddOrEdit._loaiVanBan.$pristine" class="field-validation-error">Loại không để trống.</span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:5px;">
+                            <div class="col-sm-3">
+                                <label>Độ mật</label> <span class="label-required">*</span>
+                                <select class="form-control m-b input-sm" ng-model="secretLevel" ng-options="x as x.name for x in listSecretLevel track by x.id"></select>
+                                <!--<select class="form-control m-b input-sm">
+                                    <option>Thường</option>
+                                    <option>Mật</option>
+                                    <option>Tối mật</option>
+                                    <option>Tuyệt mật</option>
+                                </select>-->
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Độ khẩn</label> <span class="label-required">*</span>
+                                <select class="form-control m-b input-sm" ng-model="urgencyLevel" ng-options="x as x.name for x in listUrgencyLevel track by x.id"></select>
+                                <!--<select class="form-control m-b input-sm">
+                                    <option>Thường</option>
+                                    <option>Khẩn</option>
+                                    <option>Thượng khẩn</option>
+                                    <option>Hỏa tốc</option>
+                                </select>-->
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Số bản</label> <span class="label-required">*</span>
+                                <input type="text" name="_numberofCopies" placeholder="Số bản" value="1" class="input-sm form-control" ng-model="documentDelivered.numberOfCopies" required />
+                                <span ng-show="documentDeliveredAddOrEdit._numberofCopies.$invalid && !documentDeliveredAddOrEdit._numberofCopies.$pristine" class="field-validation-error">Số bản không để trống.</span>
+
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Số trang</label><span class="label-required">*</span>
+                                <input type="text" name="_numberofPage" placeholder="Số trang" value="1" class="input-sm form-control" ng-model="documentDelivered.numberOfPages" required />
+                                <span ng-show="documentDeliveredAddOrEdit._numberofPage.$invalid && !documentDeliveredAddOrEdit._numberofPage.$pristine" class="field-validation-error">Số trang không để trống.</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label>Ngày văn bản</label> <span class="label-required">*</span>
+                                <input class="input-sm form-control" placeholder="dd/mm/yyyy" datepicker autocomplete="off" ng-model="documentDateString" required name="_documentDate" maxlength="10" />
+                                <span ng-show="documentDeliveredAddOrEdit._documentDate.$invalid && !documentDeliveredAddOrEdit._documentDate.$pristine" class="field-validation-error">Ngày văn bản không được để trống</span>
+                            </div>
+                            <!--<div class="col-sm-6">
+                                <label>Ngày đi</label> <span class="label-required">*</span>
+                                <div class="input-group">
+                                        <span class="input-group-addon" style="cursor: pointer">
+                                            <i class="fa fa-lg fa-calendar"></i>
+                                        </span>
+                                        <input class="input-sm form-control" datepicker ng-blur="blurDeliveredDateString()"  autocomplete="off" ng-model="deliveredDateString" required name="_receiveDate" maxlength="10" />
+                                    </div>
+
+                                <span ng-show="documentDeliveredAddOrEdit._receiveDate.$invalid && !documentDeliveredAddOrEdit._receiveDate.$pristine" class="field-validation-error">Ngày đến không để trống.</span>
+
+                            </div>-->
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Tệp đính kèm</label> <span class="label-required">*</span>
+                                <input type="file" id="fileAttachment" placeholder="Tệp đính kèm" />
+                                <p style="background: #FAFAD2; padding: 4px;"><i> Tệp đính kèm phải là văn bản, ảnh hoặc file nén. Dung lượng tối đa không quá 4MB</i></p>
+                                <span ng-show="{{showlink}}" class="attachment-wrapper">
+                                    <i class="fa fa-code"></i>&nbsp;&nbsp;<a class="attachment-item detail-item" target="_blank" href="{{baseUrl}}{{documentDelivered.attachmentPath}}">Tệp đính kèm</a><br />
+                                </span>
+                              </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Nơi lưu bản gốc</label>
+                                <textarea class="form-control" rows="4" style="width:100%;white-space: pre-line;" maxlength="256" ng-model="originalSavingPlace"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Ghi chú</label>
+                                <textarea class="form-control" rows="4" style="width:100%;white-space: pre-line;" maxlength="500" ng-model="note"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body text-right tooltip-demo form-actions">
+                        <button class="btn btn-sm btn-primary" type="button" ng-click="saveAndClose()" ng-hide="isValidData" ng-disabled="documentDeliveredAddOrEdit.$invalid">Cập nhật</button>
+                        <!--<button class="btn btn-sm btn-primary" type="button" ng-click="saveAndAdd()" ng-disabled="documentDeliveredAddOrEdit.$invalid">Lưu và tạo mới</button>-->
+                        <button type="button" class="btn btn-sm btn-white" ng-click="bindList()">Hủy bỏ</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div>
+
+
+
+    <script type="text/ng-template" id="modalDepartmentTest.html">
+        <div id="systemModal" class="big-modal">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">CHỌN NƠI NHẬN</h4>
+            </div>
+            <div class="modal-body" id="modal-body" style="height: 450px; overflow-y: auto;">
+                <div class="row">
+
+                    <table id="tblLoadDonVi" style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td class="body-department-panel" id="clListDepartment">
+                                    <div id="treeViewDiv">
+                                    </div>
+                                </td>
+                                <!--<td class="body-department-panel" id="clListSelectedRecipent" ng-show="false">
+                                    <div id="departmentSelected"> </div>
+
+                                </td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary" ng-click="$ctrl.ok()">Cập nhật</button>
+                <button type="button" class="btn btn-sm btn-warning" ng-click="$ctrl.cancel()">Đóng</button>
+            </div>
+        </div>
+    </script>
+</div>
+
+<script type="text/ng-template" id="staff-template">
+    <div class="feed-element display-avatar-suggest">
+        <img ng-src="{{data.avatar}}" class="img-circle" style="width:22px; height:22px;" ng-if="data.avatar" />
+        <span>{{$getDisplayText()}}</span>
+        <a class="tag-remove-button" ng-click="$removeTag()">&#10006;</a>
+    </div>
+
+</script>
+<script type="text/ng-template" id="autocomplete-template">
+    <div class="left-panel feed-element" style="padding-bottom:0px;">
+        <img class="img-circle" ng-src="{{data.avatar}}" />
+        <span ng-bind-html="$highlight($getDisplayText())"></span>
+    </div>
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(document).on("keypress", ":input:not(textarea)", function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+            }
+        });
+    });
+
+</script>
+<script src="../../../../assets/admin/js/jquery-2.1.1.js"></script>
+<script src="../../../../assets/admin/js/plugins/iCheck/icheck.min.js"></script>
+<script src="../../../../assets/admin/js/plugins/jsTree/jstree.min.js"></script>

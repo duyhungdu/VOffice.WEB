@@ -1,0 +1,158 @@
+﻿<form class="form-horizontal" novalidate name="frmAddOrEditRole" role="form" ng-submit="save()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-10">
+            <h2>{{titleForm}}</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/">Trang chủ </a>
+                </li>
+                <li class="active">
+                    <strong>{{titleForm}}</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+        <div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="form-box-header">
+                    <div class="pull-left form-actions">
+                        <p class="required-notic">(Những trường <span class="label-required">*</span> là bắt buộc nhập)</p>
+                    </div>
+                    <div class="pull-right form-actions">
+                        <button class="btn btn-sm btn-primary"  type="submit">Cập nhật</button>
+                        <button class="btn btn-sm btn-white" type="button" ng-click="bindList()">Hủy bỏ</button>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="form-body" style="padding-bottom:130px;">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Mã quyền</label>
+                            <div class="col-sm-6">
+                                <input type="text" placeholder="Mã quyền" ng-disabled="disableRoleCode" name="_rolecode" id="roleCode" ng-model="role.name" class="form-control" maxlength="256" required>                                
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="showPassword">
+                            <label class="col-lg-3 control-label">Mô tả</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="_description" id="description" ng-model="role.description" placeholder="Mô tả" class="form-control" maxlength="500" required>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="showPassword">
+                            <label class="col-lg-3 control-label">Nhóm</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="_group" ng-model="role.groupBy" required  placeholder="Nhóm" class="form-control" maxlength="256">
+                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Thứ tự</label>
+                            <div class="col-sm-6">
+                                <input type="number" id="order" ng-model="role.order" name="_order" placeholder="Thứ tự" class="form-control" maxlength="3" />
+                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Quyền cha</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input class="form-control " type="text" id="roleParent" ng-model="roleParentText" name="_roleParent" placeholder="Quyền cha" maxlength="256" />
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="openModelRole()">
+                                            Chọn
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Gốc</label>
+                            <div class="col-sm-6">
+                                <label><input type="checkbox" ng-model="role.root" /></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Lá</label>
+                            <div class="col-sm-6">
+                                <label><input type="checkbox" ng-model="role.leaf" /></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Đích</label>
+                            <div class="col-sm-6">
+                                <input type="text" id="herf" ng-model="role.href" name="_herf" placeholder="Target" class="form-control" maxlength="500" />
+                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Biểu tượng</label>
+                            <div class="col-sm-6">
+                                <input type="text" id="icon" ng-model="role.icon" name="_icon" placeholder="Icon" class="form-control" maxlength="256" />                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Hiển thị</label>
+                            <div class="col-sm-6">
+                               <label class="fontweight-normal"><input type="checkbox" ng-model="role.onMainMenu"/> Menu chính</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class="col-sm-6">
+                                <label class="fontweight-normal"><input type="checkbox" ng-model="role.onTopMenu"/> Menu phía trên</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class="col-sm-6">
+                                <label class="fontweight-normal"><input type="checkbox" ng-model="role.onRightMenu" /> Menu phải</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Đơn vị sử dụng</label>
+                            <div class="col-sm-6">
+                                <label class="fontweight-normal"><input type="checkbox" ng-model="role.allowClientAccess"  /></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Trạng thái</label>
+                            <div class="col-sm-6">
+                                <label class="fontweight-normal"><input type="checkbox" ng-model="role.active" /> Kích hoạt</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body text-right tooltip-demo form-actions">
+                        <button class="btn btn-sm btn-primary"  type="submit">Cập nhật</button>
+                        <button class="btn btn-sm btn-white" type="button" ng-click="bindList()">Hủy bỏ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" ng-model="sysAdmin" />
+</form>
+
+ 
+<script type="text/ng-template" id="modalRoleParent.html">
+    <div id="roleParentModal" class="big-modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-title">CHỌN QUYỀN CHA</h4>
+        </div>
+        <div class="modal-body" id="modal-body" style="height: 450px; overflow-y: auto;">
+            <div class="row">
+                <div class="col-md-12">
+                    
+                        <div id="treeViewDiv">
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-primary" ng-click="$ctr.ok()">Chọn</button>
+            <button type="button" class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</button>
+        </div>
+    </div>
+</script>
+

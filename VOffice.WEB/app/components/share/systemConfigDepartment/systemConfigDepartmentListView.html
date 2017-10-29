@@ -1,0 +1,85 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Tham số hệ thống đơn vị</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>Tham số hệ thống đơn vị</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-8">
+            </div>
+            <div class="col-sm-4 pull-right">
+                <div class="input-group">
+                    <input type="text" placeholder="Tìm kiếm..." class="input-sm form-control" ng-model="keyword" ng-enter="search()"> <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="search()"> Tìm</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <table class="footable table table-stripped toggle-arrow-tiny">
+                        <thead>
+                            <tr>
+                                <th width="30px;">STT</th>
+                                <th>TIÊU ĐỀ</th>
+                                <th>GIÁ TRỊ</th>
+                                <th class="auto-display">MÔ TẢ</th>
+                                <th class="auto-display">LOẠI</th>
+                                <th class="auto-display center-col" style="width:100px">TRẠNG THÁI</th>
+                                <th style="width:10px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in listItem">
+                                <td style="height:40px">{{recordsPerPage*(currentPage-1)+$index+1}}</td>
+                                <td>{{item.title}}</td>
+                                <td>{{item.type===1?'********':item.value}}</td>
+                                <td class="auto-display">{{item.description===null?'N/A':item.description}}</td>
+                                <td class="auto-display">{{item.type|systemConfigFilter}}</td>
+                                <td class="auto-display center-col"><a href="javascript:void(0);"><i class="fa fa-toggle-{{item.active|statusFilter}}"></i></a></td>
+                                <td>
+                                    <div class="btn-group pull-right" ng-show="{{item.allowClientEdit}}">
+                                        <button class="btn btn-default btn-sm dropdown-toggle no-borders" data-toggle="dropdown"><i class="glyphicon glyphicon-option-vertical"></i></button>
+                                        <ul class="dropdown-menu pull-right" role="menu">
+                                            <li>
+                                                <a ui-sref="add_edit_systemConfigDepartment({id: item.configId,code:item.title,currentPage:currentPage, keyword: keyword})" title="Chỉnh sửa">
+                                                    Chỉnh sửa
+                                                </a>
+                                            </li>
+                                            <li ng-hide="true">
+                                                <a title="Xóa" ng-click="deleteSystemConfig(item.id)">
+                                                    Xóa
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" class="footable-visible">
+                                    <span class="pagination pull-right">
+                                        <ul uib-pagination items-per-page="recordsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="getListSystemConfig(currentPage)" class="pagination-sm" rotate="false" boundary-links="true" force-ellipses="true" first-text="<<" last-text=">>" next-text=">" previous-text="<"></ul>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

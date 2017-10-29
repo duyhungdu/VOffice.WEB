@@ -1,0 +1,332 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Cơ cấu tổ chức</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>Cơ cấu tổ chức</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="ibox">
+                <div class="ibox-content scroll-x-able">
+                    <div class="row">
+                        <div class="col-lg-12 animated fadeInRight">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-primary b-margin-5" ng-click="addOrEditDepartment(0)"><i class="fa fa-plus"></i>&nbsp; Thêm</button>
+                                <button class="btn btn-sm btn-white b-margin-5" ng-click="addOrEditDepartment(1)"><i class="fa fa-edit"></i>&nbsp;Chỉnh sửa</button>
+                                <button class="btn btn-sm btn-white b-margin-5" ng-click="deleteDepartment()"><i class="fa fa-trash-o"></i>&nbsp;Xóa</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 b-margin-5 center-block">
+                            <div class="input-group">
+                                <input type="text" placeholder="Tìm kiếm..." class="input-sm form-control" ng-model="keywordDepartment" ng-enter="searchDepartment()"> <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-primary" ng-click="searchDepartment()"> Tìm</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row new-document-item">
+                        <perfect-scrollbar class="scroller scroller-left scrollbar-margin" wheel-propagation="true" theme="'my-theme'" swipe-propagation="true" refresh-on-change="someArray">
+                            <div id="treeViewDiv">
+                            </div>
+                        </perfect-scrollbar>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="ibox">
+                <div class="ibox-content scroll-x-able">
+                    <div class="row">
+                        <div class="col-lg-12 animated fadeInRight b-margin-5">
+                            <div class="btn-group" has-permission="adddocumentreceived">
+                                <button id="single-button" type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown">
+                                    Quản lý cán bộ&nbsp;&nbsp; <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                    <li has-permission="addstaff" role="menuitem">
+                                        <a ng-click="addOrEditStaff()"> Thêm mới</a>
+                                    </li>
+                                    <li has-permission="takeStaff" role="menuitem">
+                                        <a ng-click="setMainDepartment()"> Cập nhật</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 b-margin-5 center-block">
+                            <div class="input-group">
+                                <input type="text" placeholder="Tìm kiếm..." class="input-sm form-control" ng-model="keyword" ng-enter="search()"> <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-primary" ng-click="search()"> Tìm</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content new-document-item">
+                        <perfect-scrollbar class="scroller scroller-right" wheel-propagation="true" theme="'my-theme'" swipe-propagation="true" refresh-on-change="someArray">
+                            <div class="row" style="width:100%">
+                                <div class="col-lg-12" style="padding-right:0px">
+                                    <div class="ibox">
+                                        <table class="data-table footable table toggle-arrow-tiny ">
+                                            <tbody>
+                                                <tr ng-repeat="item in listItems">
+                                                    <td style="width:50px"><a href="javascript:void(0);"><image class="chat-avatar img-circle" src="{{baseUrl}}{{item.avatar||'Uploads/Avatar/no-avatar.jpg'}}"></image></a></td>
+                                                    <td><a href="javascript:void(0);"> {{item.fullName}} </a></td>
+                                                    <td class="auto-display"><a href="javascript:void(0);">{{item.userName}} </a></td>
+                                                    <td>
+                                                        <div class="btn-group pull-right">
+                                                            <button class="btn btn-default btn-sm dropdown-toggle no-borders" data-toggle="dropdown"><i class="glyphicon glyphicon-option-vertical"></i></button>
+                                                            <ul class="dropdown-menu pull-right list-function" role="menu">
+                                                                <li>
+                                                                    <a title="Chỉnh sửa" href="javascript:void(0);" ng-click="editStaff(item)">
+                                                                        Chỉnh sửa
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a title="Cấp tài khoản" href="javascript:void(0);" ng-show="item.userName=='' || item.userName==null" ng-click="addOrRemoveAccount(item)">
+                                                                        Cấp tài khoản
+                                                                    </a>
+                                                                </li>
+
+                                                                <li>
+                                                                    <a title="Quản lý tài khoản" href="javascript:void(0);" ng-show="item.userName!='' && item.userName!=null" ng-click="managerAccount(item)">
+                                                                        Quản lý tài khoản
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a title="Cập nhật đơn vị" href="javascript:void(0);" ng-click="updateDepartmentForStaff({staffId:item.id})">
+                                                                        Cập nhật đơn vị
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a title="Loại khỏi đơn vị" href="javascript:void(0);" ng-click="removeDepartmentForStaff({staffId:item.id,departmentId:item.departmentId })">
+                                                                        Loại khỏi đơn vị
+                                                                    </a>
+                                                                </li>
+
+                                                                <li>
+                                                                    <a title="Xóa" ng-click="deleteStaff(item.id)">
+                                                                        Xóa
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </perfect-scrollbar>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+<script type="text/ng-template" id="updateDepartmentForStaff.html">
+    <div id="updateDepartmentForStaffModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">CẬP NHẬT THÔNG TIN ĐƠN VỊ</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="col-sm-12 b-margin-5" ng-show="$ctr.checkAdmin()">
+                    <angucomplete-alt id="txtUpdateDepartmentForStaff"
+                                      pause="100"
+                                      selected-object="$ctr.selectedDepartment"
+                                      local-data="$ctr.departmentOfStaff"
+                                      search-fields="name"
+                                      title-field="name"
+                                      minlength="1"
+                                      initial-value="$ctr.intialDepartment"
+                                      input-class="form-control form-control-small input-sm" />
+                </div>
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <table class="footable table table-stripped toggle-arrow-tiny">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Tên đơn vị</th>
+                                        <th>Chức vụ</th>
+                                        <th class="center-col"> Đơn vị chính</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in $ctr.listDepartments">
+                                        <td> <input type="checkbox" name="active" ng-checked="item.active" ng-change="$ctr.checkDepartment(item)" ng-model="item.active"></td>
+                                        <td>{{item.name}}</td>
+                                        <td style="width:300px"><input class="input-sm form-control" type="text" ng-model="item.position" /></td>
+                                        <td class="center-col"><input type="checkbox" name="mainDepartment" ng-change="$ctr.checkDepartment(item)" ng-checked="item.mainDepartment" ng-model="item.mainDepartment" /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.ok()">Lưu</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="setMainDepartment.html">
+    <div id="setMainDepartmentModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">CẬP NHẬT CÁN BỘ</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="col-sm-12 b-margin-15">
+                <tags-input placeholder="Chọn cán bộ" ng-model="$ctr.staff" id="txtStaffSearch"
+                            display-property="fullName" replace-spaces-with-dashes="false"
+                            key-property="id" max-tags="1" on-tag-added="$ctr.forceOneTag($tag)"
+                            template="staff-template">
+                    <auto-complete source="$ctr.loadStaff($query)"
+                                   min-length="0"
+                                   debounce-delay="0"
+                                   template="autocomplete-template"
+                                   max-results-to-show="10"></auto-complete>
+                </tags-input>
+            </div>
+            <div class="col-sm-8">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <table class="footable table table-stripped toggle-arrow-tiny">
+                            <tbody>
+                                <tr ng-repeat="item in $ctr.listStaffs">
+                                    <td>
+                                        <a href="javascript:void(0);">
+                                            <img class="chat-avatar img-circle" src="{{item.avatar}}">
+                                        </a> {{item.fullName}}
+                                    </td>
+                                    <td><input class="input-sm form-control" type="text" ng-model="item.position" /></td>
+                                    <td class="center-col">
+                                        <button class="close red-color" type="button" ng-click="$ctr.removeStaff(item.staffId)">×</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox" style="height:345px; margin-bottom:5px;">
+                    <div class="ibox-content" style="height:345px">
+                        <perfect-scrollbar class="scroller scroller-right-department" wheel-propagation="true" theme="'my-theme'" swipe-propagation="true" refresh-on-change="someArray">
+                            <table class="footable table table-stripped toggle-arrow-tiny">
+                                <tbody>
+                                    <tr ng-repeat="item in  $ctr.listItems">
+                                        <td class="no-top-border"><a href="javascript:void(0);"><img class="chat-avatar img-circle" src="{{baseUrl}}{{item.avatar}}" /></a> {{item.fullName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </perfect-scrollbar>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.ok()">Lưu</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<style type="text/css">
+    .scroller {
+        position: relative;
+        background: transparent;
+    }
+
+    .scroller-left {
+        height: 550px;
+    }
+
+    .scroller-right-department {
+        height: 330px;
+    }
+
+    .scroller-right {
+        height: 523px;
+    }
+
+    .scrollbar-margin {
+        margin: 0px 15px;
+    }
+
+    .scroller > div {
+        padding-right: 0px;
+    }
+
+    @media(min-width: 768px) {
+        .scroller > div {
+            padding-right: 0px;
+        }
+
+        .modal-dialog {
+            width: 900px;
+            margin: 30px auto;
+        }
+
+        .bootbox-confirm .modal-dialog {
+            width: 600px;
+            height: 100px;
+        }
+    }
+
+    .angucomplete-dropdown {
+        width: 100%;
+    }
+
+    .modal-body {
+        height: 450px;
+        overflow-y: auto;
+    }
+
+    .bootbox-confirm .modal-body {
+        height: auto;
+        overflow-y: auto;
+    }
+
+    .ibox-content {
+        padding: 15px 10px 10px 20px !important;
+    }
+</style>
+<script src="../../../../assets/admin/js/plugins/jsTree/jstree.min.js"></script>
+<script type="text/ng-template" id="staff-template">
+    <div class="feed-element display-avatar-suggest">
+        <img ng-src="{{data.avatar}}" class="img-circle" style="width:22px; height:22px;" ng-if="data.avatar" />
+        <span>{{$getDisplayText()}}</span>
+        <a class="tag-remove-button" ng-click="$removeTag()">&#10006;</a>
+    </div>
+
+</script>
+
+<script type="text/ng-template" id="autocomplete-template">
+    <div class="left-panel feed-element" style="padding-bottom:0px;">
+        <img class="img-circle" ng-src="{{data.avatar}}" />
+        <span ng-bind-html="$highlight($getDisplayText())"></span>
+    </div>
+</script>
+
+

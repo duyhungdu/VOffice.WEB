@@ -1,0 +1,153 @@
+﻿<form class="form-horizontal" novalidate name="frmAddOrEditDocumentField" role="form" ng-submit="save()">
+    <div id="fog-modal-small">
+        <div class="sk-spinner sk-spinner-rotating-plane">
+        </div>
+        <h2>Vui lòng đợi...</h2>
+    </div>
+     <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-10">
+            <h2>Vào sổ văn bản</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/">Trang chủ </a>
+                </li>
+                <li class="active">
+                    <strong>Vào sổ văn bản</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+        <div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="form-box-header">
+                    <div class="pull-left form-actions">
+                        <p class="required-notic">(Những trường <span class="label-required">*</span> là bắt buộc nhập)</p>
+                    </div>
+                    <div class="pull-right form-actions">
+                        <button has-permission="addocumenttobook" class="btn btn-sm btn-primary" type="submit">Cập nhật</button>
+                        <button type="button" class="btn btn-sm btn-white" ui-sref="addedDocumentBook" ng-click="BindList()">Hủy bỏ</button>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <b><a target="_blank" class="doc-detail-info" href="{{documentReceived.attachmentPath}}">{{documentReceived.documentNumber}}: {{documentReceived.title}} ({{documentReceived.documentDate | date:'dd/MM/yyyy'}})</a></b>
+                                    <br /><br />
+                                    <p class=""><b>Người kí:</b> {{documentReceived.signedBy}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Nơi nhận</label> <span class="label-required">*</span>
+                                <div class="input-group">
+                                    <input class="input-sm form-control" disabled="" name="_recipientDivision" ng-model="documentReceived.recipientsDivision" type="text">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary" ng-click="openModalDepartment(departmentSelected, documentReceived.recipientsDivision, departmentSelectedId, departmentConfig,departmentId)">
+                                            Chọn
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+
+
+                                <input type="file" id="fileAttachment" placeholder="Tệp đính kèm"
+                                       onchange="angular.element(this).scope().uploadFile()" />
+                                <p style="background: #FAFAD2; padding: 4px;"><i> Tệp đính kèm phải là văn bản, ảnh hoặc file nén. Dung lượng tối đa không quá 4MB</i></p>
+
+                                <span class="attachment-wrapper">
+                                    <i class="fa fa-code"></i>&nbsp;&nbsp;<a class="attachment-item detail-item" target="_blank" href="{{baseUrl}}{{documentReceived.attachmentPath}}">Tệp đính kèm</a><br />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label>Số đến</label> <span class="label-required">*</span>
+                                <input type="text" placeholder="Số đến" class="form-control input-sm" ng-model="documentReceived.receivedNumber" maxlength="50" />
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Ngày đến</label><span class="label-required">*</span>
+                                <input type="text" name="_receivedDate" placeholder="dd/mm/yyyy" id="txtReceivedDate" class="input-sm form-control" ng-model="receivedDateString" datepicker required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label>Lĩnh vực</label> <span class="label-required">*</span>
+                                <tags-input placeholder="Lĩnh vực" ng-model="documentFields"
+                                            input-name="_documentField"
+                                            display-property="title" replace-spaces-with-dashes="false"
+                                            key-property="id">
+                                    <auto-complete source="loadDocumentField($query)"
+                                                   min-length="0"
+                                                   debounce-delay="0"
+                                                   max-results-to-show="10"></auto-complete>
+                                </tags-input>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Loại</label> <span class="label-required">*</span>
+                                <angucomplete-alt id="txtLoaiVanBan"
+                                                  input-name="_loaiVanBan"
+                                                  placeholder="Loại văn bản"
+                                                  maxlength="50"
+                                                  pause="100"
+                                                  selected-object="selectedDocumentType"
+                                                  local-data="documentType"
+                                                  search-fields="title"
+                                                  title-field="title"
+                                                  minlength="1"
+                                                  input-class="form-control form-control-small"
+                                                  initial-value="initialType" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body text-right tooltip-demo form-actions">
+                        <button has-permission="addocumenttobook" class="btn btn-sm btn-primary" type="submit" ng-hide="isValidData">Cập nhật</button>
+                        <button class="btn btn-sm btn-white" type="button" ui-sref="addedDocumentBook">Hủy bỏ</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/ng-template" id="modalDepartment.html">
+    <div id="systemModal" class="big-modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-title">CHỌN NƠI NHẬN</h4>
+        </div>
+        <div class="modal-body" id="modal-body" style="height: 450px; overflow-y: auto;">
+            <div class="row">
+                <div class="col-md-12">
+                    <table id="tblLoadDonVi" style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td class="body-department-panel" id="clListDepartment">
+                                    <div id="treeViewDiv">
+                                        <input type="hidden" id="departmentSelected" name="contentName" />
+                                    </div>
+                                </td>
+                                <!--<td class="body-department-panel" id="clListSelectedRecipent" >
+                                    <div id="departmentSelected"> </div>
+                                </td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-primary" ng-click="$ctrl.ok()">Lưu</button>
+            <button type="button" class="btn btn-sm btn-warning" ng-click="$ctrl.cancel()">Đóng</button>
+        </div>
+    </div>
+</script>
+<script src="../../../../assets/admin/js/jquery-2.1.1.js"></script>
+<script src="../../../../assets/admin/js/plugins/jsTree/jstree.min.js"></script>
+
+

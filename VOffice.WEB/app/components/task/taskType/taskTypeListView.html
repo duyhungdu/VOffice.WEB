@@ -1,0 +1,86 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Danh sách mảng công việc</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>
+                    Danh sách mảng công việc
+                </strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-4 b-margin-5">
+                <div class="btn-group">
+                    <button class="btn  btn-sm btn-primary dropdown-toggle" ui-sref="add_edit_taskType({id:0,currentPage:currentPage, keyword: keyword})">Thêm mới</button>
+                </div>
+            </div>
+
+            <div class="col-sm-4 b-margin-5 pull-right">
+                <div class="input-group">
+                    <input type="text" placeholder="Tìm kiếm..." class="input-sm form-control" ng-model="keyword" ng-enter="search()"> <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="search()"> Tìm</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content scroll-x-able">
+                    <table class="footable table table-stripped toggle-arrow-tiny">
+                        <thead>
+                            <tr>
+                                <th width="30px;" class="center-col order-col">STT</th>
+                                <th class="auto-display">MÃ MẢNG </th>
+                                <th class="percent-50">TÊN MẢNG CÔNG VIỆC</th>
+                                <th class="center-col percent-15">TRẠNG THÁI</th>
+                                <th class="center-col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in listItems">
+                                <td class="center-col">{{recordsPerPage*(currentPage-1)+$index+1}}</td>
+                                <td>{{item.code}}</td>
+                                <td>{{item.title}}</td>
+                                <td class="center-col"><a href="javascript:void(0);"><i class="fa fa-toggle-{{item.active|statusFilter}}"></i></a></td>
+                                <td>
+                                    <div class="btn-group pull-right">
+                                        <button class="btn btn-default btn-sm dropdown-toggle no-borders" data-toggle="dropdown"><i class="glyphicon glyphicon-option-vertical"></i></button>
+                                        <ul class="dropdown-menu pull-right list-function" role="menu">
+                                            <li>
+                                                <a title="Chỉnh sửa" ui-sref="add_edit_taskType({id:item.id, currentPage:currentPage, keyword: keyword})" href="javascript;">
+                                                    Chỉnh sửa
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a title="Xóa" ng-click="deleteTaskType(item.id)">
+                                                    Xóa
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" class="footable-visible">
+                                    <span class="pagination pull-right"> <ul uib-pagination items-per-page="recordsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="getListTaskType(currentPage)" class="pagination-sm" boundary-links="true" rotate="true" force-ellipses="true" first-text="<<" last-text=">>" next-text=">" previous-text="<"></ul></span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

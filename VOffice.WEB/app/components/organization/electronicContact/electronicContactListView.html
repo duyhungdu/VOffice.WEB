@@ -1,0 +1,260 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Danh bạ điện tử</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>Danh bạ điện tử</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="ibox float-e-margins ">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-12 b-margin-6">
+                            <!--<angucomplete-alt id="txtDepartment" autofocus
+                                              placeholder="Chọn đơn vị"
+                                              maxlength="50"
+                                              pause="100"
+                                              selected-object="selectedDepartment"
+                                              local-data="departments"
+                                              search-fields="name"
+                                              title-field="name"
+                                              minlength="1"
+                                              input-class="form-control form-control-small input-sm"
+                                              initial-value="intialDepartment" />-->
+                            <tags-input placeholder="Chọn đơn vị" ng-model="departmentSelected"
+                                        name="_documentField"
+                                        display-property="name" replace-spaces-with-dashes="false"
+                                        on-tag-added="forceOneTag($tag)"
+                                        key-property="id" required>
+                                <auto-complete source="loadDepartment($query)"
+                                               min-length="0"
+                                               debounce-delay="0"
+                                               max-results-to-show="10"></auto-complete>
+                            </tags-input>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content" style="padding:10px;">
+                    <perfect-scrollbar class="scroller" wheel-propagation="true" theme="'my-theme'" swipe-propagation="true" refresh-on-change="someArray">
+                        <div class="row" style="width:100%">
+                            <div class="col-lg-12" ng-repeat="sub in listsubs">
+                                <a href="javascript:void(0);" ng-click="setDepartment(sub)"> <span><i class="fa fa-folder-open" aria-hidden="true"></i></span>&nbsp;  {{sub.name}}</a>
+                                <div class="hr-line-dashed"></div>
+                            </div>
+                        </div>
+                    </perfect-scrollbar>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="input-group">
+                        <input type="text" placeholder="Tìm kiếm..." class="input-sm form-control" ng-model="keyword" id="keyword" ng-enter="search()" ng-init="focusKeyword();"> <span class="input-group-btn">
+                            <button type="button" class="btn btn-sm btn-primary" ng-click="search()"> Tìm</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="ibox-content" style="padding:10px;">
+                    <perfect-scrollbar class="scroller" wheel-propagation="true" theme="'my-theme'" swipe-propagation="true" refresh-on-change="someArray">
+                        <div class="row" style="width:100%">
+                            <div class="col-lg-12">
+                                <div class="ibox">
+                                    <table class="footable table toggle-arrow-tiny ">
+                                        <tbody>
+                                            <tr ng-repeat="item in listItems">
+                                                <td><a href="javascript:void(0);" ng-click="viewDetailStaff(item)"><image class="chat-avatar img-circle" src="{{baseUrl}}{{item.avatar ||  'Uploads/Avatar/no-avatar.jpg'}}"></image></a></td>
+                                                <td><a href="javascript:void(0);" ng-click="viewDetailStaff(item)"> {{item.fullName}} </a></td>
+                                                <td class="auto-display"><a href="javascript:void(0);" ng-click="viewDetailStaff(item)">{{item.position}} </a></td>
+                                                <td><a ng-href="{{'tel:'+item.phoneNumber|filterPhoneNumber}}">{{item.phoneNumber|filterPhoneNumber}} </a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </perfect-scrollbar>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+<script type="text/ng-template" id="electronicContactDetail.html">
+    <div id="detailElectronicContactModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">THÔNG TIN CHI TIẾT</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="form-box">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="center-col b-margin-5 product-box">
+                                <div class="product-imitation big-avatar-frame">
+                                    <img class="big-avatar " src="{{baseUrl}}{{$ctr.staffInfo.avatar || 'Uploads/Avatar/no-avatar.jpg'}} " />
+                                </div>
+                                <div class="product-desc">
+                                    <a href="javascript:void(0);" class="product-name">{{$ctr.staffInfo.fullName}}</a>
+                                    <div class="m-t-xs">
+                                        {{$ctr.staffInfo.position||'Chưa xác định'}}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-8 contact-detail">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <b>   Số điện thoại:</b>
+                                </div>
+                                <div class="col-sm-9">
+                                    <a ng-href="{{'tel:'+$ctr.staffInfo.phoneNumber|filterPhoneNumber}}">{{$ctr.staffInfo.phoneNumber||''|filterPhoneNumber}}</a>
+                                </div>
+
+                            </div>
+                            <div class="hr-line-solid"></div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <b>  Email:</b>
+                                </div>
+                                <div class="col-sm-9">
+                                    <a ng-href="mailto:{{$ctr.staffInfo.email}}">{{$ctr.staffInfo.email}}</a>
+                                </div>
+                            </div>
+                            <div class="hr-line-solid"></div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <b>    Ngày sinh:</b>
+                                </div>
+                                <div class="col-sm-9">
+                                    {{$ctr.staffInfo.dateOfBirth || 'Chưa xác định' |date:'dd/MM'}}
+                                </div>
+                            </div>
+                            <div class="hr-line-solid"></div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <b> Phòng ban:</b>
+                                </div>
+                                <div class="col-sm-9">
+                                    {{$ctr.staffInfo.subDepartmentName}}
+                                </div>
+                            </div>
+                            <div class="hr-line-solid"></div>
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <b>  Đơn vị:</b>
+                                </div>
+                                <div class="col-sm-9">
+                                    {{$ctr.staffInfo.departmentName}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<style type="text/css">
+    tags-input .autocomplete {
+        width: 100%;
+    }
+     .hr-line-dashed {
+        margin: 10px 0;
+    }
+
+    .angucomplete-dropdown {
+        width: 100%;
+    }
+
+    .table tbody > tr > td {
+        border-top: 0px;
+        border-bottom: 1px dotted #e7eaec;
+    }
+
+    .chat-avatar {
+        width: 36px;
+        height: 36px;
+        float: left;
+        margin-right: 10px;
+    }
+
+    a {
+        color: #333;
+    }
+
+    .scrollbar-dynamic {
+        height: 375px;
+        max-height: 375px;
+        min-height: 375px;
+    }
+
+    .scroller {
+        position: relative;
+        height: 375px !important;
+        background: transparent;
+    }
+
+        .scroller > div {
+            padding-right: 0px;
+        }
+
+    .scroller {
+        position: relative;
+        background: transparent;
+    }
+
+        .scroller > div {
+            padding-right: 0px;
+        }
+
+    @media(min-width: 768px) {
+        .modal-dialog {
+            width: 800px;
+            margin: 10px auto;
+        }
+
+        .scrollbar-dynamic { /*overflow-y: scroll;*/
+        }
+
+        .b-margin-5 {
+            margin-bottom: 10px;
+        }
+
+        .b-margin-6 {
+            margin-bottom: 6px;
+        }
+        .scrollbar-dynamic {
+            height: 375px;
+            max-height: 375px;
+            min-height: 375px;
+        }
+        .scroller {
+            position: relative;
+            height: 375px !important;
+            background: transparent;
+        }
+            .scroller > div {
+                padding-right: 0px;
+            }
+    }
+</style>

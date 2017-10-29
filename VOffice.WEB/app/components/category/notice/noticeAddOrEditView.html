@@ -1,0 +1,73 @@
+﻿<form class="form-horizontal" novalidate name="frmAddOrEditStatus" role="form" ng-submit="save()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-10">
+            <h2>{{titleForm}}</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/">Trang chủ </a>
+                </li>
+                <li class="active">
+                    <strong>{{titleForm}}</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+        <div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="form-box-header">
+                    <div class="pull-left form-actions">
+                        <p class="required-notic">(Những trường <span class="label-required">*</span> là bắt buộc nhập)</p>
+                    </div>
+                    <div class="pull-right form-actions">
+                        <button class="btn btn-sm btn-primary" type="submit">Cập nhật</button>
+                        <button type="button" class="btn btn-sm btn-white" ng-click="BindList(1)">Hủy bỏ</button>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Nội dung <span class="label-required">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" placeholder="Nội dung" ng-model="notice.title" id="code" ng-init="focusTitle()" class="form-control" maxlength="256">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                                <label class="col-lg-3 control-label" >Mô tả</label>
+                            <div class="col-sm-6">
+                                <textarea rows="5" class="form-control input-sm" style="white-space: pre-line;" placeholder="Mô tả" ng-model="notice.description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Ngày bắt đầu <span class="label-required">*</span></label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="dd/mm/yyyy" id="txtStartDate"  ng-change="checkStartDueDate(1)" name="_dateOfbirth" class="form-control input-sm" maxlength="10" datepicker ng-model="startDateString" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Ngày kết thúc<span class="label-required">*</span></label>
+                            <div class="col-sm-3">
+                                <input type="text"  placeholder="dd/mm/yyyy" id="txtEndDate" ng-change="checkStartDueDate(0)" name="_dateOfbirth" class="form-control input-sm" maxlength="10" datepicker ng-model="endDateString" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3">Trạng thái</label>
+                            <div class="col-sm-6">
+                                <input type="checkbox" ng-init="notice.active = true" name="active" ng-model="notice.active"> kích hoạt
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body text-right tooltip-demo form-actions">
+                        <button class="btn btn-sm btn-primary" type="submit">Cập nhật</button>
+                        <button type="button" class="btn btn-sm btn-white" ng-click="BindList(1)">Hủy bỏ</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+

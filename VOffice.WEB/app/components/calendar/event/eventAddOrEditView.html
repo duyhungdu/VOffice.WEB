@@ -1,0 +1,252 @@
+﻿<form class="form-horizontal" novalidate name="frmAddOrEditEvent" role="form" ng-submit="save()">
+    <div id="fog-modal-small">
+        <div class="sk-spinner sk-spinner-rotating-plane">
+        </div>
+        <h2>Vui lòng đợi...</h2>
+    </div>
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-12">
+            <h2>Cập nhật sự kiện</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/">Trang chủ </a>
+                </li>
+                <li class="active">
+                    <strong>Cập nhật sự kiện</strong>
+                </li>
+
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+        <div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="form-box-header">
+                    <div class="pull-left form-actions">
+                        <p class="required-notic">(Những trường <span class="label-required">*</span> là bắt buộc nhập)</p>
+                    </div>
+                    <div class="pull-right form-actions">
+                        <button class="btn btn-sm btn-primary" ng-disabled="frmAddOrEditEvent.$invalid" type="submit">Cập nhật</button>
+                        <button class="btn btn-sm btn-white" type="button" ng-click="bindList()">Hủy bỏ</button>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-sm-6 b-margin-5">
+                                <label>Nội dung <span class="label-required">*</span></label>
+                                <textarea rows="3" type="text" name="_Content" placeholder="Nội dung" id="content" class="form-control" maxlength="1000" ng-model="events.content" required />
+                                <span ng-show="frmAddOrEditEvent._Content.$invalid && !frmAddOrEditEvent._Content.$pristine" class="field-validation-error">Nội dung không được trống</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Thành phần </label>
+                                <textarea rows="3" type="text" placeholder="Thành phần" id="code" class="form-control" maxlength="1000" ng-model="events.participant" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6 b-margin-5">
+                                <label>
+                                    Địa điểm
+                                </label>
+                                <input type="text" placeholder="Địa điểm" id="code" class="input-sm form-control" maxlength="500" ng-model="events.place" />
+                            </div>
+                            <div class="col-sm-6 b-margin-5">
+                                <label>
+                                    Phòng họp
+                                </label>
+                                <angucomplete-alt id="txtMettingRoom"
+                                                  input-name="_mettingRoom"
+                                                  placeholder="Phòng họp"
+                                                  maxlength="50"
+                                                  pause="100"
+                                                  selected-object="selectedMeettingRoom"
+                                                  local-data="meetingRooms"
+                                                  search-fields="title"
+                                                  title-field="title"
+                                                  minlength="1"
+                                                  initial-value="selectedMeettingRoomValue"
+                                                  input-class="form-control form-control-small input-sm" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-6 b-margin-5">
+                                <label>Nội bộ</label> <br />
+                                <label class="fontweight-normal"> <input type="checkbox" ng-model="public" /> <i>Lịch nội bộ</i></label>
+                            </div>
+                            <div class="col-sm-6 b-margin-5">
+                                <label>Mức độ</label> <br />
+                                <label class="fontweight-normal"><input type="checkbox" ng-model="events.important" /> <i>Sự kiện quan trọng</i> </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6 b-margin-5 b-margin-5">
+                                <label>Ngày thực hiện</label> <span class="label-required">*</span>
+                                <input class="input-sm form-control" placeholder="dd/mm/yyyy" datepicker autocomplete="off" ng-model="occurDateString" required name="_occurDateString" maxlength="10" />
+                            </div>
+                            <div class="col-sm-3  b-margin-5">
+                                <div class="col-sm-12 event-select-time "><label>Giờ bắt đầu</label></div>
+                                <div class="col-sm-12 event-select-time event-select-time-start-15">
+                                    <div class="col-sm-6 event-select-time-05 b-margin-5">
+                                        <select class="input-sm form-control" id="id_selectedHourStart" ng-disabled="checkTimeUnKown" ng-model="selectedHourStart" ng-options="x as x.name for x in listOptionHours track by x.id"></select>
+                                    </div>
+                                    <div class="col-sm-6 b-margin-5" style="padding-left:0px; padding-right:0px;">
+                                        <select class="input-sm form-control" id="id_selectedMiniusStart" ng-disabled="checkTimeUnKown" ng-model="selectedMinuteStart" ng-options="x as x.name for x in listOptionMinutes track by x.id"></select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-3 b-margin-5">
+                                <div class="col-sm-12 event-select-time "><label>Giờ kết thúc</label></div>
+                                <div class="col-sm-12 event-select-time ">
+                                    <div class="col-sm-6 event-select-time-05 b-margin-5">
+                                        <select ng-disabled="checkNotTimeEnd" class="input-sm form-control" ng-model="selectedHourEnd" ng-options="x as x.name for x in listOptionHours track by x.id"></select>
+                                    </div>
+                                    <div class="col-sm-6 b-margin-5" style="padding-left:0px; padding-right:0px;">
+                                        <!--<label>Phút</label>-->
+                                        <select ng-disabled="checkNotTimeEnd" class="input-sm form-control" ng-model="selectedMinuteEnd" ng-options="x as x.name for x in listOptionMinutes track by x.id"></select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-3 b-margin-5">
+                                <div><label>Bắt đầu</label> </div>
+                                <div><label class="fontweight-normal"> <input type="checkbox" ng-model="checkTimeUnKown" ng-init="checkTimeUnKown = false" ng-change="funcChangedTimeUnKown()" /><i> Thời gian không xác định</i></label></div>
+                            </div>
+                            <div class="col-sm-3 b-margin-5">
+                                <div class="col-sm-12 event-select-time"><label>Buổi </label></div>
+                                <div class="col-sm-4 event-select-time"><label class="fontweight-normal"> <input type="radio" ng-disabled="!checkTimeUnKown" ng-model="statusDay" value="Sang" /> <i>Sáng</i></label></div>
+                                <div class="col-sm-4 event-select-time"><label class="fontweight-normal"> <input type="radio" ng-disabled="!checkTimeUnKown" ng-model="statusDay" value="Chieu" /> <i>Chiều</i></label></div>
+                            </div>
+                            <div class="col-sm-6 b-margin-5">
+                                <label>Kết thúc</label> <br />
+                                <label class="fontweight-normal"><input type="checkbox" ng-change="funcCheckNotTimeEnd()" ng-model="checkNotTimeEnd" ng-init="checkNotTimeEnd = true" /><i> Không biết điểm kết thúc</i></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!--<div class="col-sm-2 b-margin-5">
+                                <label>Lịch lãnh đạo</label><br />
+                                <label class="fontweight-normal"> <input type="checkbox" ng-model="checkCalendarLeader" ng-init="checkCalendarLeader = false" /><i> Lịch lãnh đạo</i></label>
+                            </div>-->
+                            <div class="col-sm-12 b-margin-5">
+                                <label>Chọn lãnh đạo</label> <br />
+                                <div class="col-sm-12 event-select-time">
+                                    <tags-input placeholder="Chọn lãnh đạo" ng-model="seniorLeaderNotify"
+                                                name="_seniorLeaderNotify"
+                                                id="lanhdao"
+                                                on-tag-added="addTagsSeniorStaff($tag)"
+                                                display-property="fullName" replace-spaces-with-dashes="false"
+                                                template="staff-template"
+                                                key-property="id" autofocus>
+                                        <auto-complete source="loadSeniorLeaderSendNotify($query)"
+                                                       min-length="0"
+                                                       debounce-delay="0"
+                                                       template="autocomplete-template"
+                                                       max-results-to-show="10"></auto-complete>
+                                    </tags-input>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <b>THÔNG BÁO SỰ KIỆN </b>
+                            </div>
+                            <div class="ibox-content" style="background:#f4f6fa;">
+                                <div class="form-group">
+                                    <div class="col-sm-12 b-margin-5">
+                                        <span class="card-small-text" id="login-google-notice">Bạn cần đăng nhập tài khoản <span style="color:#4285f4;">G</span><span style="color:#ea4335;">o</span><span style="color:#fbbc05">o</span><span style="color:#4285f4;">g</span><span style="color:#34a853">l</span><span style="color:#ea4335;">e</span> để thiết lập thông báo sự kiện. Click để </span><a class="card-small-text" id="authorize-button" style="display:none;">&nbsp;đăng nhập tài khoản <span style="color:#4285f4;">G</span><span style="color:#ea4335;">o</span><span style="color:#fbbc05">o</span><span style="color:#4285f4;">g</span><span style="color:#34a853">l</span><span style="color:#ea4335;">e</span></a><a class="card-small-text" style="display:none;" id="signout-button"><i class="fa fa-sign-out"></i> Đăng xuất tài khoản <span style="color:#4285f4;">G</span><span style="color:#ea4335;">o</span><span style="color:#fbbc05">o</span><span style="color:#4285f4;">g</span><span style="color:#34a853">l</span><span style="color:#ea4335;">e</span></a>
+                                    </div>
+                                </div>
+                                <div class="form-group b-margin-5" style="margin-bottom:5px !important;display:none;" id="div-notify-time-span">
+                                    <!--<div class="col-sm-2 b-margin-5">
+                                        <label>Thông báo</label><br />
+                                        <label class="fontweight-normal"><input type="checkbox" id="chkNotice" ng-model="checkNotification"/><i>Thông báo</i></label>
+                                    </div>-->
+                                    <div class="col-sm-6 b-margin-5">
+                                        <div class="col-sm-12 event-select-time "><label>Thông báo trước </label></div>
+                                        <div class="col-sm-12 event-select-time ">
+                                            <div class="col-sm-6 event-select-time-05 b-margin-5">
+                                                <input class="input-sm form-control" type="number" ng-model="notificationTimeSpan" />
+                                            </div>
+                                            <div class="col-sm-6 b-margin-5" style="padding-left:0px; padding-right:0px;">
+                                                <select ng-model="selelctTypeTimeSpan" class="input-sm form-control" ng-options="x as x.name for x in listTypeTimeSpan track by x.id"></select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div></div>
+                                </div>
+                                <div class="form-group" style="display:none;" id="div-notify-to">
+                                    <div class="col-sm-12 b-margin-5">
+                                        <label>Thông báo sự kiện tới</label>
+
+                                        <tags-input placeholder="Thông báo sự kiện tới" ng-model="staffSendNotify"
+                                                    name="_staffSendNotify"
+                                                    display-property="fullName" replace-spaces-with-dashes="false"
+                                                    on-tag-added="addTagsSendNotifyStaff($tag)"
+                                                    template="staff-template"
+                                                    key-property="id">
+                                            <auto-complete source="loadStaffSendNotify($query)"
+                                                           min-length="0"
+                                                           debounce-delay="0"
+                                                           load-on-focus="true"
+                                                           load-on-empty="true"
+                                                           template="autocomplete-template"
+                                                           max-results-to-show="10"></auto-complete>
+                                        </tags-input>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body text-right tooltip-demo form-actions">
+                        <button class="btn btn-sm btn-primary" ng-disabled="frmAddOrEditEvent.$invalid" type="submit">Cập nhật</button>
+                        <button class="btn btn-sm btn-white" type="button" ng-click="bindList()">Hủy bỏ</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<script type="text/ng-template" id="staff-template">
+    <div class="feed-element">
+        <img ng-src="{{data.avatar}}" class="img-circle" style="width:22px; height:22px;" ng-if="data.avatar" />
+        <span>{{$getDisplayText()}}</span>
+        <a class="tag-remove-button" ng-click="$removeTag()">&#10006;</a>
+    </div>
+
+</script>
+
+<script type="text/ng-template" id="autocomplete-template">
+    <div class="left-panel feed-element" style="padding-bottom:0px;">
+        <img class="img-circle" ng-src="{{data.avatar}}" />
+        <span ng-bind-html="$highlight($getDisplayText())"></span>
+    </div>
+
+</script>
+
+<style>
+    .tag-remove-button {
+        display: inline-block !important;
+        margin: 0 0 0 5px;
+        border: none;
+        background: 0 0;
+        cursor: pointer;
+        font: 700 12px Arial,sans-serif;
+        vertical-align: middle;
+        color: #585858;
+        padding-bottom: 2px;
+    }
+</style>
+

@@ -1,0 +1,275 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Danh sách công việc</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>
+                    Công việc
+                </strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-md-4 b-margin-5 col-md-tr-6">
+                <div class="btn-group btn_add_document">
+                    <button data-toggle="dropdown" has-permission="addtask" class="btn  btn-sm btn-primary dropdown-toggle" ui-sref="add_edit_task({fromDate:fromDate,toDate:toDate, statusId:statusId,currentPage:currentPage, keyword: keyword,assignToMe:getAssign,relativeToMe:getRelative})">Thêm mới</button>
+                </div>
+
+                <div style="display:inline-block">
+                    <button type="button" class="btn btn-sm btn-outline btn-white b-margin-5" ng-init="index_a; classes=['active-odd','active-even']" ng-click="getAssignToMeTask()" ng-class="classes[index_a % classes.length]">&nbsp;&nbsp; Tôi xử lý &nbsp; &nbsp;</button>
+                    <button type="button" class="btn btn-sm btn-outline btn-white b-margin-5" ng-init="index; classes=['active-odd','active-even']" ng-click="getRelativeToMeTask()" ng-class="classes[index % classes.length]">Tôi giao</button>
+                </div>
+            </div>
+            <div class="col-md-8 no_padding">
+                <div class="col-md-4 b-margin-5 col-sm-4 col-xs-6">
+                    <select id="slcStatus" class="input-sm form-control" ng-change="change(selectedStatus)" ng-model="selectedStatus" ng-options="x.title  for x in listStatus track by x.id">
+                        <option value="" ng-if="false"></option>
+                    </select>
+                </div>
+                <div class="col-md-8 b-margin-5 col-sm-8 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" placeholder="Tìm kiếm..." class="input-sm form-control" ng-model="keyword" ng-enter="search()"> <span class="input-group-btn">
+                            <button type="button" class="btn btn-sm btn-primary" ng-click="search()"><icon class="glyphicon glyphicon-search"></icon></button>
+                            <a title="Tìm kiếm nâng cao" class="btn btn-sm btn-white" ui-sref="taskreport({fromDate:fromDate,toDate:toDate, statusId:statusId,currentPage:currentPage, keyword: keyword,assignToMe:getAssign,relativeToMe:getRelative})"><icon class="glyphicon glyphicon-option-horizontal"></icon></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content scroll-x-able">
+                    <table class="footable table table-stripped toggle-arrow-tiny data-table">
+                        <thead>
+                            <tr>
+                                <th width="30px;" class="center-col order-col">STT</th>
+                                <th width="80px;">MÃ</th>
+                                <th class="auto-display" width="20px;"></th>
+                                <th>HẠNG MỤC</th>
+                                <th class="auto-display" width="110px;">TRẠNG THÁI</th>
+                                <th class="auto-display" width="80px;">BẮT ĐẦU</th>
+                                <th class="auto-display" width="80px;">HẾT HẠN</th>
+                                <th class="auto-display" width="30px;"></th>
+                                <th width="30px" class="center-col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in listItems">
+                                <td style="height:40px" class="center-col" ng-class="{'warning-expired': item.expired}">{{recordsPerPage*(currentPage-1)+$index+1}}</td>
+                                <td><a class="link-detail-task" ng-class="{'warning-expired': item.expired}" href="javascript:void(0);" ng-click="viewDetail(item.id);">{{item.code}}</a></td>
+                                <td class="auto-display"><a ng-class="{'warning-expired': item.expired}" href="javascript:void(0);" ng-click="viewDetail(item.id);"><i style="margin-right:5px;" class="fa fa-file-text-o" ng-if="item.documentId"></i></a></td>
+                                <td><a class="link-detail-task" ng-class="{'warning-expired': item.expired}" href="javascript:void(0);" ng-click="viewDetail(item.id);">{{item.title}}</a></td>
+
+                                <td class="auto-display"><a class="link-detail-task" ng-class="{'warning-expired': item.expired}" href="javascript:void(0);" ng-click="viewDetail(item.id);">{{item.status}}</a></td>
+                                <td class="center-col auto-display"><a class="link-detail-task" ng-class="{'warning-expired': item.expired}" href="javascript:void(0);" ng-click="viewDetail(item.id);">{{item.startDate|date :'dd/MM/yyyy'}}</a></td>
+                                <td class="center-col auto-display"><a class="link-detail-task" ng-class="{'warning-expired': item.expired}" href="javascript:void(0);" ng-click="viewDetail(item.id);">{{item.dueDate| date :'dd/MM/yyyy'}}</a></td>
+                                <td class="center-col auto-display"><a title="Tiến trình xử lý" ng-click="showActivity(item.id);" style="color:#0784cb;"><i class="fa fa-line-chart" style="color:#0784cb;"></i></a></td>
+                                <td>
+                                    <div class="btn-group pull-right" has-permission="edittask" ng-hide="checkCreatedBy(item.createdBy)">
+                                        <button class="btn btn-default btn-sm dropdown-toggle no-borders" data-toggle="dropdown"><i class="glyphicon glyphicon-option-vertical"></i></button>
+                                        <ul class="dropdown-menu pull-right list-function" role="menu">
+                                            <li has-permission="edittask" ng-hide="checkCreatedBy(item.createdBy)">
+                                                <a title="Chỉnh sửa" href="javascript;" ui-sref="add_edit_task({id:item.id,fromDate:fromDate,toDate:toDate, statusId:statusId,currentPage:currentPage, keyword: keyword,assignToMe:getAssign,relativeToMe:getRelative})">
+                                                    Chỉnh sửa
+                                                </a>
+                                            </li>
+                                            <li has-permission="deletetask" ng-hide="checkCreatedBy(item.createdBy)">
+                                                <a title="Xóa" ng-click="deleteTask(item.id)">
+                                                    Xóa
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="9" class="footable-visible">
+                                    <span class="pagination pull-right"> <ul uib-pagination items-per-page="recordsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="getListTask(currentPage)" class="pagination-sm" boundary-links="true" rotate="true" force-ellipses="true" first-text="<<" last-text=">>" next-text=">" previous-text="<"></ul></span>
+
+
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="right-sidebar" style="border-left:solid 1px #ddd;">
+    <div class="sidebar-container" style="overflow: hidden; width: auto; height: 100%;">
+        <div class="sidebar-title">
+            <div class="ibox-tools">
+                <a style="color:#c4c4c4;" ng-click="hideActivity();" class="collapse-link">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+            <h3> <i class="fa fa-tasks"></i> Tiến trình xử lý</h3>
+
+            <p style="margin-top:10px;margin-bottom:5px;"> {{taskInfo}}.</p>
+            <p style="margin-bottom:5px;">
+                <small class="text-muted ng-binding"><a ng-click="showCountViewTask();" style="color:#0784cb!important;" href="javascript:void(0);"><i style="color:#0784cb!important;" class="text-muted glyphicon glyphicon-ok"></i>  {{countViewTask}}</a></small>
+            </p>
+
+        </div>
+        <perfect-scrollbar class="scroller scroller-left scrollbar-margin" wheel-propagation="true" theme="'my-theme'" swipe-propagation="true" refresh-on-change="someArray">
+            <div style="padding:5px;">
+                <timeline>
+                    <!-- can also hard-code to side="left" or side="right" -->
+                    <timeline-event ng-repeat="event in events" side="{{side}}">
+                        <!-- uses angular-scroll-animate to give it some pop -->
+                        <timeline-badge class="{{event.badgeClass}} bounce-in">
+                            <i class="glyphicon {{event.badgeIconClass}}"></i>
+                        </timeline-badge>
+                        <!-- uses angular-scroll-animate to give it some pop -->
+                        <timeline-panel class="{{event.badgeClass}} bounce-in">
+                            <timeline-heading>
+                                <h4>{{event.title}}</h4>
+                                <p ng-if="event.titleContentHtml" ng-bind-html="event.titleContentHtml">
+                                </p>
+                            </timeline-heading>
+                            <p class="event-content" ng-bind-html="event.contentHtml"></p>
+                            <timeline-footer ng-if="event.footerContentHtml">
+                                <span ng-bind-html="event.footerContentHtml"></span>
+                            </timeline-footer>
+                            <p ng-if="event.when">
+                                <small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{event.when}}</small>
+                            </p>
+                        </timeline-panel>
+                    </timeline-event>
+                </timeline>
+            </div>
+        </perfect-scrollbar>
+    </div>
+</div>
+
+<script type="text/ng-template" id="showCountViewTask.html">
+    <div id="showCountViewTask" class="big-modal">
+
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+
+                <uib-tabset active="active" class="home-desk-list-task-min-heght">
+                    <uib-tab index="0">
+                        <uib-tab-heading style="color:#0784cb!important;">
+                            <i class="glyphicon glyphicon-ok"></i> Đã xem
+                        </uib-tab-heading>
+                        <table class="footable table table-stripped toggle-arrow-tiny">
+                            <tbody>
+                                <tr ng-repeat="item in  $ctr.listViewTaskDetail track by item.id">
+                                    <td ng-show="item.viewDetail" class="ng-binding  no-top-border">
+                                        <div class="b-margin-0">
+                                            <img class="chat-avatar img-circle" src="{{baseUrl}}{{item.avatar ||  'Uploads/Avatar/no-avatar.jpg'}}"><span>
+                                                {{item.fullName}}
+                                            </span>
+                                            <p ng-show="item.viewDetail"> <small class="text-muted ng-binding"><i class="glyphicon glyphicon-time"></i> {{item.viewOn|date:'dd/MM/yyyy | HH:mm'}}</small></p>
+
+                                        </div>
+                                    </td>
+                                    <td ng-show="item.viewDetail" class="auto-display no-top-border" style="width:50px;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </uib-tab>
+                    <uib-tab index="1">
+                        <uib-tab-heading style="color:#888!important;">
+                            Chưa xem
+                        </uib-tab-heading>
+                        <table class="footable table table-stripped toggle-arrow-tiny">
+                            <tbody>
+                                <tr ng-repeat="item in  $ctr.listViewTaskDetail track by item.id">
+                                    <td ng-show="!item.viewDetail" class="ng-binding  no-top-border">
+                                        <div class="b-margin-0">
+                                            <img class="chat-avatar img-circle" src="{{baseUrl}}{{item.avatar ||  'Uploads/Avatar/no-avatar.jpg'}}"><span>
+                                                {{item.fullName}}
+                                            </span>
+                                            <p ng-show="item.viewDetail"> <small class="text-muted ng-binding"><i class="glyphicon glyphicon-time"></i> {{item.viewOn|date:'dd/MM/yyyy | hh:mm'}}</small></p>
+
+                                        </div>
+                                    </td>
+                                    <td ng-show="!item.viewDetail" class="auto-display no-top-border" style="width:50px;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<style type="text/css">
+    .scroller {
+        position: relative;
+        background: transparent;
+    }
+
+    .scroller-left {
+        height: 500px;
+    }
+
+    .scroller-right {
+        height: 500px;
+    }
+
+    .scrollbar-margin {
+        margin: 0px 5px;
+    }
+
+    .scroller > div {
+        padding-right: 0px;
+    }
+
+    timeline-panel.danger {
+        color: #d9534f !important;
+        text-transform: uppercase;
+    }
+
+        timeline-panel.danger small {
+            color: #d9534f !important;
+        }
+
+    .expired-h4 {
+        line-height: 40px;
+        padding-left: 10px;
+    }
+
+    .warning-expired {
+        color: #d9534f !important;
+        font-weight: bold;
+    }
+
+    .duedate-h4 {
+        color: #0784cb;
+        line-height: 20px;
+    }
+
+    .small-chat-avatar {
+        width: 25px;
+        height: 25px;
+        float: left;
+        margin-right: 5px;
+    }
+
+    .activity-fullname {
+        line-height: 25px;
+    }
+
+    .selectedStyle {
+        background-color: #1ab394;
+        border-color: #1ab394;
+        color: white;
+    }
+</style>

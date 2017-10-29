@@ -1,0 +1,193 @@
+﻿
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>Thống kê văn bản đi</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>Thống kê văn bản đi</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-4 b-margin-5">
+                <!--<select class="input-sm form-control" ng-change="search()" ng-model="selectedTypeOfDocument" ng-options="x as x.name for x in listTypeOfDocument track by x.id"></select>-->
+                <div class="">
+                    <input type="button" class="btn btn-sm btn-primary" value="Chọn điều kiện tìm kiếm" ng-click="openModalFilter()" />
+                    &nbsp;&nbsp;
+                    <button id="single-button" ng-show="filter" type="button" class="btn btn-white dropdown-toggle btn-sm" data-toggle="dropdown">
+                        <i class="fa fa-download"></i> Tải báo cáo
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li role="menuitem" ng-click="downloadReport('SIGNBY')"><a>Theo người kí</a></li>
+                        <li role="menuitem" ng-click="downloadReport('DOCUMENTTYPE')"><a>Theo loại văn bản</a></li>
+                        <li role="menuitem" ng-click="downloadReport('DOCUMENTFIELD')"><a>Theo lĩnh vực văn bản</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6"></div>
+            <div class="col-sm-2 b-margin-5">
+                <button class="btn  btn-sm btn-white pull-right" ui-sref="documentReceived">Danh sách văn bản</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <!--scroll-x-able-->
+                <div class="ibox-content scroll-x-able">
+                    <table class="footable table table-stripped toggle-arrow-tiny data-table">
+                        <thead>
+                            <tr>
+                                <th class="center-col order-col">STT</th>
+                                <th class="center-col doc-percent-1525">SỐ VB</th>
+                                <th class="center-col">TRÍCH YẾU</th>
+                                <th class="center-col auto-display">Người kí</th>
+                                <th class="center-col auto-display">Loại VB</th>
+                                <th class="center-col auto-display">Lĩnh vực VB</th>
+                                <th class="center-col auto-display" style="width:80px;">NGÀY VB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in listItem" style="height:40px;">
+                                <td class="center-col"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank">{{recordsPerPage*(currentPage-1)+$index+1}}</a></td>
+                                <td width="15%"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank"><i ng-class="{'fa fa-share item-delivered': !item.receivedDocument, 'fa fa-reply item-received': item.receivedDocument}"></i>{{item.documentNumber}}</a></td>
+                                <td><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank">{{item.title}}</a></td>
+                                <td class="center-col auto-display"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank">{{item.documentSignBy}}</a></td>
+                                <td class="center-col auto-display"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank">{{item.documentType}}</a></td>
+                                <td class="center-col auto-display"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank">{{item.documentField}}</a></td>
+                                <td class="center-col auto-display"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank">{{item.documentDate | date :'dd/MM/yyyy'}}</a></td>
+                                <td><a ng-if="item.taskId" title="Văn bản đã giao xử lý" ui-sref="task({documentId:item.id,documentReceived:item.receivedDocument})"><span class="label label-primary" style="font-weight:normal;font-family:Arial;">Đã giao</span></a></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="9" class="footable-visible">
+                                    <span class="pagination pull-right"> <ul uib-pagination items-per-page="recordsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="getListDocumentReceived(currentPage, objParam)" class="pagination-sm" boundary-links="true" rotate="true" force-ellipses="true" first-text="<<" last-text=">>" next-text=">" previous-text="<"></ul></span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="documentFilter.html">
+    <div id="documentFilterModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">THỐNG KÊ VĂN BẢN</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+
+            <div class="row b-margin-15">
+                <div class="col-sm-12">
+                    <label>Từ khóa</label>
+                    <input type="text" id="txtTitle" name="title" placeholder="Từ khóa" class="input-sm form-control" maxlength="500" ng-model="$ctrl.searchInfo.keyword" />
+                </div>
+            </div>
+            <div class="row b-margin-15">
+                <div class="col-sm-6 b-margin-5" >
+                    <label>Ngày VB từ</label>
+                    <input type="text" datepicker placeholder="dd/mm/yyyy" class="input-sm form-control " ng-model="$ctrl.searchInfo.documentDateStringStart" />
+                </div>
+                <div class="col-sm-6">
+                    <label>Đến</label>
+                    <input type="text" datepicker placeholder="dd/mm/yyyy" class="input-sm form-control " ng-model="$ctrl.searchInfo.documentDateStringEnd" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <label>Người kí</label>
+                    <tags-input placeholder="Người kí" ng-model="$ctrl.documentSigns"
+                                name="_documentSign"
+                                display-property="fullName" replace-spaces-with-dashes="false"
+                                key-property="id" template="staff-template" on-tag-added="$ctrl.forceOneTag($tag)">
+                        <auto-complete source="$ctrl.documentSign($query)"
+                                       min-length="0"
+                                       debounce-delay="0"
+                                       max-results-to-show="10" template="autocomplete-template"></auto-complete>
+                    </tags-input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" style="padding-top:15px;">
+                    <label>Lĩnh vực </label>
+
+                    <tags-input placeholder="Lĩnh vực" ng-model="$ctrl.documentFields"
+                                name="_documentField"
+                                display-property="title" replace-spaces-with-dashes="false"
+                                key-property="id">
+                        <auto-complete source="$ctrl.documentField($query)"
+                                       min-length="0"
+                                       debounce-delay="0"
+                                       max-results-to-show="10"></auto-complete>
+                    </tags-input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 " style="padding-top:15px;">
+                    <label>Loại </label>
+                    <tags-input placeholder="Loại" ng-model="$ctrl.documentTypes"
+                                name="_documentType"
+                                display-property="title" replace-spaces-with-dashes="false"
+                                key-property="id">
+                        <auto-complete source="$ctrl.documentType($query)"
+                                       min-length="0"
+                                       debounce-delay="0"
+                                       max-results-to-show="10"></auto-complete>
+                    </tags-input>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctrl.ok()">Thống kê</a>
+            <a class="btn btn-sm btn-primary" ng-click="$ctrl.reset()">Làm lại</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctrl.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="staff-template">
+    <div class="feed-element display-avatar-suggest">
+        <img ng-src="{{data.avatar}}" class="img-circle" style="width:22px; height:22px;" ng-if="data.avatar" />
+        <span>{{$getDisplayText()}}</span>
+        <a class="tag-remove-button" ng-click="$removeTag()">&#10006;</a>
+    </div>
+
+</script>
+<script type="text/ng-template" id="autocomplete-template">
+    <div class="left-panel feed-element" style="padding-bottom:0px;">
+        <img class="img-circle" ng-src="{{data.avatar}}" />
+        <span ng-bind-html="$highlight($getDisplayText())"></span>
+    </div>
+</script>
+<style type="text/css">
+    @media(min-width: 768px) {
+        .modal-dialog {
+            width: 800px;
+            margin: 30px auto;
+        }
+    }
+
+    .modal-body {
+        height: 460px;
+        overflow-y: auto;
+    }
+
+    .angucomplete-dropdown {
+        width: 100%;
+    }
+
+    .dropdown-menu {
+        margin-left: 180px;
+    }
+</style>

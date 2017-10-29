@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOFFICE | VĂN PHÒNG ĐIỆN TỬ</title>
+    <link href="~/assets/admin/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/assets/admin/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/assets/admin/css/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/assets/admin/css/plugins/datapicker/datepicker3.css" rel="stylesheet" />
+    <link href="~/assets/admin/css/plugins/jsTree/style.min.css" rel="stylesheet">
+    <link href="~/assets/admin/css/plugins/iCheck/custom.css" rel="stylesheet" />
+    <link href="~/assets/admin/css/animate.css" rel="stylesheet" />
+    <link href="~/assets/admin/css/style.css" rel="stylesheet" />
+    <link href="~/assets/admin/css/app.css" rel="stylesheet" />
+    <link href="~/assets/admin/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet" />
+    <link href="~/assets/admin/libs/angucomplete-alt/angucomplete-alt.css" rel="stylesheet" />
+    <link href="~/assets/admin/libs/ng-tags-input/ng-tags-input.min.css" rel="stylesheet" />
+    <link href="~/assets/admin/libs/sweetalert-master/dist/sweetalert.css" rel="stylesheet" />
+    <link href="~/assets/admin/libs/angular-perfect-scrollbar-master/bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css" rel="stylesheet" />
+
+    <link href="~/assets/admin/libs/angular-timeline/angular-timeline.css" rel="stylesheet" />
+    <link href="~/assets/admin/libs/angular-timeline/angular-timeline-bootstrap.css" rel="stylesheet" />
+    <link href="~/assets/admin/libs/angular-timeline/angular-timeline-animations.css" rel="stylesheet" />
+
+
+    <script src="~/assets/admin/js/jquery-2.1.1.js"></script>
+
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-102630350-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+</head>
+<body class="skin-1 pace-done" ng-app="VOfficeApp" ng-controller="rootController">
+    <script async defer src="https://apis.google.com/js/api.js">
+    </script>
+    <script src="~/assets/admin/libs/bowser-master/src/bowser.js"></script>
+    <script src="~/assets/admin/libs/push/push.js"></script>
+    <div style="" id="fog-modal">
+        <div class="sk-spinner sk-spinner-rotating-plane">
+        </div>
+        <h2>Vui lòng đợi...</h2>
+    </div>
+    <div id="wrapper" ui-view="">
+
+    </div>
+    <script src="~/assets/admin/libs/angular/angular.js"></script>
+    <script src="~/assets/admin/libs/angucomplete-alt/angucomplete-alt.js"></script>
+    <script src="~/assets/admin/libs/underscore/underscore.js"></script>
+    <script src="~/assets/admin/libs/AngularJS-Toaster/toaster.js"></script>
+    <script src="~/assets/admin/libs/angular-saninitize/angular-sanitize.js"></script>
+    <script src="~/assets/admin/libs/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="~/assets/admin/libs/angular-scroll-animate/dist/angular-scroll-animate.js"></script>
+    <script src="~/assets/admin/js/angular-animate.min.js"></script>
+    <script src="~/assets/admin/js/angular-aria.min.js"></script>
+    <script src="~/assets/admin/js/angular-messages.min.js"></script>
+    <script src="~/assets/admin/js/plugins/toastr/toastr.min.js"></script>
+    <script src="~/assets/admin/libs/bootbox/bootbox.js"></script>
+    <script src="~/assets/admin/libs/ngBootbox/ngBootbox.js"></script>
+    <script src="~/assets/admin/libs/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="~/assets/admin/libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="~/assets/admin/libs/ng-tags-input/ng-tags-input.js"></script>
+    <script src="~/assets/admin/libs/angular-local-storage/dist/angular-local-storage.js"></script>
+
+
+    <script src="~/assets/admin/libs/angular-perfect-scrollbar-master/bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+    <script src="~/assets/admin/libs/angular-perfect-scrollbar-master/src/angular-perfect-scrollbar.min.js"></script>
+
+    <script src="~/assets/admin/libs/angular-timeline/angular-timeline.js"></script>
+    <script src="~/assets/admin/libs/chart.js/dist/Chart.min.js"></script>
+    <script src="~/assets/admin/libs/chart.js/angular-chart.js"></script>
+
+
+    <script src="~/app/shared/modules/VOffice.common.js"></script>
+    <script src="~/app/shared/services/notificationService.js"></script>
+    <script src="~/app/shared/services/dateformatService.js"></script>
+    <script src="~/app/shared/services/apiService.js"></script>
+    <script src="~/app/shared/services/PromiseUtils.js"></script>
+    <script src="~/app/shared/services/focus.js"></script>
+    <script src="~/app/shared/services/authData.js"></script>
+    <script src="~/app/shared/services/authenticationService.js"></script>
+    <script src="~/app/shared/services/loginService.js"></script>
+    <script src="~/app/shared/services/indexSvc.js"></script>
+    <script src="~/app/shared/services/permissions.js"></script>
+    <script src="~/app/shared/services/hasPermission.js"></script>
+
+    <script src="~/app/shared/directives/pagerDirective.js"></script>
+    <script src="~/app/shared/directives/ngEnter.js"></script>
+    <script src="~/app/shared/directives/ngCheckNull.js"></script>
+    <script src="~/app/shared/filters/statusFilter.js"></script>
+    <script src="~/app/shared/directives/focusMe.js"></script>
+
+    <script src="~/app/shared/templates/templates.js"></script>
+    <script src="~/app/app.js"></script>
+
+    <script src="~/app/shared/directives/angular-searchAndSelect.js"></script>
+
+
+    <script src="~/app/components/home/homeController.js"></script>
+    <script src="~/app/components/home/rootController.js"></script>
+
+    <script src="~/app/components/document/DocumentReceived/documentReceived.module.js"></script>
+    <script src="~/app/components/document/DocumentReceived/documentReceivedListController.js"></script>
+    <script src="~/app/components/document/DocumentReceived/documentReceivedAddOrEditController.js"></script>
+    <script src="~/app/components/document/DocumentReceived/documentAssignController.js"></script>
+    <script src="~/app/components/document/DocumentReceived/documentForwardController.js"></script>
+    <script src="~/app/components/document/DocumentReceived/documentDeliveredAddOrEditController.js"></script>
+    <script src="~/app/components/document/DocumentReceived/documentStatisticsSendReceivedController.js"></script>
+    <script src="~/app/components/document/DocumentReceived/documentDeliveredStatisticsListController.js"></script>
+    <script src="~/app/components/document/DocumentReceived/documentFilterListController.js"></script>
+
+    <script src="~/app/components/document/DocumentReceived/documentDetailController.js"></script>
+    <script src="~/app/components/document/documentType/documentType.module.js"></script>
+    <script src="~/app/components/document/documentType/documentTypeListController.js"></script>
+    <script src="~/app/components/document/documentType/documentTypeAddOrEditController.js"></script>
+
+    <script src="~/app/components/document/documentsignedby/documentSignedBy.module.js"></script>
+    <script src="~/app/components/document/documentsignedby/documentSignedByAddOrEditController.js"></script>
+    <script src="~/app/components/document/documentsignedby/documentSignedByListController.js"></script>
+
+    <script src="~/app/components/document/externalSendReceiveDivision/externalSendReceiveDivision.module.js"></script>
+    <script src="~/app/components/document/externalSendReceiveDivision/externalSendReceiveDivisionListController.js"></script>
+    <script src="~/app/components/document/externalSendReceiveDivision/externalSendReceiveDivisionAddOrEditController.js"></script>
+
+    <script src="~/app/components/document/documentField/documentField.module.js"></script>
+    <script src="~/app/components/document/documentField/documentFieldAddOrEditController.js"></script>
+    <script src="~/app/components/document/documentField/documentFieldListController.js"></script>
+
+    <script src="~/app/components/document/documentFieldepartment/documentFieldDepartment.module.js"></script>
+    <script src="~/app/components/document/documentFieldepartment/documentFieldDepartmentAddOrEditController.js"></script>
+    <script src="~/app/components/document/documentFieldepartment/documentFieldDepartmentListController.js"></script>
+
+    <script src="~/app/components/category/customer/customer.module.js"></script>
+    <script src="~/app/components/category/customer/customerAddOrEditController.js"></script>
+    <script src="~/app/components/category/customer/customerListController.js"></script>
+
+    <script src="~/app/components/category/status/status.module.js"></script>
+    <script src="~/app/components/category/status/statusListController.js"></script>
+    <script src="~/app/components/category/status/statusAddOrEditController.js"></script>
+
+    <script src="~/app/components/login/loginController.js"></script>
+    <script src="~/app/shared/views/baseViewController.js"></script>
+
+    <script src="~/app/components/document/addedDocumentBook/addedDocumentBook.module.js"></script>
+    <script src="~/app/components/document/addedDocumentBook/addedDocumentBookListController.js"></script>
+    <script src="~/app/components/document/addedDocumentBook/addedDocumentBookAddController.js"></script>
+
+    <script src="~/app/components/task/task/task.module.js"></script>
+    <script src="~/app/components/task/task/taskListController.js"></script>
+    <script src="~/app/components/task/task/taskAddOrEditController.js"></script>
+    <script src="~/app/components/task/task/taskDetailController.js"></script>
+
+    <script src="~/app/components/task/project/project.module.js"></script>
+    <script src="~/app/components/task/project/projectListController.js"></script>
+    <script src="~/app/components/task/project/projectAddOrEditController.js"></script>
+
+    <script src="~/app/components/task/taskType/taskType.module.js"></script>
+    <script src="~/app/components/task/taskType/taskTypeAddOrEditController.js"></script>
+    <script src="~/app/components/task/taskType/taskTypeListController.js"></script>
+
+    <script src="~/app/components/task/report/taskreport.module.js"></script>
+    <script src="~/app/components/task/report/taskreportListController.js"></script>
+
+    <script src="~/app/components/category/meetingroom/meetingRoom.module.js"></script>
+    <script src="~/app/components/category/meetingroom/meetingRoomAddOrEditController.js"></script>
+    <script src="~/app/components/category/meetingroom/meetingRoomListController.js"></script>
+
+    <script src="~/app/components/share/systemConfig/systemConfig.module.js"></script>
+    <script src="~/app/components/share/systemConfig/systemConfigListController.js"></script>
+    <script src="~/app/components/share/systemConfig/systemConfigAddOrEditController.js"></script>
+
+    <script src="~/app/components/share/systemConfigDepartment/systemConfigDepartment.module.js"></script>
+    <script src="~/app/components/share/systemConfigDepartment/systemConfigDepartmentListController.js"></script>
+    <script src="~/app/components/share/systemConfigDepartment/systemConfigDepartmentAddOrEditController.js"></script>
+
+    <script src="~/app/components/organization/staff/staff.module.js"></script>
+    <script src="~/app/components/organization/staff/staffListController.js"></script>
+    <script src="~/app/components/organization/staff/staffProfileController.js"></script>
+    <script src="~/app/components/organization/staff/staffAddOrEditController.js"></script>
+    <script src="~/app/components/organization/staff/loginHistoryController.js"></script>
+
+    <script src="~/app/components/organization/electronicContact/electronicContact.module.js"></script>
+    <script src="~/app/components/organization/electronicContact/electronicContactListController.js"></script>
+
+    <script src="~/app/components/organization/department/department.module.js"></script>
+    <script src="~/app/components/organization/department/departmentListController.js"></script>
+    <script src="~/app/components/organization/department/departmentAddOrEditController.js"></script>
+
+    <script src="~/app/components/calendar/event/event.module.js"></script>
+    <script src="~/app/components/calendar/event/eventListDepartmentController.js"></script>
+    <script src="~/app/components/calendar/event/eventAddOrEditController.js"></script>
+    <script src="~/app/components/calendar/event/eventListDepartmentLeaderController.js"></script>
+    <script src="~/app/components/calendar/event/eventListMultiDepartmentController.js"></script>
+
+    <script src="~/app/components/help/help.module.js"></script>
+    <script src="~/app/components/help/helpListController.js"></script>
+
+    <script src="~/app/components/share/applicationLogging/applicationLogging.module.js"></script>
+    <script src="~/app/components/share/applicationLogging/applicationLoggingListController.js"></script>
+
+    <script src="~/app/components/category/notice/notice.module.js"></script>
+    <script src="~/app/components/category/notice/noticeListController.js"></script>
+    <script src="~/app/components/category/notice/noticeAddOrEditController.js"></script>
+
+    <script src="~/app/components/user/user.module.js"></script>
+    <script src="~/app/components/user/userListController.js"></script>
+    <script src="~/app/components/user/userAddOrEditController.js"></script>
+    <script src="~/app/components/user/roleListController.js"></script>
+    <script src="~/app/components/user/roleAddOrEditController.js"></script>
+    <script src="~/app/components/user/forgotPasswordController.js"></script>
+    <script src="~/app/components/user/resetPasswordController.js"></script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+﻿
+<div class="wrapper wrapper-content">
+    <!--<div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 green" href="#">
+                <div class="visual">
+                    <i class="fa fa-comments"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup">{{countEventRelate}}</span>
+                    </div>
+                    <div class="desc"> Sự kiện liên quan </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 green2" href="#">
+                <div class="visual">
+                    <i class="fa fa-bar-chart-o"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup">?????</span>
+                    </div>
+                    <div class="desc"> What's your idea? </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
+                <div class="visual">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup">?????</span>
+                    </div>
+                    <div class="desc"> What's your idea? </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 orange" href="#">
+                <div class="visual">
+                    <i class="fa fa-globe"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+
+                        <span data-counter="counterup">{{countVanBanChuaVaoSo}}</span>
+                    </div>
+                    <div class="desc"> Văn bản chưa vào sổ </div>
+                </div>
+            </a>
+        </div>
+    </div>-->
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins" style="margin-bottom:25px;">
+                <div class="ibox-title home-desk-title-box-blue">
+                    <h5><i class="fa fa-file-text-o home-desk-title-icon-blue"></i> Thống kê văn bản</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" ng-click="isVBCollapsed = !isVBCollapsed">
+                            <i ng-class="{'fa fa-chevron-up':!isVBCollapsed , 'fa fa-chevron-down':isVBCollapsed}" class="home-desk-title-icon-blue"></i>
+                        </a>
+                    </div>
+                </div>
+                <div uib-collapse="isVBCollapsed" class="ibox-content" style="height:330px;">
+                    <div>
+                        <div class="pull-left" style="margin-bottom:29px;">
+                            <span class="switch-span text-muted">Tháng</span>
+                            <label class="switch">
+                                <input type="checkbox" ng-model="documentTimeType" ng-change="selectedDocumentChartTimeType()" />
+                                <div class="slider round"></div>
+                            </label>
+                            <span class="switch-span text-muted">Tuần</span>
+                        </div>
+                        <!--<div class="btn-group pull-right b-margin-15">
+                            <button type="button" class="btn btn-sm btn-outline btn-white b-margin-5" ng-init="indexcv_a; classes=['active-odd1','active-even1']" ng-click="getDocumentCaNhan()" ng-class="classes[indexcv_a % classes.length]">Cá nhân</button>
+                            <button type="button" class="btn btn-sm btn-outline btn-white b-margin-5" ng-init="indexcv; classes=['active-odd1','active-even1']" ng-click="getDocumentDonVi()" ng-class="classes[indexcv % classes.length]">Đơn vị</button>
+                        </div>-->
+                    </div>
+                    <div>
+                        <canvas id="base" class="chart-bar"
+                                chart-data="mixdata" chart-options="mixoptions" chart-labels="mixlabels" chart-colors="mixcolors"
+                                chart-dataset-override="mixdatasetOverride"></canvas>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 home-desk-right-panel">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title home-desk-title-box">
+                    <h5><i class="fa fa-tasks home-desk-title-icon"></i> Thống kê công việc </h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" ng-click="isCVCollapsed = !isCVCollapsed">
+                            <i ng-class="{'fa fa-chevron-up':!isCVCollapsed , 'fa fa-chevron-down':isCVCollapsed}" class="home-desk-title-icon"></i>
+                        </a>
+                    </div>
+                </div>
+                <div uib-collapse="isCVCollapsed" class="ibox-content" style="height:330px;overflow:hidden;">
+                    <div style="float:left;width:100%;">
+                        <div class="pull-left b-margin-15">
+                            <span class="switch-span text-muted">Tháng</span>
+                            <label class="switch">
+                                <input type="checkbox" ng-model="timeType" ng-change="selectedTaskChartTimeType()" />
+                                <div class="slider round"></div>
+                            </label>
+                            <span class="switch-span text-muted">Tuần</span>
+                        </div>
+                        <div class="pull-right b-margin-15">
+                            <button type="button" class="btn btn-sm btn-outline btn-white b-margin-5" ng-init="index_a; classes=['active-odd','active-even']" ng-click="getAssignToMe()" ng-class="classes[index_a % classes.length]">&nbsp;&nbsp; Tôi xử lý &nbsp; &nbsp;</button>
+                            <button type="button" class="btn btn-sm btn-outline btn-white b-margin-5" ng-init="index; classes=['active-odd','active-even']" ng-click="getRelativeToMe()" ng-class="classes[index % classes.length]">Tôi giao</button>
+                        </div>
+                    </div>
+                    <div>
+
+                        <!--<div id="fake-legend" style="float:left;width:30%; display:none;">
+                            <img src="../../../assets/admin/img/null-legend.png" />
+                        </div>
+                        <div id="fake-chart" style="float:left;width:70%; display:none;">
+                            <img id="null-chart" style="max-width:100%;" src="../../../assets/admin/img/null.png" />
+                        </div>-->
+
+                        <canvas id="doughnut" class="chart chart-doughnut" chart-data="pie_data" chart-colors="pie_colours"
+                                chart-labels="pie_labels" chart-options="pie_options"></canvas>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title home-desk-title-box">
+                    <h5><i class="fa fa-line-chart home-desk-title-icon"></i> Hoạt động gần đây </h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link" ng-click="isACVCollapsed = !isACVCollapsed">
+                            <i ng-class="{'fa fa-chevron-up':!isACVCollapsed , 'fa fa-chevron-down':isACVCollapsed}" class="home-desk-title-icon"></i>
+                        </a>
+                    </div>
+                </div>
+                <div uib-collapse="isACVCollapsed" class="ibox-content" style="height:315px !important;padding-right:10px;">
+                    <perfect-scrollbar class="scroller2" wheel-propagation="true" theme="'my-theme'" swipe-propagation="true" refresh-on-change="someArray">
+                        <ul class="list-group elements-list">
+                            <li class="list-group-item" ng-repeat="item in listTackActivityOpinion">
+                                <a href="javascript:void(0);" ui-sref="task_detail({id:item.taskId})">
+                                    <small class="pull-right text-muted"><i class="glyphicon glyphicon-time"></i> {{item.createdOn | date: 'dd/MM/yyyy HH:mm'}}</small>
+                                    <p><img class="small-chat-avatar img-circle" src="{{baseUrl}}{{item.avatar}}"><b class="activity-fullname">{{item.fullName}}</b> {{item.description}}.</p>
+                                    <div class="small m-t-xs">
+                                        <p style="font-size:11px;" ng-hide="checkOpinionOrActivity(item.model)">
+                                            <i class="glyphicon glyphicon-comment"></i> <ng-bind-html ng-bind-html="item.opiniOnContent"></ng-bind-html>
+                                        </p>
+                                    </div>
+                                    <div class="small m-t-xs">
+                                        <p style="font-size:11px;" ng-hide="checkActivityOrOpinion(item.model,item.action)">
+                                            <ng-bind-html ng-bind-html="item.taskTitle"></ng-bind-html>
+                                        </p>
+                                    </div>
+                                </a>
+                            </li>
+
+                        </ul>
+                        <!--<ul class="list-group elements-list">
+                            <li class="list-group-item" ng-repeat="item in listTackActivityOpinion">
+                                <a href="javascript:void(0);" ui-sref="task_detail({id:item.taskId})">
+                                    <small class="pull-right text-muted"><i class="glyphicon glyphicon-time"></i> {{item.createdOn | date: 'dd/MM/yyyy HH:mm'}}</small>
+                                    <p><img class="small-chat-avatar img-circle" src="{{baseUrl}}{{item.avatar}}"><b class="activity-fullname">{{item.fullName}}</b> {{item.description}}. {{item.newValue}}</p>
+                                    <div class="small m-t-xs">
+                                        <p style="font-size:11px;" ng-hide="checkOpinionOrActivity(item.model)">
+                                            <i class="glyphicon glyphicon-comment"></i> <ng-bind-html ng-bind-html="item.opiniOnContent"></ng-bind-html>
+                                        </p>
+
+                                    </div>
+                                </a>
+                            </li>
+
+                        </ul>-->
+                        <!--<div class="feed-activity-list">
+                            <div class="feed-element" ng-repeat="item in listTackActivityOpinion">
+                                <a href="javascript:void(0);" class="pull-left">
+                                    <img alt="image" class="img-circle" src="{{baseUrl}}{{item.avatar}}">
+                                </a>
+                                <div class="media-body">
+                                    <strong>{{item.fullName}}</strong> {{item.description}}.<br>
+                                    <small class="text-muted">{{item.createdOn | date: 'dd/MM/yyyy HH:mm'}}</small>
+                                </div>
+                            </div>
+                        </div>-->
+                    </perfect-scrollbar>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title home-desk-title-box-orange">
+                    <h5><a style="color:#fb9d0c !important" href="javascript:alert(0);" ui-sref="event_list"><i class="fa fa-calendar home-desk-title-icon-orange"></i> Lịch công tác</a></h5>
+                    <div class="ibox-tools" style="width:50%;float:right;">
+                        <a class="collapse-link" ng-click="isCLDCollapsed = !isCLDCollapsed">
+                            <i ng-class="{'fa fa-chevron-up':!isCLDCollapsed , 'fa fa-chevron-down':isCLDCollapsed}" class="fa fa-chevron-up home-desk-title-icon-orange"></i>
+                        </a>
+                    </div>
+                </div>
+                <div uib-collapse="isCLDCollapsed" class="ibox-content inspinia-timeline" style="height:315px;">
+                    <div class="timeline-item">
+                        <div class="row">
+                            <div class="col-xs-3 day">
+                                <i class="fa fa-briefcase home-desk-title-icon-orange"></i>
+                                Hôm nay
+                                <br>
+                            </div>
+                            <div class="col-xs-9 content no-top-border new-document-item">
+                                <perfect-scrollbar class="scroller" wheel-propagation="true" theme="'my-theme'" swipe-propagation="true" refresh-on-change="someArray">
+                                    <div ng-repeat="item in eventsToday">
+                                        <a href="javascript:void(0);" ng-click="viewEvent(item);">
+                                            <p class="m-b-xs">
+                                                <span ng-class="{'event-canceled':item.canceled, 'event-important': item.important, 'event-edited': item.blue}">
+                                                    <span ng-show="item.canceled">[Hoãn]</span>
+                                                    <strong ng-hide="checkNA(item.startTime);">
+                                                        {{item.startTime|date:'HH'}}h{{item.startTime|date:'mm'}}:
+                                                    </strong>{{item.content}}
+                                                </span>
+                                            </p>
+                                        </a>
+                                    </div>
+                                    <a href="javascript:void(0);" class="color-notify"><i>{{notify}}</i></a>
+                                </perfect-scrollbar>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="row">
+                            <div class="col-xs-3 day">
+                                <i class="fa fa-briefcase home-desk-title-icon-orange"></i>
+                                Ngày mai
+                                <br>
+                            </div>
+                            <div class="col-xs-9 content new-document-item">
+                                <perfect-scrollbar class="scroller" wheel-propagation="true" theme="'my-theme'" swipe-propagation="true" refresh-on-change="someArray">
+                                    <div ng-repeat="item in eventsTommorow">
+                                        <a href="javascript:void(0);" ng-click="viewEvent(item);">
+                                            <p class="m-b-xs">
+                                                <span ng-class="{'event-canceled':item.canceled, 'event-important': item.important, 'event-edited': item.blue}">
+                                                    <span ng-show="item.canceled">[Hoãn]</span>
+                                                    <strong ng-hide="checkNA(item.startTime);">
+                                                        {{item.startTime|date:'HH'}}h{{item.startTime|date:'mm'}}:
+                                                    </strong>{{item.content}}
+                                                </span>
+                                            </p>
+                                        </a>
+                                    </div>
+                                    <a href="javascript:void(0);" class="color-notify"> <i>  {{notifyTo}}</i></a>
+                                </perfect-scrollbar>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--<div class="row">
+        <div class="col-lg-6">
+
+        </div>
+        <div class="col-lg-6" style="margin-bottom:40px;">
+            <div class="pull-right">
+                <img src="../../../assets/admin/img/ch-play.png" />
+            </div>
+        </div>
+        </div>
+    </div>-->
+
+
+<script type="text/ng-template" id="viewDetailHomeEvent.html">
+    <div id="viewDetailHomeEventModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">CHI TIẾT SỰ KIỆN</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="col-lg-12 contact-detail">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span class="size-time-event-orange"><i class="fa fa-calendar home-desk-title-icon-orange"></i> {{$ctr.day}}, ngày {{$ctr.event.occurDate |date:'dd/MM/yyyy'}}</span>
+                        </div>
+                    </div>
+                    <div class="hr-line-solid"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+
+                            <span ng-class="{'event-canceled':$ctr.event.canceled, 'event-important': $ctr.event.important, 'event-edited': $ctr.event.blue}">
+                                <span ng-show="$ctr.event.canceled">[Hoãn] </span>
+                                <b><span ng-show="$ctr.checkTime()"> {{$ctr.event.startTime|date:'HH'}}h{{$ctr.event.startTime|date:'mm'}}:</span> </b>
+                                {{$ctr.event.content}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="hr-line-solid"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <b>    TP: </b>{{$ctr.event.participant}}
+                        </div>
+                    </div>
+                    <div class="hr-line-solid"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <b> Địa điểm: </b>{{$ctr.event.place}}
+                        </div>
+                    </div>
+                    <div class="hr-line-solid"></div>
+                    <div class="form-group" ng-hide="true">
+                        <div class="col-sm-12">
+                            Thông báo trước: <b>{{$ctr.event.notificationTimeSpan}} phút</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<style type="text/css">
+    .scroller2 { position: relative; height: 271px !important; background: transparent; }
+
+    .scroller { position: relative; height: 125px !important; background: transparent; }
+
+        .scroller > div { padding-right: 0px; }
+
+    .birthday-list tr td { border: medium none !important; }
+    .color-notify { color: darkgrey !important; }
+</style>

@@ -1,0 +1,299 @@
+﻿<style type="text/css">
+    #txtDocumentSearch_dropdown { width: 100%; }
+    .angucomplete-dropdown { width: 100% !important; }
+</style>
+
+<form class="form-horizontal" novalidate name="frmAddOrEditTask" role="form" ng-submit="save()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-12">
+            <h2>{{titleForm}}</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/">Trang chủ </a>
+                </li>
+                <li class="active">
+                    <strong>{{titleForm}}</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+        <div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="form-box-header">
+                    <div class="pull-left form-actions">
+                        <p class="required-notic">(Những trường <span class="label-required">*</span> là bắt buộc nhập)</p>
+                    </div>
+                    <div class="pull-right form-actions">
+                        <button class="btn btn-sm btn-primary" type="submit" ng-disabled="frmAddOrEditTask.$invalid">Cập nhật</button>
+                        <button class="btn btn-sm btn-white" type="button" ng-click="BindList(1)">Hủy bỏ</button>
+
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label>Mã công việc</label>
+                                <input type="text" placeholder="Mã công việc" id="code" disabled="disabled" ng-model="task.code" class="form-control input-sm" maxlength="50" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Tiêu đề</label> <span class="label-required">*</span>
+                                <input type="text" name="title" id="title" placeholder="Tiêu đề" class="input-sm form-control" maxlength="500" ng-model="task.title" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Mô tả</label>
+                                <textarea rows="5" class="form-control input-sm" style="white-space: pre-line;" placeholder="Mô tả" ng-model="task.description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Tệp đính kèm</label>
+                                <input type="file" placeholder="Tệp đính kèm" multiple="" id="fileAttachment" />
+                                <p style="background: #FAFAD2; padding: 4px;"><i>Tệp đính kèm phải là văn bản, ảnh hoặc file nén. Dung lượng tối đa không quá 4MB</i></p>
+                                <span class="attachment-wrapper" ng-repeat="item in listAttachment">
+                                    <a class="attachment-item" target="_blank" href="{{baseUrl}}{{item.filePath}}">{{item.fileName}}</a>&nbsp;&nbsp;&nbsp;<a class="attachment-remove-item" href="javascript:void(0);" ng-click="removeTaskAttachment(item.id)"><i class="fa fa-times"></i></a><br />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <b>THÔNG TIN CHI TIẾT</b>
+                            </div>
+                            <div class="ibox-content" style="background:#f4f6fa;">
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label>Mảng công việc</label>
+                                        <angucomplete-alt id="txtTaskType"
+                                                          placeholder="Mảng công việc"
+                                                          maxlength="500"
+                                                          pause="100"
+                                                          selected-object="selectedTaskType"
+                                                          local-data="taskTypes"
+                                                          search-fields="title"
+                                                          title-field="title"
+                                                          minlength="1"
+                                                          initial-value="initialTaskType"
+                                                          input-class="form-control form-control-small input-sm" />
+
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Dự án</label>
+                                        <angucomplete-alt id="txtProject"
+                                                          placeholder="Dự án"
+                                                          maxlength="50"
+                                                          pause="100"
+                                                          selected-object="selectedProject"
+                                                          local-data="projects"
+                                                          search-fields="title"
+                                                          title-field="title"
+                                                          minlength="1"
+                                                          initial-value="initialProject"
+                                                          input-class="form-control form-control-small input-sm" />
+                                    </div>
+                                    <!--ng-change="checkDueDate()"   ng-change="checkStartDate()"--> 
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <label>Ngày bắt đầu</label>
+                                            <input  ng-change="checkStartDate()" id="txtStartDate" type="text" placeholder="dd/mm/yyyy" class="input-sm form-control" ng-model="task.startDate" datepicker/>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label>Ngày hết hạn</label>
+                                           <input ng-change="checkDueDate()" id="txtDueDate" type="text" placeholder="dd/mm/yyyy" class="input-sm form-control" ng-model="task.dueDate" datepicker/>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label>Độ ưu tiên</label>
+                                        <select class="input-sm form-control" ng-model="selectedPriority" ng-options="x as x.name for x in listPriorities track by x.id"></select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label>Thứ tự</label>
+                                        <input type="number" ng-model="task.order" name="order" class="form-control input-sm" min="0" required />
+                                        <span ng-show="frmAddOrEditTask.order.$invalid && !frmAddOrEditTask.order.$pristine" class="field-validation-error">Thứ tự không được trống!</span>
+                                        <span class="field-validation-error" ng-show="frmAddOrEditTask.order.$error.number">
+                                            Thứ tự không đúng định dạng!
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Xử lý chính (người chủ trì)</label> <span class="label-required">*</span>
+
+                                <tags-input placeholder="Xử lý chính" ng-model="mainAssignees"
+                                            display-property="fullName" replace-spaces-with-dashes="false"
+                                            key-property="id" max-tags="1" on-tag-added="forceOneTag($tag)"
+                                            template="staff-template">
+                                    <auto-complete source="loadStaff($query)"
+                                                   min-length="0"
+                                                   debounce-delay="0"
+                                                   template="autocomplete-template"
+                                                   max-results-to-show="10"></auto-complete>
+                                </tags-input>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 multi-tagging">
+                                <label>Phối hợp</label>
+                                <tags-input placeholder="Phối hợp" ng-model="coprocessors"
+                                            display-property="fullName" replace-spaces-with-dashes="false"
+                                            key-property="id"
+                                            template="staff-template">
+                                    <auto-complete source="loadStaff($query)"
+                                                   min-length="0"
+                                                   debounce-delay="0"
+                                                   template="autocomplete-template"
+                                                   max-results-to-show="10"></auto-complete>
+                                </tags-input>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 multi-tagging">
+                                <label>Giám sát</label>
+                                <tags-input placeholder="Giám sát" ng-model="supervisors"
+                                            display-property="fullName" replace-spaces-with-dashes="false"
+                                            key-property="id"
+                                            template="staff-template">
+                                    <auto-complete source="loadStaff($query)"
+                                                   min-length="0"
+                                                   debounce-delay="0"
+                                                   template="autocomplete-template"
+                                                   max-results-to-show="10"></auto-complete>
+                                </tags-input>
+
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <b>THÔNG TIN KHÁCH HÀNG</b>
+                            </div>
+                            <div class="ibox-content" style="background:#f4f6fa;">
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <angucomplete-alt id="txtCustomer"
+                                                          placeholder="Chọn khách hàng"
+                                                          maxlength="500"
+                                                          pause="100"
+                                                          selected-object="selectedCustomer"
+                                                          local-data="customers"
+                                                          search-fields="title"
+                                                          title-field="title"
+                                                          minlength="1"
+                                                          initial-value="initialCustomer"
+                                                          input-class="form-control form-control-small input-sm" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <textarea class="form-control input-sm" ng-model="task.contactInformation" placeholder="Thông tin liên hệ"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>VĂN BẢN ĐIỆN TỬ</h5>
+                            </div>
+                            <div class="ibox-content" style="background:#f4f6fa;">
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <label>Từ ngày</label>
+                                           <input datepicker ng-change="getDocumentReceiveds();" placeholder="dd/mm/yyyy" type="text" class="input-sm form-control" ng-model="startDate">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <label>Đến ngày</label>
+                                           <input datepicker ng-change="getDocumentReceiveds();" placeholder="dd/mm/yyyy" type="text" class="input-sm form-control" ng-model="endDate">
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <label>Chọn văn bản</label>
+                                        <angucomplete-alt id="txtDocumentSearch"
+                                                          placeholder="Chọn văn bản"
+                                                          maxlength="500"
+                                                          pause="100"
+                                                          selected-object="selectedDocumentReceived"
+                                                          local-data="documentReceiveds"
+                                                          search-fields="documentInfo"
+                                                          title-field="documentInfo"
+                                                          minlength="1"
+                                                          input-class="form-control form-control-small input-sm" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <table class="footable table table-stripped toggle-arrow-tiny data-table">
+                                            <tbody>
+                                                <tr ng-repeat="item in listDocument track by item.id">
+                                                    <td class="center-col order-col"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank">{{$index+1}}</a></td>
+                                                    <td class="center-col" style="width:80px;"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank">{{item.documentDate | date :'dd/MM/yyyy'}}</a></td>
+                                                    <td class="center-col"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank">{{item.documentNumber}}</a></td>
+                                                    <td class="percent-65"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank">{{item.title}}</a></td>
+                                                    <td class="center-col"><button class="close red-color" type="button" ng-click="removeSelectedDocument(item.id,item.receivedDocument)">×</button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-body text-right tooltip-demo form-actions">
+                        <button class="btn btn-sm btn-primary" type="submit" ng-disabled="frmAddOrEditTask.$invalid">Cập nhật</button>
+                        <button class="btn btn-sm btn-white" type="button" ng-click="BindList(1)">Hủy bỏ</button>
+                    </div>
+
+                    <div class="col-sm-12">
+
+                    </div>
+
+
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!--<script>
+    $(document).ready(function () {
+        $('.input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format: 'dd/mm/yyyy'
+        });
+    });
+</script>-->
+
+<script type="text/ng-template" id="staff-template">
+    <div class="feed-element display-avatar-suggest">
+        <img ng-src="{{data.avatar}}" class="img-circle" style="width:22px; height:22px;" ng-if="data.avatar" />
+        <span>{{$getDisplayText()}}</span>
+        <a class="tag-remove-button" ng-click="$removeTag()">&#10006;</a>
+    </div>
+
+</script>
+
+<script type="text/ng-template" id="autocomplete-template">
+    <div class="left-panel feed-element" style="padding-bottom:0px;">
+        <img class="img-circle" ng-src="{{data.avatar}}" />
+        <span ng-bind-html="$highlight($getDisplayText())"></span>
+    </div>
+</script>

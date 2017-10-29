@@ -1,0 +1,127 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Tham số hệ thống</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>Tham số hệ thống</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-4">
+                <button ui-sref="add_edit_systemConfig({id:0,currentPage:currentPage, keyword: keyword})" data-backdrop="static" data-keyboard="false" class="btn btn-sm btn-primary">Thêm mới</button>
+                <button ng-click="cloneSystemConfig()" data-backdrop="static" data-keyboard="false" class="btn btn-sm btn-primary">Nhân bản</button>
+             </div>
+            <div class="col-sm-4 pull-right">
+                <div class="input-group">
+                    <input type="text" placeholder="Tìm kiếm..." class="input-sm form-control" ng-model="keyword" ng-enter="search()"> <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="search()"> Tìm</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <table class="footable table table-stripped toggle-arrow-tiny">
+                        <thead>
+                            <tr>
+                                <th width="30px;">STT</th>
+                                <th>TIÊU ĐỀ</th>
+                                <th>GIÁ TRỊ</th>
+                                <th class="auto-display">MÔ TẢ</th>
+                                <th class="auto-display">LOẠI</th>
+                                <th class="auto-display center-col" style="width:100px" >TRẠNG THÁI</th>
+                                <th style="width:10px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in listItem">
+                                <td>{{recordsPerPage*(currentPage-1)+$index+1}}</td>
+                                <td>{{item.title}}</td>
+                                <td>{{item.type===1?'********':item.value}}</td>
+                                <td class="auto-display">{{item.description===null?'N/A':item.description}}</td>
+                                <td class="auto-display">{{item.type|systemConfigFilter}}</td>
+                                <td class="auto-display center-col"><a href="javascript:void(0);"><i class="fa fa-toggle-{{item.active|statusFilter}}"></i></a></td>
+                                <td>
+                                    <div class="btn-group pull-right">
+                                        <button class="btn btn-default btn-sm dropdown-toggle no-borders" data-toggle="dropdown"><i class="glyphicon glyphicon-option-vertical"></i></button>
+                                        <ul class="dropdown-menu pull-right" role="menu">
+                                            <li>
+                                                <a ui-sref="add_edit_systemConfig({id:item.id,currentPage:currentPage, keyword: keyword})" title="Chỉnh sửa">
+                                                    Chỉnh sửa
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a title="Xóa" ng-click="deleteSystemConfig(item.id)">
+                                                    Xóa
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+
+                                <td colspan="7" class="footable-visible">
+                                    <span class="pagination pull-right">
+                                        <ul uib-pagination items-per-page="recordsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="getListSystemConfig(currentPage)" class="pagination-sm" rotate="false" boundary-links="true" force-ellipses="true" first-text="<<" last-text=">>" next-text=">" previous-text="<"></ul>
+                                    </span>
+                                </td>
+
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="modalcloneSystemConfig.html">
+    <div id="modalcloneSystemConfig" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">CHỌN ĐƠN VỊ</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table id="tblLoadDonVi" style="width: 100%; height: auto; min-height:200px">
+                        <tbody>
+                            <tr>
+                                <td style="width:40px" class="center-col">
+                                    <label class="fontweight-normal"> <input type="checkbox" ng-model="$ctrl.selectedAll" ng-click="$ctrl.checkAll()"> </label>
+                                </td>
+                                <td>Chọn tất cả</td>
+                            </tr>
+                            <tr ng-repeat="item in $ctrl.listDepartments">
+                                <td style="width:40px" class="center-col" ng-hide="item.parentId==0">
+                                    <label class="fontweight-normal"> <input ng-model="item.Selected" ng-click="$ctrl.setCheckAll(item)" type="checkbox" value="{{item.id}}"> </label>
+                                </td>
+                                <td ng-hide="item.parentId==0">
+                                    {{item.name}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctrl.cloneSystemConfigForDepartment();">Chọn</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctrl.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>

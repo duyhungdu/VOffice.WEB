@@ -1,0 +1,64 @@
+﻿<form class="form-horizontal" novalidate name="frmAddOrEditDocumentType" role="form">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-12">
+            <h2>Chuyển tiếp văn bản</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/">Trang chủ </a>
+                </li>
+                <li class="active">
+                    <strong>Chuyển tiếp văn bản</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+        <div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="form-box-header">
+                    <div class="pull-right form-actions">
+                        <button class="btn btn-sm btn-primary" ng-click="save()" type="submit">Chuyển tiếp</button>
+                        <button class="btn btn-sm btn-white" ng-click="BindList()">Quay lại</button>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info">
+                                    <b><a target="_blank" class="doc-detail-info" href="{{baseUrl}}{{documentInfo.attachmentPath}}">{{documentInfo.documentNumber}}<span ng-hide="checkNumber()">: </span>{{documentInfo.title}} ({{documentInfo.documentDate | date:'dd/MM/yyyy'}})</a></b>
+                                    <br /><br />
+                                    <p class=""><b>Nơi nhận:</b> {{documentInfo.recipientsDivision}}</p>
+                                </div>
+                                <input type="hidden" ng-model="documentInfo.id" />
+                                <input type="hidden" ng-model="documentInfo.receivedDocument" />
+                                <input type="hidden" ng-model="documentInfo.title" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>Chuyển tiếp đến</label>
+                                <tags-input id="txtForwarder" placeholder="Chuyển tiếp đến" ng-model="forwarders" 
+                                            display-property="fullName" replace-spaces-with-dashes="false"
+                                            key-property="id">
+                                    <auto-complete source="loadStaff($query)"
+                                                   min-length="0"
+                                                   debounce-delay="0"
+                                                   max-results-to-show="10"></auto-complete>
+                                </tags-input>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-body text-right tooltip-demo form-actions">
+                        <button class="btn btn-sm btn-primary" ng-click="save()" type="submit">Chuyển tiếp</button>
+                        <button class="btn btn-sm btn-white" ng-click="BindList()">Quay lại</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

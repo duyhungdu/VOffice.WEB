@@ -1,0 +1,145 @@
+﻿<link href="../../../assets/admin/css/plugins/datapicker/datepicker3.css" rel="stylesheet" />
+<span id="newNavigationMenu"></span>
+<script type="text/ng-template" id="categoryTree">
+    {{ category.title }}
+    <ul ng-if="category.categories">
+        <li ng-repeat="category in category.categories" ng-include="'categoryTree'">
+        </li>
+    </ul>
+</script>
+<div id="page-wrapper" class="gray-bg dashbard-1" style="min-height:600px;">
+    <div class="row border-bottom">
+        <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header with-marquee">
+                <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" id="btnCollapse" href="javascript:void(0);"><i class="fa fa-bars"></i> </a>
+                <div class="notice-wrapper">
+                    <marquee>
+                        <span class="notice-content-blue" ng-repeat="item in listNotice">{{item.title}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </marquee>
+                </div>
+                <!--<form role="search" class="navbar-form-custom" method="post" action="search_results.html">-->
+                <!--</form>-->
+            </div>
+
+
+            <ul class="nav navbar-top-links navbar-right">
+
+
+
+                <li class="dropdown">
+                    <a class="count-info" ui-sref="documentReceived" title="Danh sách văn bản">
+                        <i class="fa fa-file-text-o big-icon-14"></i><span class="label label-danger count-info-small">{{numberOfNewDocument}}</span>
+                    </a>
+                </li>
+                <!--<li class="dropdown">
+                    <a class="count-info" ui-sref="task">
+                        <i class="fa fa-tasks big-icon-14"></i><span class="label label-warning count-info-small">{{numberOfNewTask}}</span>
+                    </a>
+                </li>-->
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle count-info" title="Danh sách công việc" data-toggle="dropdown" href="javascript:void(0);">
+                        <i class="fa fa-tasks big-icon-14"></i>  <span class="label label-warning count-info-small">{{numberOfNewTask}}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages dropdown-mobile-task" ng-if="tasks.length">
+                        <li ng-repeat="item in tasks" style="float:left;border-bottom:solid 1px #e5e5e5;cursor:pointer; margin-bottom:8px;">
+                            <div class="dropdown-messages-box" style="line-height:20px;">
+
+                                <a href="#" class="pull-left" style="padding:3px 15px 10px 0px;">
+                                    <img alt="image" class="img-circle" src="{{item.avatar}}">
+                                </a>
+                                <div ng-click="viewDetail(item.id)">
+                                    <small class="pull-right">{{item.startDate | date: 'dd/MM'}}</small>
+                                    <strong>{{item.fullName}}</strong>
+                                    <br />
+                                    {{item.title}}
+
+                                </div>
+
+                                <div class="clear"></div>
+                            </div>
+
+                        </li>
+
+                        <li>
+                            <div class="text-center block-link new-document-item ">
+                                <a ui-sref="task" style="color:#1ab394;">
+                                    <i class="fa fa-tasks big-icon-14"></i> Toàn bộ công việc
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a title="Đăng xuất" ng-click="logOut()">
+                        <i class="fa fa-sign-out" style="font-size:16px;"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div style="overflow:hidden;z-index:2;" class="col-sm-12 navbar-static-top">
+            <h4 ng-hide="hideText" class="department-page-title ng-hide"><i class="fa fa-paper-plane-o"></i>{{authentication.departmentName}}</h4>
+
+            <select ng-change="selectDepartment(selectedDepartment)" ng-hide="hideDrop" class="input-sm form-control list-user-department ng-hide" name="selectDepartment" ng-options="x as x.name for x in listUserDepartments track by x.id" ng-model="selectedDepartment"></select>
+
+            <ul class="pull-right econtact-link">
+
+                <li>
+                    <a class="btn btn-sm btn-warning btn-facebook btn-outline btn-sm btn-rounded" ui-sref="electronicContact"><i class="fa fa-book"></i> Danh bạ điện tử</a>
+                </li>
+            </ul>
+        </div>
+        <!--<div class="col-sm-12 navbar-static-top" style="overflow:hidden;z-index:2;">
+            <marquee>This text will scroll from right to left</marquee>
+        </div>-->
+    </div>
+    <div ui-view>
+
+    </div>
+    <div class="footer">
+        <div class="pull-right" ng-bind-html="infor_help">
+        </div>
+        <div class="pull-right">
+
+        </div>
+        <div>
+            <strong>Copyright</strong> VLA &copy; 2017
+            <a href="https://play.google.com/store/apps/details?id=vn.vla.vOffice" target="_blank" title="Tải vOffice trên hệ điều hành Android">
+                <img class="android-footer-item" src="../../../assets/admin/img/ch.png" />
+            </a>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.addEventListener('click', function (e) {
+        try {
+
+            if (document.getElementById('right-sidebar').contains(e.target)) {
+                // Clicked in box
+            } else {
+                if (document.getElementById('modal-body') != null) {
+
+                }
+                else {
+                    // Clicked outside the box
+                    if (e.target != '' && e.target != null) {
+                        var sidebar = document.getElementById("right-sidebar");
+                        sidebar.style.display = "none";
+                    }
+                }
+            }
+        }
+        catch (error) { }
+    });
+</script>
+<script src="../../../assets/admin/js/bootstrap.js"></script>
+<!--<script src="../../../assets/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>-->
+<script src="../../../assets/admin/js/plugins/slimscroll/jquery.slimscroll.js"></script>
+<script src="../../../assets/admin/js/inspinia.js"></script>
+<script src="../../../assets/admin/js/plugins/pace/pace.min.js"></script>
+<script src="../../../assets/admin/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="../../../assets/admin/js/plugins/jsTree/jstree.min.js"></script>
+<script src="../../../assets/admin/js/plugins/tinycon/tinycon.min.js"></script>
+

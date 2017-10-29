@@ -1,0 +1,654 @@
+﻿<div class="form-horizontal">
+    <div id="fog-modal-small">
+        <div class="sk-spinner sk-spinner-rotating-plane">
+        </div>
+        <h2>Vui lòng đợi...</h2>
+    </div>
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-12">
+            <h2>Thông tin công việc</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/">Trang chủ </a>
+                </li>
+                <li>
+                    <a ui-sref="task">Công việc </a>
+                </li>
+                <li class="active">
+                    <strong>Thông tin công việc</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+        <div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="form-box-header">
+                    <div class="form-actions list-task-actions">
+                        <h2 class="title-task">{{task.code}} - {{task.title}}</h2>
+                        <p style="margin-bottom:5px;">
+                            <small class="text-muted ng-binding"><a ng-click="showCountViewTask();" style="color:#0784cb!important;" href="javascript:void(0);"><i style="color:#0784cb!important;" class="text-muted glyphicon glyphicon-ok"></i>  {{countViewTask}}</a></small>
+                        </p>
+                        <div class="btn-group">
+                            <button has-permission="edittask" class="btn btn-sm btn-outline btn-white b-margin-5" type="button" ng-click="goUpdate();" ng-disabled="hideEditTask">Chỉnh sửa</button>
+                            <button has-permission="starttask" class="btn btn-sm btn-outline  btn-white b-margin-5" type="button" ng-click="startTask();" ng-disabled="hideStartTask"><i class="fa fa-upload"></i>&nbsp;Bắt đầu xử lý</button>
+                            <button has-permission="forwardtask" class="btn btn-sm  btn-white b-margin-5" type="button" ng-click="forwardTask();" ng-disabled="hideForwardTask"><i class="fa fa-chevron-right"></i>&nbsp;Chuyển tiếp</button>
+                        </div>
+                        <div class="btn-group">
+                            <button has-permission="finishtask" class="btn btn-sm  btn-white b-margin-5" type="button" ng-click="finishTask();" ng-disabled="hideFinishTask"><i class="fa fa-paste"></i>&nbsp;Hoàn thành</button>
+                            <button has-permission="closetask" class="btn btn-sm  btn-white b-margin-5" type="button" ng-click="closeTask();" ng-disabled="hideCloseTask"><i class="fa fa-lock"></i>&nbsp;Đóng</button>
+                            <button has-permission="reopentask" class="btn btn-sm  btn-white b-margin-5" type="button" ng-click="reopenTask();" ng-disabled="hideReopenTask"><i class="fa fa-unlock"></i>&nbsp;Mở lại</button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-white b-margin-5" type="button" ng-click="BindList()">Quay lại</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-sm-8">
+                                <div class="form-group normal-text">
+                                    <div class="col-sm-12">
+                                        <b><i class="fa fa-pencil-square header-icon-detail-item"></i>&nbsp;&nbsp;NỘI DUNG</b>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <ng-bind-html ng-bind-html="task.description"></ng-bind-html>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <span class="attachment-wrapper" ng-repeat="item in listTaskAttachment">
+                                            <i class="fa fa-code"></i>&nbsp;&nbsp;<a class="attachment-item detail-item" target="_blank" href="{{baseUrl}}/{{item.filePath}}">Tệp đính kèm</a><br />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group normal-text">
+                                    <div class="col-sm-12">
+                                        <b><i class="fa fa-outdent header-icon-detail-item"></i>&nbsp;&nbsp;THÔNG TIN CHI TIẾT</b>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        Khách hàng:
+                                    </div>
+                                    <div class="col-sm-9">
+                                        {{task.customerName || 'Chưa xác định'}}
+                                    </div>
+                                </div>
+                                <div class="hr-line-solid"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        Thông tin liên hệ:
+                                    </div>
+                                    <div class="col-sm-9">
+                                        {{task.contactInformation}}
+                                    </div>
+                                </div>
+                                <div class="hr-line-solid"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-3 b-margin-5">
+                                        Độ ưu tiên: {{selectedPriority.name}}
+                                    </div>
+                                    <div class="col-sm-9">
+                                        Trạng thái: <span ng-bind-html="renderHtml(statusDetail)"></span>
+                                    </div>
+                                </div>
+                                <div class="hr-line-solid"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        Mảng công việc:
+                                    </div>
+                                    <div class="col-sm-9">
+                                        {{task.taskTypeTitle || 'Chưa xác định'}}
+                                    </div>
+                                </div>
+                                <div class="hr-line-solid"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        Dự án:
+                                    </div>
+                                    <div class="col-sm-9">
+                                        {{task.projectTitle || 'Chưa xác định'}}
+                                    </div>
+                                </div>
+                                <div class="hr-line-solid"></div>
+                                <div class="ibox float-e-margins" ng-hide="countTaskDocument();">
+                                    <div class="ibox-title">
+                                        <b><i class="fa fa-file-text header-icon-detail-item"></i>&nbsp;&nbsp;VĂN BẢN LIÊN QUAN</b>
+                                    </div>
+                                    <div class="ibox-content" style="background:#f4f6fa;padding:5px;">
+
+                                        <table class="footable table table-stripped toggle-arrow-tiny data-table">
+                                            <tbody>
+                                                <tr ng-repeat="item in listDocument track by item.id">
+                                                    <td class="center-col order-col top-align"><a ng-click="redirectFile(item.attachmentPath,item.deleted)" href="javascript:void(0);">{{$index+1}}</a></td>
+                                                    <td class="center-col top-align" style="width:80px;"><a href="javascript:void(0);" ng-click="saveDocumentHistory(item.id, item.receivedDocument, item.deleted,item.attachmentPath)">{{item.documentDate | date :'dd/MM/yyyy'}}</a></td>
+                                                    <td class="center-col top-align"><a href="javascript:void(0);" ng-click="saveDocumentHistory(item.id, item.receivedDocument, item.deleted,item.attachmentPath)">{{item.documentNumber}}</a></td>
+                                                    <td class="percent-65 top-align"><a href="javascript:void(0);" ng-click="saveDocumentHistory(item.id, item.receivedDocument, item.deleted,item.attachmentPath)">{{item.title}}</a><p><a href="javascript:void(0);" ng-click="showDocumentHistory(item.id,item.receivedDocument, item.deleted)"><small class="text-muted"><i ng-class="{'text-muted glyphicon glyphicon-ok': !item.deleted, 'text-muted glyphicon glyphicon-ban-circle': item.deleted}"></i> {{item.countRead}}</small></a></p></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group normal-text">
+                                    <div class="col-sm-12">
+                                        <b><i class="fa fa-outdent header-icon-detail-item"></i>&nbsp;&nbsp;TIẾN TRÌNH XỬ LÝ</b>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <div class="feed-activity-list">
+                                            <div class="feed-element" ng-repeat="item in listTackActivityOpinion">
+                                                <a href="javascript:void(0);" class="pull-left">
+                                                    <img alt="image" class="img-circle" src="{{baseUrl}}{{getAvatar(item.avatar)}}">
+                                                </a>
+                                                <div class="media-body">
+                                                    <small class="pull-right opinion-action" ng-hide="checkOpinionAction(item.model)"><a href="javascipt:void(0);" ng-click="setParent(item.id)"> Trả lời </a></small><small class="pull-right opinion-action" ng-hide="checkOpinionAuthor(item.createdBy,item.model)"><a ng-click="updateTaskOpinion(item.id,item.opiniOnContent,task.id,item.parentId,true,false,item.createdOn,item.createdBy)">Sửa</a> | <a ng-click="removeTaskOpinion(item.id,item.opiniOnContent,task.id,item.parentId,true,false,item.createdOn,item.createdBy)">Xóa</a> | </small>
+                                                    <strong>{{item.fullName}}</strong> {{item.description}}. <strong>{{item.newValue}}</strong><br>
+                                                    <small class="text-muted">{{item.createdOn | date: 'dd/MM/yyyy HH:mm'}}</small>
+                                                    <div class="well opinion-content" ng-hide="checkOpinionOrActivity(item.model)">
+                                                        <ng-bind-html ng-bind-html="item.opiniOnContent"></ng-bind-html>
+                                                    </div>
+                                                    <span class="attachment-wrapper" ng-hide="checkOpinionAttachment(item.opinionFilePath)">
+                                                        <i class="fa fa-code"></i>&nbsp;&nbsp;<a class="opinion-attachment-item detail-item" target="_blank" href="{{baseUrl}}/{{item.opinionFilePath}}">Tệp đính kèm</a>
+                                                    </span>
+                                                    <div class="media-body-small" ng-repeat="subItem in item.subComent">
+                                                        <a href="javascript:void(0);" class="pull-left">
+                                                            <img alt="image" class="img-circle-small" src="{{baseUrl}}{{getAvatar(subItem.avatar)}}">
+                                                            &nbsp;&nbsp;
+                                                        </a>
+                                                        <div>
+                                                            <small class="pull-right opinion-action" ng-hide="checkOpinionAction(item.model)"><a href="javascipt:void(0);" ng-click="setParent(item.id)"> Trả lời </a></small><small class="pull-right opinion-action" ng-hide="checkOpinionAuthor(subItem.createdBy,'OPINION')"><a ng-click="updateTaskOpinionSub(subItem.id,subItem.content,task.id,subItem.parentId,true,false,subItem.createdOn,subItem.createdBy)">Sửa</a> | <a ng-click="removeTaskOpinion(subItem.id,subItem.content,task.id,subItem.parentId,true,false,subItem.createdOn,subItem.createdBy)">Xóa |</a></small>
+                                                            <strong>
+                                                                {{subItem.fullName}}:
+                                                            </strong> <ng-bind-html ng-bind-html="subItem.content"></ng-bind-html>
+                                                            <br />
+                                                            <span class="attachment-wrapper" ng-hide="checkOpinionAttachment(subItem.filePath)">
+                                                                <i class="fa fa-code"></i>&nbsp;&nbsp;<a class="opinion-attachment-item detail-item" target="_blank" href="{{baseUrl}}/{{subItem.filePath}}">Tệp đính kèm</a>
+                                                            </span>
+                                                            <br />
+                                                            <small class="text-muted">  {{subItem.createdOn | date: 'dd/MM/yyyy HH:mm'}}</small>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div id="{{item.id}}" ng-bind-html="renderHtmlBox(item.id)"></div>-->
+                                                    <div ng-show="checkSub(item.id)">
+                                                        <div class="form-group">
+                                                            <div class="col-lg-11 col-xs-10" style="padding: 0 0 0 15px; position: relative">
+                                                                <a class="delete-content" ng-click="removeContent('sub')" onclick="$(this).parent().find('textarea').css('height', 'auto');$(this).parent().find('textarea').css('height', $(this).parent().find('textarea').scrollHeight-1 + 'px');">
+                                                                    <i class="fa fa-remove"></i>
+                                                                </a>
+                                                                <textarea class="form-control input-sm opinion-input" id="{{item.id}}" onkeyup="textAreaAdjust(this)" style="overflow:hidden; border:1px solid #ddd;height:48px;transition: all .1s; width:100%; resize: none" ng-model="newOpinionSub.contentSub" placeholder="Nội dung" required></textarea>
+                                                            </div>
+                                                            <div class="col-lg-1 col-xs-2" style="padding: 0 15px 0 5px">
+                                                                <button class="btn btn-sm btn-primary b-margin-5" ng-click="addOpinion(newOpinion.id,newOpinion.parentId,'sub')" style="width: 100%; padding: 5px 0">Gửi</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-12">
+                                                                <input type="file" placeholder="Tệp đính kèm" id="taskOpinionAttachmentSub_{{item.id}}" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form novalidate name="frmAddOrEditTaskOpinion" role="form" ng-submit="addOpinion(newOpinion.id,0,'parent')">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <textarea class="form-control input-sm opinion-input text-area-comment" id="content" ng-model="newOpinion.content" placeholder="Nội dung" required onkeyup="textAreaAdjust(this)"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <input type="file" placeholder="Tệp đính kèm" id="taskOpinionAttachment" />
+                                            <span ng-show="frmAddOrEditTaskOpinion.content.$invalid && !frmAddOrEditTaskOpinion.content.$pristine" class="field-validation-error">Nội dung không được trống.</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-sm btn-primary b-margin-5" type="submit" ng-disabled="frmAddOrEditTaskOpinion.$invalid">Gửi</button>
+                                            <button type="button" class="btn btn-sm btn-outline btn-link b-margin-5" ng-click="removeContent('parent')">Xóa</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group normal-text">
+                                    <div class="col-sm-12">
+                                        <b><i class="fa fa-user-md header-icon-detail-item"></i>&nbsp;&nbsp;XỬ LÝ</b>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Người tạo:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{task.fullName}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Xử lý:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{assignee.fullName}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Phối hợp:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <a ng-hide="checkHideMoreDongXuLy" ng-click="showAddMoreDongXuLy();" style="color:#0784cb;"><i class="glyphicon glyphicon-plus"></i>&nbsp;</a> {{coprocessors}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Giám sát:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{supervisors}}
+                                    </div>
+                                </div>
+                                <div class="form-group normal-text">
+                                    <div class="col-sm-12">
+                                        <b><i class="fa fa-calendar-o header-icon-detail-item"></i>&nbsp;TIẾN ĐỘ THỰC HIỆN</b>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Ngày tạo:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{task.createdOn | date:'dd/MM/yyyy HH:mm:ss'}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Ngày bắt đầu:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{task.startDate || 'Chưa xác định' | date:'dd/MM/yyyy'}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Thời hạn:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{task.dueDate || 'Chưa xác định' | date:'dd/MM/yyyy' }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Hoàn thành:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{task.endDate || 'Chưa xác định' | date:'dd/MM/yyyy'}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group normal-text" ng-if="task.result">
+                                    <div class="col-sm-12">
+                                        <b><i class="fa fa-star-o header-icon-detail-item"></i>&nbsp;ĐÁNH GIÁ KẾT QUẢ</b>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed" ng-if="task.result"></div>
+                                <div class="form-group" ng-if="task.result">
+                                    <div class="col-sm-12">
+                                        {{task.result}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body form-actions list-task-actions">
+                        <div class="btn-group">
+                            <button has-permission="edittask" class="btn btn-sm btn-outline btn-white b-margin-5" type="button" ng-click="goUpdate();" ng-disabled="hideEditTask">Chỉnh sửa</button>
+                            <button has-permission="starttask" class="btn btn-sm btn-outline  btn-white b-margin-5" id="btnStart" type="button" ng-click="startTask();" ng-disabled="hideStartTask"><i class="fa fa-upload"></i>&nbsp;Bắt đầu xử lý</button>
+                            <button has-permission="forwardtask" class="btn btn-sm  btn-white b-margin-5" type="button" ng-click="forwardTask();" ng-disabled="hideForwardTask"><i class="fa fa-chevron-right"></i>&nbsp;Chuyển tiếp</button>
+                        </div>
+                        <div class="btn-group">
+                            <button has-permission="finishtask" class="btn btn-sm  btn-white b-margin-5" type="button" ng-click="finishTask();" ng-disabled="hideFinishTask"><i class="fa fa-paste"></i>&nbsp;Hoàn thành</button>
+                            <button has-permission="closetask" class="btn btn-sm  btn-white b-margin-5" type="button" ng-click="closeTask();" ng-disabled="hideCloseTask"><i class="fa fa-lock"></i>&nbsp;Đóng</button>
+                            <button has-permission="reopentask" class="btn btn-sm  btn-white b-margin-5" type="button" ng-click="reopenTask();" ng-disabled="hideReopenTask"><i class="fa fa-unlock"></i>&nbsp;Mở lại</button>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-white b-margin-5" type="button" ng-click="BindList()">Quay lại</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="startTask.html">
+    <div id="startTaskModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">BẮT ĐẦU XỬ LÝ</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="col-sm-6 b-margin-15">
+                    <label>Ngày bắt đầu</label>
+                        <input type="text" id="txtStartDateStartTask" datepicker placeholder="dd/mm/yyyy" ng-change="$ctr.checkStartDueDate(1)" class="input-sm form-control " ng-model="$ctr.startDate" />
+                </div>
+                <div class="col-sm-6 b-margin-15">
+                    <label>Ngày hoàn thành dự kiến</label>
+                        <input type="text" id="txtDueDateStartTask" ng-disabled="$ctr.checkDueDate()" datepicker placeholder="dd/mm/yyyy" ng-change="$ctr.checkStartDueDate(0)" class="input-sm form-control " ng-model="$ctr.dueDate" />
+                </div>
+                <div class="col-sm-12 b-margin-15">
+                    <label>Ý kiến xử lý</label>
+                    <textarea class="form-control input-sm opinion-input" autofocus id="txtStartTaskOpinionContent" ng-model="$ctr.newOpinion.content" placeholder="Nội dung" required></textarea>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.startTask()">Cập nhật</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="forwardTask.html">
+    <div id="forwardTaskModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">CHUYỂN TIẾP</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="col-sm-12 b-margin-15">
+                    <label>Chọn người xử lý chính</label>
+
+
+                    <tags-input placeholder="Xử lý chính" ng-model="$ctr.mainAssignees"
+                                display-property="fullName" replace-spaces-with-dashes="false"
+                                key-property="id" max-tags="1" on-tag-added="$ctr.forceOneTag($tag)" template="staff-template">
+                        <auto-complete source="$ctr.loadStaff($query)"
+                                       min-length="0"
+                                       debounce-delay="0"
+                                       template="autocomplete-template"
+                                       max-results-to-show="10"></auto-complete>
+                    </tags-input>
+
+
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.forwardTask()">Cập nhật</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="staff-template">
+    <div class="feed-element display-avatar-suggest">
+        <img ng-src="{{data.avatar}}" class="img-circle" style="width:22px; height:22px;" ng-if="data.avatar" />
+        <span>{{$getDisplayText()}}</span>
+        <a class="tag-remove-button" ng-click="$removeTag()">&#10006;</a>
+    </div>
+
+</script>
+<script type="text/ng-template" id="autocomplete-template">
+    <div class="left-panel feed-element" style="padding-bottom:0px;">
+        <img class="img-circle" ng-src="{{data.avatar}}" />
+        <span ng-bind-html="$highlight($getDisplayText())"></span>
+    </div>
+</script>
+<script type="text/ng-template" id="finishTask.html">
+    <div id="finishTaskModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">HOÀN THÀNH</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="col-sm-6 b-margin-15">
+                    <label>Ngày bắt đầu</label>
+                       <input type="text" datepicker placeholder="dd/mm/yyyy" disabled class="input-sm form-control " ng-blur="$ctr.blurStartDate();" ng-model="$ctr.startDate" />
+                </div>
+                <div class="col-sm-6 b-margin-15">
+                    <label>Thời hạn</label>
+                       <input type="text" datepicker placeholder="dd/mm/yyyy" disabled class="input-sm form-control " ng-blur="$ctr.blurDueDate();" ng-model="$ctr.dueDate" />
+                </div>
+                <div class="col-sm-6 b-margin-15">
+                    <label>Ngày hoàn thành thực tế</label>
+                       <input type="text" datepicker placeholder="dd/mm/yyyy" class="input-sm form-control " ng-blur="$ctr.blurEndDate();" ng-model="$ctr.endDate" />
+                </div>
+                <div class="col-sm-12 b-margin-15">
+                    <label>Ý kiến</label>
+                    <textarea class="form-control input-sm opinion-input" id="txtStartTaskOpinionContent" autofocus ng-focus="true" ng-model="$ctr.newOpinion.content" placeholder="Nội dung" required></textarea>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.finishTask()">Cập nhật</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="closeTask.html">
+    <div id="closeTaskModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">KẾT THÚC CÔNG VIỆC</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="col-sm-12 b-margin-15">
+                    <label>Đánh giá kết quả</label>
+                    <textarea class="form-control input-sm opinion-input" autofocus ng-focus="true" ng-model="$ctr.item.result" placeholder="Đánh giá kết quả"></textarea>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.closeTask()">Cập nhật</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="reopenTask.html">
+    <div id="reopenTaskModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">MỞ LẠI CÔNG VIỆC</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="col-sm-12 b-margin-15">
+                    <label>Ý kiến xử lý</label>
+                    <textarea class="form-control input-sm opinion-input" id="txtStartTaskOpinionContent" autofocus ng-focus="true" ng-model="$ctr.newOpinion.content" placeholder="Nội dung" required></textarea>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.reopenTask()">Cập nhật</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="addMoreDongXuLy.html">
+    <div id="addMoreDongXuLyModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">BỔ SUNG NGƯỜI PHỐI HỢP</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="col-sm-12 b-margin-15">
+                    <label>Chọn cán bộ</label>
+
+                    <tags-input placeholder="Phối hợp" ng-model="$ctr.corprocessors"
+                                display-property="fullName" replace-spaces-with-dashes="false"
+                                key-property="id" max-tags="1" template="staff-template">
+                        <auto-complete source="$ctr.loadStaff($query)"
+                                       min-length="0"
+                                       debounce-delay="0"
+                                       template="autocomplete-template"
+                                       max-results-to-show="10"></auto-complete>
+                    </tags-input>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.addMoreDongXuLy()">Cập nhật</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="viewDocumentHistory.html">
+    <div id="viewDocumentHistoryModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">LỊCH SỬ ĐỌC VĂN BẢN</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <uib-tabset active="active" class="home-desk-list-task-min-heght">
+                    <uib-tab index="0">
+                        <uib-tab-heading style="color:#0784cb!important;">
+                            <i class="glyphicon glyphicon-ok"></i> Đã đọc
+                        </uib-tab-heading>
+                        <table class="footable table table-stripped toggle-arrow-tiny">
+                            <tbody>
+                                <tr ng-repeat="item in  $ctr.listDocumentHistory track by item.id">
+                                    <td ng-if="item.historyId" class="ng-binding  no-top-border">
+                                        <div class="b-margin-0">
+                                            <img class="chat-avatar img-circle" src="{{baseUrl}}{{item.avatar ||  'Uploads/Avatar/no-avatar.jpg'}}"><span>
+                                                {{item.fullName}}
+                                            </span>
+                                            <p> <small class="text-muted ng-binding"><i class="glyphicon glyphicon-time"></i> {{item.attempOn|date:'dd/MM/yyyy | hh:mm'}}</small></p>
+                                        </div>
+                                    </td>
+                                    <td ng-if="item.historyId" class="auto-display no-top-border" style="width:50px;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </uib-tab>
+                    <uib-tab index="1">
+                        <uib-tab-heading style="color:#888!important;">
+                            Chưa đọc
+                        </uib-tab-heading>
+                        <table class="footable table table-stripped toggle-arrow-tiny">
+                            <tbody>
+                                <tr ng-repeat="item in  $ctr.listDocumentHistory track by item.id">
+                                    <td ng-if="!item.historyId" class="ng-binding  no-top-border">
+                                        <div ng-if="!item.historyId" class="b-margin-0">
+                                            <img class="chat-avatar img-circle" src="{{baseUrl}}{{item.avatar ||  'Uploads/Avatar/no-avatar.jpg'}}"><span>
+                                                {{item.fullName}}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td ng-if="!item.historyId" class="auto-display no-top-border" style="width:50px;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="showCountViewTaskDetail.html">
+    <div id="showCountViewTaskDetail" class="big-modal">
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <uib-tabset active="active" class="home-desk-list-task-min-heght">
+                    <uib-tab index="0">
+                        <uib-tab-heading style="color:#0784cb!important;">
+                            <i class="glyphicon glyphicon-ok"></i> Đã xem
+                        </uib-tab-heading>
+                        <table class="footable table table-stripped toggle-arrow-tiny">
+                            <tbody>
+                                <tr ng-repeat="item in  $ctr.listViewTaskDetail track by item.id">
+                                    <td ng-show="item.viewDetail" class="ng-binding  no-top-border">
+                                        <div class="b-margin-0">
+                                            <img class="chat-avatar img-circle" src="{{baseUrl}}{{item.avatar ||  'Uploads/Avatar/no-avatar.jpg'}}"><span>
+                                                {{item.fullName}}
+                                            </span>
+                                            <p ng-show="item.viewDetail"> <small class="text-muted ng-binding"><i class="glyphicon glyphicon-time"></i> {{item.viewOn|date:'dd/MM/yyyy | HH:mm'}}</small></p>
+
+                                        </div>
+                                    </td>
+                                    <td ng-show="item.viewDetail" class="auto-display no-top-border" style="width:50px;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </uib-tab>
+                    <uib-tab index="1">
+                        <uib-tab-heading style="color:#888!important;">
+                            Chưa xem
+                        </uib-tab-heading>
+                        <table class="footable table table-stripped toggle-arrow-tiny">
+                            <tbody>
+                                <tr ng-repeat="item in  $ctr.listViewTaskDetail track by item.id">
+                                    <td ng-show="!item.viewDetail" class="ng-binding  no-top-border">
+                                        <div class="b-margin-0">
+                                            <img class="chat-avatar img-circle" src="{{baseUrl}}{{item.avatar ||  'Uploads/Avatar/no-avatar.jpg'}}"><span>
+                                                {{item.fullName}}
+                                            </span>
+                                            <p ng-show="item.viewDetail"> <small class="text-muted ng-binding"><i class="glyphicon glyphicon-time"></i> {{item.viewOn|date:'dd/MM/yyyy | hh:mm'}}</small></p>
+
+                                        </div>
+                                    </td>
+                                    <td ng-show="!item.viewDetail" class="auto-display no-top-border" style="width:50px;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<style type="text/css">
+    .feed-element img.img-circle-small { width: 25px; height: 25px; border-radius: 50% !important; }
+
+    .media-body-small { overflow: hidden; display: block; padding: 10px; }
+</style>
+<script>
+    function textAreaAdjust(o) {
+        o.style.height = "auto";
+        o.style.height = o.scrollHeight + "px";
+    }
+</script>

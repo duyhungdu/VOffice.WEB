@@ -1,0 +1,87 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>Danh mục khách hàng</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>Danh mục khách hàng</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-2 b-margin-5">
+                <input type="button" class="btn btn-sm btn-primary" ui-sref="add_edit_customer({id:0,currentPage:currentPage, keyword: keyword})" value="Thêm mới" />
+            </div>
+            <div class="col-sm-4 pull-right">
+                <div class="input-group">
+                    <input type="text" placeholder="Tìm kiếm..." class="input-sm form-control" ng-model="keyword" ng-enter="search()"> <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="search()"> Tìm</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <table class="footable table table-stripped toggle-arrow-tiny">
+                        <thead>
+                            <tr>
+                                <th width="30px;" class="center-col">STT</th>
+                                <th>MÃ </th>
+                                <th>TÊN KHÁCH HÀNG</th>
+                                <th class="auto-display">SỐ ĐIỆN THOẠI</th>
+                                <th class="auto-display">ĐỊA CHỈ</th>
+                                <th style="width:100px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in listItem">
+                                <td class="center-col">{{recordsPerPage*(currentPage-1)+$index+1}}</td>
+                                <td>{{item.code}}</td>
+                                <td>{{item.title}}</td>
+                                <td class="auto-display">{{item.phoneNumber}}</td>
+                                <td class="auto-display">{{item.address}}</td>
+                                <td>
+                                    <div class="btn-group pull-right">
+                                        <button class="btn btn-default btn-sm dropdown-toggle no-borders" data-toggle="dropdown"><i class="glyphicon glyphicon-option-vertical"></i></button>
+
+                                        <ul class="dropdown-menu pull-right" role="menu">
+                                            <li>
+                                                <a title="Chỉnh sửa" ui-sref="add_edit_customer({id:item.id, currentPage:currentPage, keyword: keyword})" href="javascript;">
+                                                    Sửa
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a title="Xóa" ng-click="deleteCustomer(item.id)">
+                                                    Xóa
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" class="footable-visible">
+                                    <span class="pagination pull-right"> <ul uib-pagination items-per-page="recordsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="getListCustomer(currentPage)" class="pagination-sm" boundary-links="true" rotate="true" force-ellipses="true" first-text="<<" last-text=">>" next-text=">" previous-text="<"></ul></span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

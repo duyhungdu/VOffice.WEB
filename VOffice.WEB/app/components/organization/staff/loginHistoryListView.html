@@ -1,0 +1,59 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>Lịch sử truy cập</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>Lịch sử truy cập</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <table class="footable table table-stripped toggle-arrow-tiny scroll-x-able">
+                        <thead>
+                            <tr>
+                                <th class="center-col" width="30px;">STT</th>
+                                <th class="center-col">HỆ ĐIỀU HÀNH</th>
+                                <th class="center-col">LOẠI THIẾT BỊ</th>
+                                <th class="center-col">TRÌNH DUYỆT</th>
+                                <th class="center-col">ĐC IP</th>
+                                <th class="center-col">VỊ TRÍ</th>
+                                <th class="center-col">THỜI ĐIỂM</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in listItem">
+                                <td class="center-col order-col">{{recordsPerPage*(currentPage-1)+$index+1}}</td>
+                                <td class="center-col">{{item.os}}</td>
+                                <td class="center-col">{{item.deviceType}}</td>
+                                <td class="center-col">{{item.browserType}}</td>
+                                <td class="center-col">{{item.userHostAddress}}</td>
+                                <td class="center-col">{{item.userLocation}}</td>
+                                <td class="center-col">
+                                    {{item.attempOn | date :'dd/MM/yyyy HH:mm:ss'}}
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" class="footable-visible">
+                                    <span class="pagination pull-right">
+                                        <ul uib-pagination items-per-page="recordsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="getListLoginHistories(currentPage)" class="pagination-sm" rotate="false" boundary-links="true" force-ellipses="true" first-text="<<" last-text=">>" next-text=">" previous-text="<"></ul>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

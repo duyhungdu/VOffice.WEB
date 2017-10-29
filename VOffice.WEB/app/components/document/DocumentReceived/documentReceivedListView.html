@@ -1,0 +1,267 @@
+﻿
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>Danh sách văn bản</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>Danh sách văn bản</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-md-4 b-margin-5 col-md-tr-6">
+                <div class="btn-group btn_add_document" has-permission="adddocumentreceived">
+                    <button id="single-button" type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown">
+                        Thêm&nbsp;&nbsp; <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li has-permission="adddocumentreceived" role="menuitem"><a ui-sref="add_edit_documentReceived({id:item.id,receivedDocument:item.receivedDocument,typeOfDocument:selectedTypeOfDocument.id,currentPage:currentPage, keyword:keyword,startDate:startDate,endDate:endDate})">Văn bản đến</a></li>
+                        <li has-permission="adddelivereddocument" role="menuitem"><a ui-sref="add_edit_documentDelivered({id:item.id,receivedDocument:item.receivedDocument,typeOfDocument:selectedTypeOfDocument.id,currentPage:currentPage, keyword:keyword,startDate:startDate,endDate:endDate})">Văn bản đi</a></li>
+                    </ul>
+                </div>
+                <div style="display:inline-block">
+                    <button type="button" class="btn btn-sm btn-outline btn-white" ng-init="index_a; classes=['active-odd','active-even']" ng-click="getDocumentReceived()" ng-class="classes[index_a % classes.length]"> &nbsp;&nbsp; Văn bản đến &nbsp;&nbsp;</button>
+                    <button type="button" class="btn btn-sm btn-outline btn-white" ng-init="index; classes=['active-odd','active-even']" ng-click="getDocumentDelivered()" ng-class="classes[index % classes.length]">Văn bản đi</button>
+                </div>
+            </div>
+            <div class="col-md-4 b-margin-5 col-md-tr-6">
+                <div class="row">
+                    <div class="col-xs-6 b-margin-5">
+                        <div class="date">
+                            <!--<span class="input-group-addon">Từ</span>-->
+                            <input class="input-sm form-control" autocomplete="off" ng-blur="startDateBlur()" ng-model="startDate" required name="_documentDate" datepicker maxlength="10" />
+                        </div>
+                    </div>
+                    <div class="col-xs-6 b-margin-5">
+                        <div class="date">
+                            <!--<span class="input-group-addon">Đến</span>-->
+                            <input class="input-sm form-control" autocomplete="off" ng-blur="endDateBlur()" ng-model="endDate" required name="_documentDate" datepicker maxlength="10" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 b-margin-5 col-md-tr-12">
+                <div class="input-group">
+                    <input type="text" placeholder="Tìm kiếm..." class="input-sm form-control" ng-model="keyword" ng-enter="search()"> <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="search()"><icon class="glyphicon glyphicon-search"></icon></button>
+                        <a class="btn btn-sm btn-white" ui-sref="documentFilter({typeOfDocument:selectedTypeOfDocument,currentPage:currentPage, keyword:keyword,startDate:startDate,endDate:endDate})"><icon class="glyphicon glyphicon-option-horizontal"></icon></a>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <!--scroll-x-able-->
+                <div class="ibox-content scroll-x-able">
+                    <table class="footable table table-stripped toggle-arrow-tiny data-table">
+                        <thead>
+                            <tr>
+                                <th class="center-col order-col">STT</th>
+                                <th class="center-col auto-display" style="width:65px;">SỐ ĐẾN</th>
+                                <th class="center-col doc-percent-1525">SỐ VB</th>
+                                <th class="center-col">TRÍCH YẾU</th>
+                                <!--<th  class="center-col auto-display">NƠI GỬI</th>-->
+                                <th class="center-col auto-display" style="width:80px;">NGÀY VB</th>
+                                <th class="center-col" style="width:30px;"></th>
+                                <th class="center-col" style="width:30px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in listItem">
+                                <td class="center-col" ng-class="{'doc-close': item.isBold}"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank" ng-click="saveDocumentHistory(item.historyId, item.id, item.receivedDocument)">{{recordsPerPage*(currentPage-1)+$index+1}}</a></td>
+                                <td class="center-col auto-display" ng-class="{'doc-close': item.isBold}"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank" ng-click="saveDocumentHistory(item.historyId, item.id, item.receivedDocument)">{{item.receivedNumber}} </a></td>
+                                <td width="15%" ng-class="{'doc-close': item.isBold}"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank" ng-click="saveDocumentHistory(item.historyId, item.id, item.receivedDocument)"><i ng-class="{'fa fa-share item-delivered': !item.receivedDocument, 'fa fa-reply item-received': item.receivedDocument}"></i>{{item.documentNumber}}</a></td>
+                                <td ng-class="{'doc-close': item.isBold}"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank" ng-click="saveDocumentHistory(item.historyId, item.id, item.receivedDocument)">{{item.title}}</a></td>
+                                <!--<td class="auto-display"  ng-class="{'doc-close': item.isBold}"><a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank" ng-click="saveDocumentHistory(item.historyId, item.id, item.receivedDocument)">{{item.externalFromDivision}}</a></td>-->
+                                <td class="center-
+                                <td class=" center-col auto-display" ng-class="{'doc-close': item.isBold}">
+                                    <a href="{{baseUrl}}{{item.attachmentPath}}" target="_blank" ng-click="saveDocumentHistory(item.historyId, item.id, item.receivedDocument)">{{item.documentDate | date :'dd/MM/yyyy'}}</a>
+                                </td>
+                                <td ng-class="{'doc-close': item.isBold}"><a ng-if="item.taskId" title="Văn bản đã giao xử lý" ui-sref="task({documentId:item.id,documentReceived:item.receivedDocument})"><span class="label label-primary" style="font-weight:normal;font-family:Arial;">Đã giao</span></a></td>
+                                <td>
+                                    <div class="btn-group pull-right">
+                                        <button class="btn btn-default btn-sm dropdown-toggle no-borders" data-toggle="dropdown"><i class="glyphicon glyphicon-option-vertical"></i></button>
+                                        <ul class="dropdown-menu pull-right list-function" role="menu">
+                                            <li has-permission="assigndocument">
+                                                <a ui-sref="assign_document({taskId:0,documentId:item.id,receivedDocument:item.receivedDocument,typeOfDocument:selectedTypeOfDocument,currentPage:currentPage, keyword:keyword,startDate:startDate,endDate:endDate})" title="Giao xử lý">
+                                                    Giao xử lý
+                                                </a>
+                                            </li>
+                                            <li has-permission="forwarddocument">
+                                                <a title="Chuyển tiếp" ui-sref="forward_document({documentId:item.id,receivedDocument:item.receivedDocument,typeOfDocument:selectedTypeOfDocument,currentPage:currentPage, keyword:keyword,startDate:startDate,endDate:endDate})">
+                                                    Chuyển tiếp
+                                                </a>
+                                            </li>
+                                            <li has-permission="retrievedocument" ng-hide="!item.sendOut && item.receivedDocument==1">
+                                                <a title="Thu hồi" ng-click="retrieveDocument(item.id, item.receivedDocument,selectedTypeOfDocument,currentPage, keyword,startDate,endDate)">
+                                                    Thu hồi
+                                                </a>
+                                            </li>
+                                            <li has-permission="editdocumentreceived" ng-hide="item.sendOut || item.receivedDocument===0">
+                                                <a ui-sref="add_edit_documentReceived({id:item.id,receivedDocument:item.receivedDocument,typeOfDocument:selectedTypeOfDocument.id,currentPage:currentPage, keyword:keyword,startDate:startDate,endDate:endDate})" title="Chỉnh sửa">
+                                                    Chỉnh sửa
+                                                </a>
+                                            </li>
+                                            <li ng-hide="item.sendOut===true || item.receivedDocument===1">
+                                                <a ui-sref="add_edit_documentDelivered({id:item.id,receivedDocument:item.receivedDocument,typeOfDocument:selectedTypeOfDocument.id,currentPage:currentPage, keyword:keyword,startDate:startDate,endDate:endDate})" title="Chỉnh sửa">
+                                                    Chỉnh sửa
+                                                </a>
+                                            </li>
+
+                                            <li has-permission="viewdocumentdetail">
+                                                <a title="Xem chi tiết" ng-click="saveDocumentHistory(item.historyId, item.id, item.receivedDocument)" ui-sref="viewDocument({id:item.id,receivedDocument:item.receivedDocument,typeOfDocument:selectedTypeOfDocument,currentPage:currentPage, keyword:keyword,startDate:startDate,endDate:endDate})">
+                                                    Xem chi tiết
+                                                </a>
+                                            </li>
+                                            <li has-permission="deletedocumentreceived" ng-show="item.receivedDocument==1 && !item.sendOut">
+                                                <a title="Xóa" ng-click="deleteDocument(item.id, item.receivedDocument,selectedTypeOfDocument,currentPage, keyword,startDate,endDate)">
+                                                    Xóa
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" class="footable-visible">
+                                    <span class="pagination pull-right"> <ul uib-pagination items-per-page="recordsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="getListDocumentReceived(currentPage)" class="pagination-sm" boundary-links="true" rotate="true" force-ellipses="true" first-text="<<" last-text=">>" next-text=">" previous-text="<"></ul></span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="retrieveDocument.html">
+    <div id="retrieveModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">THU HỒI VĂN BẢN</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="alert alert-info">
+                    <b><a target="_blank" class="doc-detail-info" href="{{$ctr.documentInfo.attachmentPath}}">{{$ctr.documentInfo.documentNumber}}: {{$ctr.documentInfo.title}} ({{$ctr.documentInfo.documentDate|date:'dd/MM/yyyy'}})</a></b>
+                    <br /><br />
+                    <p class=""><b>Nơi nhận:</b> {{$ctr.documentInfo.recipientsDivision}}</p>
+                </div>
+                <div class="col-sm-12 b-margin-15" style="padding:0px">
+                    <label>Lý do</label>
+                    <textarea class="form-control input-sm opinion-input" autofocus id="txtContent" ng-model="$ctr.documentInfo.retrieveText" placeholder="Lý do thu hồi" required></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.retrieveCurrentDocument()">Thu hồi</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="modalDocument.html">
+    <div id="systemModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">XEM CHI TIẾT</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <label>{{$ctrl.documentInfo.title}}</label>
+                    <br />
+                    <a title="{{$ctrl.documentInfo.title}}" href="{{$ctrl.documentInfo.attachmentPath}}">{{$ctrl.documentInfo.attachmentName}}</a>
+                    <br />
+                    <br />
+                </div>
+            </div>
+            <div class="row">
+                <div class="ibox">
+                    <!--scroll-x-able-->
+                    <div class="ibox-content scroll-x-able">
+                        <div class="col-lg-12">
+                            <div class="col-lg-2">
+                                <label>Số văn bản</label>
+                            </div>
+                            <div class="col-lg-4">{{$ctrl.documentInfo.documentNumber}}</div>
+                            <div class="col-lg-2">
+                                <label>Số đến</label>
+                            </div>
+                            <div class="col-lg-4">{{$ctrl.documentInfo.receivedNumber}}</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-sm btn-warning" ng-click="$ctrl.cancel()">Đóng</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="deleteDocument.html">
+    <div id="deleteModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">XÓA VĂN BẢN</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="alert alert-info">
+                    <b><a target="_blank" class="doc-detail-info" href="{{$ctr.documentInfo.attachmentPath}}">{{$ctr.documentInfo.documentNumber}}: {{$ctr.documentInfo.title}} ({{$ctr.documentInfo.documentDate|date:'dd/MM/yyyy'}})</a></b>
+                    <br /><br />
+                    <p class=""><b>Nơi nhận:</b> {{$ctr.documentInfo.recipientsDivision}}</p>
+                </div>
+                <div class="col-sm-12 b-margin-15" style="padding:0px">
+                    <label>Lý do</label>
+                    <textarea class="form-control input-sm opinion-input" autofocus id="txtContent" ng-model="$ctr.documentInfo.retrieveText" placeholder="Lý do xóa" required></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.deleteCurrentDocument()">Xóa</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script>
+    $(document).ready(function () {
+        //$('.input-group.date').datepicker({
+        //    todayBtn: "linked",
+        //    keyboardNavigation: false,
+        //    forceParse: false,
+        //    calendarWeeks: true,
+        //    autoclose: true,
+        //    format: 'dd/mm/yyyy'
+        //});
+        //function viewDocument(id) {
+        //    alert(id);
+        //    // $scope.initDocumentDetail(id, receivedDocument);
+        //    $('#modal-viewDocument').modal('show');
+        //    //$('#modal-viewDocument').modal({ backdrop: 'static' });
+        //}
+    });
+</script>
+<script src="../../../../assets/admin/js/jquery-2.1.1.js"></script>
+<!--Datapicker-->
+<script src="../../../../assets/admin/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<!-- Date range picker -->
+<script src="../../../../assets/admin/js/plugins/daterangepicker/daterangepicker.js"></script>

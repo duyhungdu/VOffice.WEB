@@ -1,0 +1,386 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>Danh sách người dùng</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>Danh sách người dùng</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="ibox">
+                <div class="ibox-content scroll-x-able">
+                    <div class="row">
+                        <div class="col-lg-8 animated fadeInRight">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-primary b-margin-5" ng-click="addEditAspNetGroup(0)"><i class="fa fa-plus"></i>&nbsp; Thêm</button>
+                                <button class="btn btn-sm btn-white b-margin-5" type="button" ng-click="clearSelectedGroup()">Hủy</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 b-margin-5 center-block">
+                        </div>
+                    </div>
+                    <div class="ibox-content new-document-item">
+                      
+                            <div class="row" style="width:100%">
+                                <div class="col-lg-12" style="padding-right:0px">
+                                    <div class="ibox">
+                                        <table class="data-table footable table toggle-arrow-tiny">
+                                            <thead>
+                                                <tr>
+                                                    <th>TÊN NHÓM</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in listGroups">
+                                                    <td style="height:40px"><a class="link-group-select" href="javascript:void(0)" ng-click="selectGroup(item.id)">{{item.name}}</a></td>
+                                                    <td>
+                                                        <div class="btn-group pull-right" ng-show="sysAdmin">
+                                                            <button class="btn btn-default btn-sm dropdown-toggle no-borders" data-toggle="dropdown"><i class="glyphicon glyphicon-option-vertical"></i></button>
+                                                            <ul class="dropdown-menu pull-right list-function" role="menu">
+                                                                <li ng-hide="true">
+                                                                    <a title="Chỉnh sửa" href="javascript;">
+                                                                        Chỉnh sửa
+                                                                    </a>
+                                                                </li>
+                                                                <li  ng-hide="true">
+                                                                    <a title="Xóa">
+                                                                        Xóa
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a title="Phân quyền" href="javascript:void(0);"  ng-click="setRolesForGroup(item.id)">
+                                                                        Phân quyền
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                      
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-8">
+            <div class="ibox">
+                <div class="ibox-content scroll-x-able">
+                    <div class="row">
+                        <div class="col-lg-2 animated fadeInRight">
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-primary b-margin-5" ng-click="addOrEditUser(0)"><i class="fa fa-plus"></i>&nbsp; Thêm</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-10 b-margin-5 center-block">
+                            <div class="input-group">
+                                <input type="text" placeholder="Tìm kiếm..." class="input-sm form-control" ng-model="keyword" ng-enter="search()"> <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-primary" ng-click="search()"> Tìm</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content new-document-item">
+                            <div class="row" style="width:100%">
+                                <div class="col-lg-12" style="padding-right:0px">
+                                    <div class="ibox">
+                                        <table class="data-table footable table toggle-arrow-tiny">
+                                            <thead>
+                                                <tr>
+                                                    <th class="center-col order-col">STT</th>
+                                                    <th>TÀI KHOẢN</th>
+                                                    <th>CÁN BỘ</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in listUsers">
+                                                    <td class="center-col">{{recordsPerPage*(currentPage-1)+$index+1}}</td>
+                                                    <td>{{item.userName}}</td>
+                                                    <td>{{item.fullName}}</td>
+                                                    <td>
+                                                        {{item.lockoutEnabled | lockUserFilter}}
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-group pull-right">
+                                                            <button class="btn btn-default btn-sm dropdown-toggle no-borders" data-toggle="dropdown"><i class="glyphicon glyphicon-option-vertical"></i></button>
+                                                            <ul class="dropdown-menu pull-right list-function" role="menu">
+                                                                <li ng-show="sysAdmin">
+                                                                    <a title="Phân quyền" href="javascript:void(0);" ng-click="setRolesForUser({userId:item.id})">
+                                                                        Phân quyền
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a title="Di chuyển" href="javascript:void(0);" ng-click="assignGroupForUser({user:item.id})">
+                                                                        Quản lý nhóm
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a title="Di chuyển" href="javascript:void(0);" ng-click="resetPassword(item.id)">
+                                                                        Đặt lại mật khẩu
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a title="Chỉnh sửa" href="javascript:void(0);" ng-click="addOrEditUser(item.id)">
+                                                                        Chỉnh sửa
+                                                                    </a>
+                                                                </li>
+                                                                <li ng-hide="item.lockoutEnabled">
+                                                                    <a title="Khóa" href="javascript:void(0);" ng-click="lockOrUnlockUser(item.id,item.lockoutEnabled )">
+                                                                        Ngừng hoạt động
+                                                                    </a>
+                                                                </li>
+                                                                <li ng-hide="!item.lockoutEnabled">
+                                                                    <a title="Mở khóa" href="javascript:void(0);" ng-click="lockOrUnlockUser(item.id,item.lockoutEnabled)">
+                                                                        Kích hoạt
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a title="Xóa" ng-click="deleteAspNetUser(item.id)">
+                                                                        Xóa
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="7" class="footable-visible">
+                                                        <span class="pagination pull-right"> <ul uib-pagination items-per-page="recordsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="getListUsers(currentPage)" class="pagination-sm" boundary-links="true" rotate="true" force-ellipses="true" first-text="<<" last-text=">>" next-text=">" previous-text="<"></ul></span>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+<script type="text/ng-template" id="assignGroupForUser.html">
+    <div id="assignGroupForUserModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">QUẢN LÝ NHÓM</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <table class="footable table table-stripped toggle-arrow-tiny">
+                                <tbody>
+                                    <tr ng-repeat="item in $ctr.listGropRole">
+                                        <td>{{item.name}}</td>
+                                        <td> <input type="checkbox" name="active" ng-model="item.hasRole"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.ok()">Lưu</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="resetPassword.html">
+    <div id="resetPasswordModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">ĐẶT LẠI MẬT KHẨU</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <form class="form-horizontal" novalidate name="frmStaff" role="form">
+                    <div class="col-sm-12 b-margin-15">
+                        <label>Mật khẩu</label>
+                        <input name="_newPassword" type="password" placeholder="Nhập mật khẩu mới" class="input-sm form-control" ng-minlength="6" maxlength="100" ng-model="$ctr.newPassword" required />
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span ng-show="!frmStaff._newPassword.$error.minlength" class="field-validation-error"> &nbsp; &nbsp; Mật khẩu ít nhất 6 kí tự</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 b-margin-0">
+                        <label>Nhập lại mật khẩu</label>
+                        <input name="_confirmPassword" type="password" placeholder="Nhập lại mật khẩu" class="input-sm form-control" maxlength="100" ng-model="$ctr.confirmPassword" compare-to="$ctr.newPassword" required />
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span ng-show="frmStaff._confirmPassword.$error.compareTo && !frmStaff._confirmPassword.$pristine" class="field-validation-error"> &nbsp; &nbsp; Mật khẩu không khớp</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.ok()" ng-disabled="frmStaff.$invalid">Lưu</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="setRolesForGroup.html">
+    <div id="setRolesForGroupModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">PHÂN QUYỀN</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row set-role">
+                <ul ng-repeat="item in $ctr.listRoles">
+                    <li ng-if="item.root>0">
+                        <input type="checkbox" ng-model="item.active" /> {{item.description}}
+                        <span ng-show="item.hasChild" class="fa-icon collapsed" data-toggle="collapse" data-target="#{{item.id}}"></span>
+                        <div id="{{item.id}}" class="collapse">
+                            <ul ng-repeat="child in $ctr.listRoles">
+                                <li ng-if="child.parentId==item.id && child.root==0" ng-click="check(child.description)">
+                                    <span ng-show="child.hasChild" class="fa-icon collapsed" data-toggle="collapse" data-target="#{{child.id}}"></span>
+                                    <input type="checkbox" ng-model="child.active" /> {{child.description}}
+                                    <div id="{{child.id}}" class="collapse">
+                                        <ul ng-repeat="childSub in $ctr.listRoles">
+                                            <li ng-if="childSub.parentId==child.id &&childSub.id!=child.id" ng-click="check(childSub.description)">
+                                                <input type="checkbox" ng-model="childSub.active" /> {{childSub.description}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.ok()">Lưu</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="setRolesForUser.html">
+    <div id="setRolesForUserModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">PHÂN QUYỀN</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row set-role">
+                <ul ng-repeat="item in $ctr.listRoles">
+                    <li ng-if="item.root>0">
+                        <input type="checkbox" ng-model="item.active" /> {{item.description}}
+                        <span ng-show="item.hasChild" class="fa-icon collapsed" data-toggle="collapse" data-target="#{{item.id}}"></span>
+                        <div id="{{item.id}}" class="collapse">
+                            <ul ng-repeat="child in $ctr.listRoles">
+                                <li ng-if="child.parentId==item.id && child.root==0" ng-click="check(child.description)">
+                                    <span ng-show="child.hasChild" class="fa-icon collapsed" data-toggle="collapse" data-target="#{{child.id}}"></span>
+                                    <input type="checkbox" ng-model="child.active" /> {{child.description}}
+                                    <div id="{{child.id}}" class="collapse">
+                                        <ul ng-repeat="childSub in $ctr.listRoles">
+                                            <li ng-if="childSub.parentId==child.id &&childSub.id!=child.id" ng-click="check(childSub.description)">
+                                                <input type="checkbox" ng-model="childSub.active" /> {{childSub.description}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-primary" ng-click="$ctr.ok()">Lưu</a>
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script src="../../../../assets/admin/js/plugins/jsTree/jstree.min.js"></script>
+<style type="text/css">
+    .scroller {
+        position: relative;
+        background: transparent;
+    }
+
+    .scroller-left {
+        height: 600px;
+    }
+
+    .scroller-right {
+        height: 600px;
+    }
+
+    .scrollbar-margin {
+        margin: 0px 5px;
+    }
+
+    .scroller > div {
+        padding-right: 0px;
+    }
+
+    #setRolesForGroupModal .modal-body, #setRolesForUserModal .modal-body {
+        height: 450px;
+        overflow-y: auto;
+    }
+
+    .ibox-content {
+        padding: 15px 10px 20px 20px !important;
+    }
+
+    .set-role ul {
+        list-style: none; /* Remove list bullets */
+        padding: 0;
+        margin: 0;
+    }
+
+    .set-role li {
+        padding-left: 20px;
+        line-height: 27px;
+    }
+
+    .fa-icon:after {
+        font-family: "Glyphicons Halflings";
+        content: "\e114";
+        float: right;
+        margin-left: 15px;
+    }
+    /* Icon when the collapsible content is hidden */
+    .fa-icon.collapsed:after {
+        content: "\e080";
+    }
+
+    .fa-icon.collapsed:only-child:after {
+        content: '';
+    }
+</style>

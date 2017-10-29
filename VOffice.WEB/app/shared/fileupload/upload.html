@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="../../../assets/admin/js/jquery-2.1.1.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#button1").click(function (evt) {
+                var files = $("#file1").get(0).files;
+                if (files.length > 0) {
+                    var data = new FormData();
+                    for (i = 0; i < files.length; i++) {
+                        data.append("VLA/2017/05-" + i, files[i]);
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "http://localhost:81/api/FileUpload/PostAsync",
+                        contentType: false,
+                        processData: false,
+                        data: data,
+                        success: function (response) {
+                            console.log(response);
+                        },
+                        error: function () {
+                            alert("Error while invoking the Web API");
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <form>
+        <span>Select file(s) to upload :</span>
+        <input id="file1" name="file1" type="file"/>
+        <input id="button1" type="button" value="Upload" />
+    </form>
+</body>
+</html>

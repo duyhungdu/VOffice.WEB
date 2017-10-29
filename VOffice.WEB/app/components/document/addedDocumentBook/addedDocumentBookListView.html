@@ -1,0 +1,99 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-6">
+        <h2>Danh sách văn bản chưa vào sổ</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>
+                    Văn bản chưa vào sổ
+                </strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-2 b-margin-5 ">
+                <div class="date">
+                    <input type="text" class="input-sm form-control" placeholder="dd/mm/yyyy" datepicker ng-model="startDate">
+                </div>
+            </div>
+            <div class="col-sm-2 b-margin-5">
+                <div class="date">
+                    <input type="text" class="input-sm form-control" placeholder="dd/mm/yyyy" datepicker ng-model="endDate">
+                </div>
+            </div>
+            <div class="col-sm-4 col-xs-12 b-margin-5 ">
+                <div class="input-group">
+                    <input type="text" placeholder="Tìm kiếm..." class="input-sm form-control" ng-model="keyword" ng-enter="search()"> <span class="input-group-btn">
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="search()"> Tìm</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content scroll-x-able">
+                    <table class="footable table table-stripped toggle-arrow-tiny data-table">
+                        <thead>
+                            <tr>
+                                <th class="center-col order-col">STT</th>
+                                <th class="center-col percent-10">SỐ VB</th>
+                                <th class="center-col">TRÍCH YẾU</th>
+                                <th class="center-col auto-display percent-29">NƠI GỬI</th>
+                                <th class="center-col auto-display" style="width:120px;">NGÀY GỬI</th>
+                                <th class="center-col" style="width:20px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in listItems">
+                                <td class="center-col">{{recordsPerPage*(currentPage-1)+$index+1}}</td>
+                                <td>{{item.documentNumber}}</td>
+                                <td>{{item.title}}</td>
+                                <td class="auto-display">{{item.externalFromDivision}}</td>
+                                <td class="auto-display">{{item.createdOn|date :'dd/MM/yyyy | hh:mm'}}</td>
+                                <td>
+                                    <div class="btn-group pull-right" has-permission="addocumenttobook">
+                                        <button has-permission="addocumenttobook" class="btn btn-default btn-sm dropdown-toggle no-borders" data-toggle="dropdown"><i class="glyphicon glyphicon-option-vertical"></i></button>
+                                        <ul class="dropdown-menu pull-right list-function" role="menu">
+                                            <li has-permission="addocumenttobook">
+                                                <a title="Vào sổ văn bản" ui-sref="addedDocumentBookAdd({id:item.id, currentPage:currentPage, keyword: keyword})" href="javascript;">
+                                                    Vào sổ văn bản
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" class="footable-visible">
+                                    <span class="pagination pull-right"> <ul uib-pagination items-per-page="recordsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="getListDocument(currentPage)" class="pagination-sm" boundary-links="true" rotate="true" force-ellipses="true" first-text="<<" last-text=">>" next-text=">" previous-text="<"></ul></span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //$(document).ready(function () {
+    //    $('.input-group.date').datepicker({
+    //        todayBtn: "linked",
+    //        keyboardNavigation: false,
+    //        forceParse: false,
+    //        calendarWeeks: true,
+    //        autoclose: true,
+    //        format: 'dd/mm/yyyy'
+    //    });
+    //});
+</script>

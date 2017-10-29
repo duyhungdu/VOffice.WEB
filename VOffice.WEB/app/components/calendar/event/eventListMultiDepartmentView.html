@@ -1,0 +1,300 @@
+﻿
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>Lịch tổng hợp</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>Lịch tổng hợp</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-5 b-margin-5">
+                <div class="btn-group">
+                     
+                </div>
+              
+                <div class="btn-group">
+                    <button id="single-button" type="button" class="btn btn-white dropdown-toggle btn-sm" ng-click="back()">
+                        <i class="fa fa-angle-double-left"></i>
+                    </button>
+                    <button id="single-button" type="button" class="btn btn-white dropdown-toggle btn-sm" ng-click="backHome()">
+                        Tuần hiện tại
+                    </button>
+                    <button id="single-button" type="button" class="btn btn-white dropdown-toggle btn-sm" ng-click="next()">
+                        <i class="fa fa-angle-double-right"></i>
+                    </button>
+                </div>
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <div class="btn-group">
+                   
+                </div>
+            </div>
+
+            <div class="col-sm-1 b-margin-5">
+
+            </div>
+            <div class="col-sm-6 b-margin-5">
+                <!--<angucomplete-alt id="txtDepartment"
+                                  input-name="_mettingRoom"
+                                  maxlength="50"
+                                  pause="100"
+                                  selected-object="selectedDeparmentChanged"
+                                  local-data="allDepartments"
+                                  search-fields="name"
+                                  title-field="name"
+                                  minlength="1"
+                                  initial-value="initialDepartment"
+                                  match-class="highlight"
+                                  input-class="form-control form-control-small input-sm" />-->                
+                <tags-input placeholder="Chọn đơn vị" ng-model="departmentSelected"
+                            name="_documentField"
+                            display-property="shortName" replace-spaces-with-dashes="false"    
+                            on-tag-added="forceOneTag($tag)"                                                  
+                            on-tag-removed="forceOneTag($tag)"                                                  
+                            key-property="id" required>
+                    <auto-complete source="loadDepartment($query)"
+                                   min-length="0"
+                                   display-property="name"
+                                   highlight-matched-text="true"
+                                   debounce-delay="0"
+                                   max-results-to-show="10"></auto-complete>
+                </tags-input>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <!--scroll-x-able-->
+                <div class="ibox-content scroll-x-able">
+                    <table style="width:100%; " cellpadding="0" cellspacing="1" border="0" class="event-table-calendar event-leader-calendar-table">
+                        <tr>
+                            <td colspan="3" style="text-align:center; font-weight:bold">{{events[0].week}}</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:center; width:15%; font-weight:bold; color:#5A5952; background-color:#f4f6fa">Công tác trọng tâm</td>
+                            <td colspan="2" style="text-align:left">
+                                <ng-bind-html ng-bind-html="events[0].importantJobString"></ng-bind-html>
+                                 
+                            </td>
+                        </tr>
+                        <tr style="background-color: #f4f6fa; color: #350000; font-weight: bold; text-align: center">
+                            <td style="text-align:center">Ngày tháng</td>
+                            <td style="text-align:center; width:42%;">Sáng</td>
+                            <td style="text-align:center; width:auto">Chiều</td>
+                        </tr>
+                        <tr ng-repeat="event in events">
+                            <td style="text-align:center" ng-class="{'title-red': event.red}" class="event-table-calendar-col1"> <ng-bind-html ng-bind-html="event.title"></ng-bind-html></td>
+                            <td style="text-align:left">
+                                <span class="fontweight-normal" ng-repeat="child in event.contentMornings">
+                                    <span class="fontweight-normal" ng-show="child.showEventNotAccept" ng-class="{'event-important': child.important, 'event-canceled':child.canceled, 'event-edited': child.blue }">
+                                        <span ng-show=child.accepted>
+                                            <span ng-show="child.canceled">[Hoãn] </span><span style="font-weight:bold">{{child.title}}</span>
+                                            <span>{{child.content}}</span>
+                                            <br ng-if="child.participant" /><span style="font-weight:bold" ng-if="child.participant">TP: </span> <span>{{child.participant}}</span>
+                                            <br ng-if="child.place" />
+                                            <span style="font-weight:bold" ng-if="child.place">Địa điểm: </span><span>{{child.place}}</span> &nbsp;<b>({{child.shortDepartment}})</b>
+                                        </span>
+                                    </span>                                     
+                                    <br />
+                                </span>
+                            </td>
+                            <td style="text-align:left">
+                                <span ng-repeat="child in event.contentAfternoons">
+                                    <span ng-show="child.showEventNotAccept" ng-class="{'event-important': child.important, 'event-canceled':child.canceled, 'event-edited': child.blue}">
+                                        <span ng-show=child.accepted>
+                                            <span ng-show="child.canceled">[Hoãn] </span><span style="font-weight:bold">{{child.title}}</span>
+                                            <span>{{child.content}}</span>
+                                            <br ng-if="child.participant" /><span style="font-weight:bold" ng-if="child.participant">TP: </span><span>{{child.participant}}</span>
+                                            <br ng-if="child.place" />
+                                            <span style="font-weight:bold" ng-if="child.place">Địa điểm: </span><span>{{child.place}}</span> &nbsp;<b>({{child.shortDepartment}})</b>
+                                        </span>
+                                    </span>                                     
+                                    <br />
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:center" class="event-table-calendar-col1">Ghi chú</td>
+                            <td style="text-align:left" colspan="2">
+                                <ng-bind-html ng-bind-html="events[0].noteJobString"></ng-bind-html>
+                                 
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="viewDetailEvent.html">
+    <div id="viewDetailEventModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">CHI TIẾT SỰ KIỆN</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body" ng-init="$ctr.handleClientLoad()" style="padding-bottom:15px;">
+            <div class="row">
+                <div class="col-lg-12 contact-detail">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <a href="javascript:void(0);" class="size-time-event"><i class="fa fa-calendar home-desk-title-icon"></i>{{$ctr.title}}</a>
+                        </div>
+                    </div>
+                    <div class="hr-line-solid"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <span ng-show="$ctr.event.showEventNotAccept" ng-class="{'event-important': $ctr.event.important, 'event-canceled':$ctr.event.canceled, 'event-edited': $ctr.event.blue}">
+                                <span ng-class="{'event-not-accepted': !$ctr.event.accepted}">
+                                    <span ng-show="$ctr.event.canceled">[Hoãn] </span>   <b> {{$ctr.event.startTime|date:'HH'}}h{{$ctr.event.startTime|date:'mm'}}: </b>{{$ctr.event.content}}
+                                 </span>
+                                </span>
+                        </div>
+                    </div>
+                    <div class="hr-line-solid"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <b>TP: </b>{{$ctr.event.participant}}
+                        </div>
+                    </div>
+                    <div class="hr-line-solid"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <b> Địa điểm: </b>{{$ctr.event.place}}
+                        </div>
+                    </div>
+                    <div class="hr-line-solid"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            Thông báo trước:<span ng-if="$ctr.event.notificationTimeSpan"> <b>{{$ctr.event.notificationTimeSpan}} </b>phút</span> <span ng-if="$ctr.staffNotify">, tới {{$ctr.staffNotify}}</span>
+                        </div>
+
+                        <div class="col-sm-12 b-margin-5">
+                            <span class="card-small-text" id="login-google-notice">Bạn cần đăng nhập tài khoản <span style="color:#4285f4;">G</span><span style="color:#ea4335;">o</span><span style="color:#fbbc05">o</span><span style="color:#4285f4;">g</span><span style="color:#34a853">l</span><span style="color:#ea4335;">e</span> để thiết lập thông báo sự kiện. Click để </span><a class="card-small-text" id="authorize-button" style="display:none;">&nbsp;đăng nhập tài khoản <span style="color:#4285f4;">G</span><span style="color:#ea4335;">o</span><span style="color:#fbbc05">o</span><span style="color:#4285f4;">g</span><span style="color:#34a853">l</span><span style="color:#ea4335;">e</span></a><a class="card-small-text" style="display:none;" id="signout-button"><i class="fa fa-sign-out"></i> Đăng xuất tài khoản <span style="color:#4285f4;">G</span><span style="color:#ea4335;">o</span><span style="color:#fbbc05">o</span><span style="color:#4285f4;">g</span><span style="color:#34a853">l</span><span style="color:#ea4335;">e</span></a>
+                        </div>
+                    </div>
+                    <div class="hr-line-solid"></div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            Tình trạng: <label ng-disabled="$ctr.showSave" id="id_accepted" class="fontweight-normal"><input ng-disabled="!$ctr.showSave" type="checkbox" ng-model="$ctr.accepted" name="statusAccept" /> Duyệt </label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label ng-disabled="$ctr.showSave" id="id_canceled" class="fontweight-normal"><input ng-disabled="!$ctr.showSave" type="checkbox" ng-model="$ctr.canceled" name="statusCancel" /> Hoãn </label>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-solid"></div>
+                    <div class="form-group">
+                        <span ng-show="!$ctr.event.accepted" class="pull-right">
+                            <span>{{$ctr.event.fullName}} ({{$ctr.event.createdOn | date:'dd/MM/yyyy'}}) </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-sm btn-primary" ng-click="$ctr.save() " ng-show="$ctr.showSave">Lưu</a>
+        <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+    </div>
+</script>
+
+<script type="text/ng-template" id="addOrEditImportantJob.html">
+    <div id="addOrEditImportantJobModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">{{$ctr.titleModal}}</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row" id="form-importantjob">
+
+                <div class="form-group">
+                    <div class="col-sm-2">Thời gian </div>
+                    <div class="col-sm-10">
+                        <label class="fontweight-normal"><input type="radio" ng-model="$ctr.selectTime" value="currentWeek" ng-change="$ctr.changedSelectedTime()" />Tuần hiện tại </label>
+                        <label class="fontweight-normal"><input type="radio" ng-model="$ctr.selectTime" value="nextWeek" ng-change="$ctr.changedSelectedTime()" />Tuần sau </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2">Từ ngày </div>
+                    <div class="col-sm-10"> {{$ctr.startDate | date:'dd/MM/yyyy'}} đến {{$ctr.endDate | date:'dd/MM/yyyy'}}</div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2">Nội dung</div>
+                    <div class="col-sm-10">
+                        <textarea id="id_content" class="form-control" rows="8" style="width:100%;white-space: pre-line;" ng-model="$ctr.jobs.content"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-sm btn-primary" ng-click="$ctr.save()">Lưu</a>
+        <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+    </div>
+</script>
+<style type="text/css">
+    .user-edit {
+        display: inline-block !important;
+    }
+
+    tags-input .autocomplete{width:100%;}
+
+    .scroller {
+        position: relative;
+        height: 125px !important;
+        background: transparent;
+    }
+
+        .scroller > div {
+            padding-right: 0px;
+        }
+
+    .birthday-list tr td {
+        border: medium none !important;
+    }
+
+    .size-time-event {
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .color-notify {
+        color: darkgrey !important;
+    }
+
+    .angucomplete-dropdown {
+        width: 100%;
+    }
+
+    .title-red {
+        color: red;
+    }
+
+    .event-not-accepted {
+        text-decoration: line-through;
+    }
+
+    .card-small-text {
+        padding-top: 5px;
+        font-style: italic;
+    }
+</style>

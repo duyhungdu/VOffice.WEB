@@ -1,0 +1,180 @@
+﻿<style type="text/css">
+    .ibox { margin-bottom: 0px !important; }
+</style>
+<form class="form-horizontal" novalidate name="frmStaffProfile" role="form" ng-submit="updateProfile()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-4">
+            <h2>Thông tin cá nhân</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/">Trang chủ</a>
+                </li>
+                <li class="active">
+                    <strong>
+                        Thông tin cá nhân
+                    </strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+        <div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="form-box-header">
+                    <div class="pull-left form-actions">
+                        <p class="required-notic">(Những trường <span class="label-required">*</span> là bắt buộc nhập)</p>
+                    </div>
+                    <div class="pull-right form-actions">
+                        <button class="btn btn-sm btn-primary" type="submit" ng-disabled="frmStaffProfile.$invalid && checked">Cập nhật</button>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="col-sm-12" style="text-align:center;">
+
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <div class="product-imitation big-avatar-frame" style="padding:24px 0;">
+                                                    <img class="big-avatar" id="avatar" style="width:80%;" src="{{baseUrl}}{{userInfo.avatar}}" />
+                                                </div>
+                                                <div class="product-desc">
+                                                    <a href="javascript:void(0);" class="product-name"> {{userInfo.fullName}}</a>
+                                                    <div class="m-t-xs">
+                                                        {{userInfo.position}}
+                                                    </div>
+                                                    <div class="m-t-xs">
+                                                        {{userInfo.departmentName}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <label>Hình đại diện </label>
+                                        <input type="file" id="fileAvatar" onchange="angular.element(this).scope().selectedFileAvata(this)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="form-group b-margin-0">
+                                    <label class="col-sm-3 control-label">Họ tên <span class="label-required">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="txtFullName" name="_fullName" class="form-control input-sm" maxlength="50" ng-model="userInfo.fullName" required>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9">
+                                        <span ng-show="frmStaffProfile._fullName.$invalid && !frmStaffProfile._fullName.$pristine" class="field-validation-error">Họ tên không để trống</span>
+                                    </div>
+                                </div>
+                                <div class="form-group b-margin-0">
+                                    <label class="col-sm-3 control-label">Email <span class="label-required">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="email" disabled class="form-control input-sm" name="_email" maxlength="256" ng-model="userInfo.email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9">
+                                        <span ng-show="frmStaffProfile._email.$error.required && !frmStaffProfile._email.$pristine" class="field-validation-error">Email không để trống</span>
+                                        <span ng-show="frmStaffProfile._email.$error.email && !frmStaffProfile._email.$pristine" class="field-validation-error">Email không đúng định dạng</span>
+                                    </div>
+                                </div>
+                                <div class="form-group b-margin-0">
+                                    <label class="col-sm-3 control-label">Số điện thoại <span class="label-required">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="_numberPhone" class="form-control input-sm" maxlength="50" ng-model="userInfo.phoneNumber" required />
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9">
+                                        <span ng-show="frmStaffProfile._numberPhone.$invalid && !frmStaffProfile._numberPhone.$pristine" class="field-validation-error">Số điện thoại không để trống</span>
+                                    </div>
+                                </div>
+                                <div class="form-group b-margin-0">
+                                    <label class="col-sm-3 control-label">Ngày sinh <span class="label-required">*</span></label>
+                                    <div class="col-sm-3">
+                                        <input type="text" name="_dateOfbirth" class="form-control input-sm" maxlength="10" datepicker ng-model="dateOfBirthString" required />
+                                    </div>
+
+                                    <label class="col-sm-2 control-label">Giới tính <span class="label-required">*</span></label>
+                                    <div class="col-sm-4">
+                                        <select class="input-sm form-control" name="_selectGender" ng-model="selectedGender" ng-options="x as x.name for x in listGender track by x.id" required></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-3"><span ng-show="frmStaffProfile._dateOfbirth.$invalid && !frmStaffProfile._dateOfbirth.$pristine" class="field-validation-error">Ngày sinh không để trống</span></div>
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-4"> <span ng-show="frmStaffProfile._selectGender.$invalid && !frmStaffProfile._selectGender.$pristine" class="field-validation-error">Giới tính không để trống</span></div>
+                                </div>
+                                <div class="form-group b-margin-0">
+                                    <label class="col-sm-3 control-label">Địa chỉ <span class="label-required">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="_address" class="form-control input-sm" maxlength="500" ng-model="userInfo.address" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9">
+                                        <span ng-show="frmStaffProfile._address.$invalid && !frmStaffProfile._address.$pristine" class="field-validation-error">Địa chỉ không để trống</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Đổi mật khẩu </label>
+                                    <div class="col-sm-9">
+                                        <input type="checkbox" ng-model="checked" ng-init="checked = false" />
+                                    </div>
+                                </div>
+                                <div class="form-group b-margin-0">
+                                    <label class="col-sm-3 control-label">Mật khẩu cũ <span class="label-required">*</span></label>
+                                    <div class="col-sm-3">
+                                        <input type="password" name="_oldPassword" ng-disabled="!checked" class="form-control input-sm" maxlength="256" ng-model="oldPassword" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-3">
+                                        <span ng-show="frmStaffProfile._oldPassword.$error.required && !frmStaffProfile._oldPassword.$pristine && checked" class="field-validation-error">Mật khẩu cũ không để trống</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Mật khẩu mới <span class="label-required">*</span></label>
+                                    <div class="col-sm-3">
+                                        <input type="password" name="_newPassword" ng-disabled="!checked" class="form-control input-sm" maxlength="256" ng-model="newPassword" required />
+                                    </div>
+                                </div>
+                                <div class="form-group b-margin-0">
+                                    <label class="col-sm-3 control-label">Nhập lại mật khẩu <span class="label-required">*</span></label>
+                                    <div class="col-sm-3">
+                                        <input type="password" name="_confirmPassword" ng-disabled="!checked" class="form-control input-sm" maxlength="256" ng-model="confirmPassword" required compare-to="newPassword" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-3">
+                                        <span ng-show="frmStaffProfile._confirmPassword.$error.compareTo && !frmStaffProfile._confirmPassword.$pristine && checked" class="field-validation-error">Mật khẩu mới không khớp</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body text-right tooltip-demo form-actions">
+                        <button class="btn btn-sm btn-primary" type="submit" ng-disabled="frmStaffProfile.$invalid && checked">Cập nhật</button>
+                        <!--<button class="btn btn-sm btn-white" ui-sref="documentField">Hủy bỏ</button>-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,114 @@
+﻿
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>Tình hình gửi nhận văn bản</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>Tình hình gửi nhận văn bản</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-4 b-margin-5">
+                <div class="input-group">
+                    <button type="button" class="btn btn-sm btn-primary" ng-click="openModalDepartment()">Chọn điều kiện tìm kiếm</button>
+                    &nbsp; <button class="btn btn-sm btn-white" ng-show="downloaded" ng-click="downloadTotalDocument()"><i class="fa fa-download"></i> Tải báo cáo</button>
+                </div>
+            </div>
+        </div>
+        <!--<div class="row">
+            <button ng-click="downloadTotalDocument()">Tải file</button>
+        </div>-->
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <!--scroll-x-able-->
+                <div class="ibox-content scroll-x-able">
+                    <table class="footable table table-stripped toggle-arrow-tiny data-table">
+                        <thead>
+                            <tr>
+                                <th class="center-col order-col">STT</th>
+                                <th class="center-col ">ĐƠN VỊ</th>
+                                <th class="center-col ">TỔNG SỐ VB ĐI</th>
+                                <th class="center-col">TỔNG SỐ VB ĐẾN</th>
+                                <th class="center-col ">ĐÃ VÀO SỔ</th>
+                                <th class="center-col ">CHƯA VÀO SỔ</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in listItem">
+                                <td> {{recordsPerPage*(currentPage-1)+$index+1}}</a></td>
+                                <td> {{item.name}} </td>
+                                <td align="center"> {{item.totalDocumentDelivered}} </td>
+                                <td align="center"> {{item.totalDocumentReceived}} </td>
+                                <td align="center"> {{item.addedDocumentBook}} </td>
+                                <td align="center"> {{item.notAddedDocumentBook}} </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7" class="footable-visible">
+                                    <span class="pagination pull-right"> <ul uib-pagination items-per-page="recordsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="showlistResult(currentPage)" class="pagination-sm" boundary-links="true" rotate="true" force-ellipses="true" first-text="<<" last-text=">>" next-text=">" previous-text="<"></ul></span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="modalDepartment.html">
+    <div id="systemModal" class="big-modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-title">CHỌN ĐƠN VỊ</h4>
+        </div>
+        <div class="modal-body" id="modal-body" style="height: 450px; overflow-y: auto;">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>Từ ngày</label>
+                        <input type="text" datepicker required placeholder="dd/mm/yyyy" class="input-sm form-control" id="txtFromDate" ng-model="$ctrl.startDate" />
+                </div>
+                <div class="col-sm-4">
+                    <label>Đến ngày</label>
+                        <input type="text" datepicker required placeholder="dd/mm/yyyy" class="input-sm form-control "  id="txtToDate" ng-model="$ctrl.endDate" />
+                </div>
+            </div>
+            <div class="hr-line-solid"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table id="tblLoadDonVi" style="width: 100%; height: 300px;">
+                        <tbody>
+                            <tr>
+                                <td class="body-department-panel" id="clListDepartment">
+                                    <div id="treeViewDiv">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-primary" ng-click="$ctrl.ok()">Chọn</button>
+            <button type="button" class="btn btn-sm btn-warning" ng-click="$ctrl.cancel()">Đóng</button>
+        </div>
+    </div>
+</script>
+
+
+<script src="../../../../assets/admin/js/jquery-2.1.1.js"></script>
+<!--Datapicker-->
+<script src="../../../../assets/admin/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<!-- Date range picker -->
+<script src="../../../../assets/admin/js/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="../../../../assets/admin/js/plugins/jsTree/jstree.min.js"></script>

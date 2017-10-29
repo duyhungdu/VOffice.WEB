@@ -1,0 +1,144 @@
+﻿
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>Lịch lãnh đạo</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="active">
+                <strong>Lịch lãnh đạo</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight ecommerce">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-4 b-margin-5">
+                <div class="btn-group">
+                    <button id="single-button" type="button" class="btn btn-white dropdown-toggle btn-sm" ng-click="back()">
+                        <i class="fa fa-angle-double-left"></i>
+                    </button>
+                    <button id="single-button" type="button" class="btn btn-white dropdown-toggle btn-sm" ng-click="backHome()">
+                        Tuần hiện tại
+                    </button>
+                    <button id="single-button" type="button" class="btn btn-white dropdown-toggle btn-sm" ng-click="next()">
+                        <i class="fa fa-angle-double-right"></i>
+                    </button>
+                </div>
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <button id="single-button" type="button" class="btn btn-white dropdown-toggle btn-sm" ng-click="getEventDocFile()">
+                    <i class="fa fa-download"></i>  Tải lịch
+                </button>
+            </div>
+          
+            <div class="col-sm-2 b-margin-5">
+            </div>
+            <div class="col-sm-6 b-margin-5">
+                 
+                <tags-input placeholder="Chọn đơn vị" ng-model="departmentSelected"
+                            name="_documentField"
+                            display-property="name" replace-spaces-with-dashes="false"
+                            on-tag-added="forceOneTag($tag)"
+                            key-property="id" required>
+                    <auto-complete source="loadDepartment($query)"
+                                   min-length="0"
+                                   debounce-delay="0"
+                                   max-results-to-show="10"></auto-complete>
+                </tags-input>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <!--scroll-x-able-->
+
+                <div class="ibox-content scroll-x-able">
+                    <div>
+                        <table class="event-leader-calendar-day" style="width:100%; ">
+                            <tr>
+                                <td rowspan="3" style="width:10%;">
+                                    <table class="table-current-week-block">
+                                        <tr>
+                                            <td style="background-color:#f4f6fa">
+                                                Tuần {{currentWeek}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                {{currentYear}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="font-weight:bold; font-size:14px;padding-bottom:5px;  padding-top:25px;"> LỊCH CÔNG TÁC TUẦN THỨ {{currentWeek}}</td>
+                                <td style="width:10%;"></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-bottom:25px; font-size:12px;">Áp dụng từ {{fromDate | date:'dd/MM/yyyy'}} đến {{toDate | date:'dd/MM/yyyy'}}</td>
+                                <td style="width:10%;"></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold; font-size:12px;padding-bottom:10px;">{{initialDepartment}}</td>
+                                <td style="width:10%;"></td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+                    <div ng-repeat="event in events" class="event-leader-calendar-day">
+                        <span class="event-leader-calendar-title-day">
+                            <i class="fa fa-briefcase home-desk-title-icon"></i>&nbsp; {{event.title}}
+                        </span>
+                        <div style="padding-top:5px;">
+                            <table class="event-leader-calendar-table">
+                                <tr ng-repeat="lead in event.eventLeaders">
+                                    <td>
+                                        <table class="event-table-calendar">
+                                            <tr>
+                                                <td style="width:20%;background:#f4f6fa;" rowspan="2">{{lead.position}}<br /> <span class="event-leader-name">{{lead.leaderFullName}} </span></td>
+                                                <td style="width:10%; ">Sáng</td>
+                                                <td class="event-leader-calendar-table-content">
+                                                    <span ng-repeat="child in lead.contentMornings">
+                                                        <span class="event-leader-name">{{child.title}}</span> 
+                                                        <span>{{child.content}}</span> 
+                                                        <br />
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:10%;">Chiều</td>
+                                                <td class="event-leader-calendar-table-content">
+                                                    <span ng-repeat="child in lead.contentAfternoons">
+                                                        <span class="event-leader-name">{{child.title}}</span> 
+                                                        <span>{{child.content}}</span>  
+                                                        <br />
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .angucomplete-dropdown { width: 100%; }
+    tags-input .autocomplete{width:100%;}
+</style>
+
+
+
+
+

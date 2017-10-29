@@ -1,0 +1,351 @@
+﻿<div class="form-horizontal">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-12">
+            <h2>Thông tin văn bản</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/">Trang chủ </a>
+                </li>
+                <li class="active">
+                    <strong>Thông tin văn bản</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+        <div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="form-box-header">
+                    <div class="form-actions list-task-actions">
+                        <div class="btn-group">
+                            <button has-permission="assigndocument" class="btn btn-sm btn-white b-margin-5" ng-click="assignDocument()"><i class="fa fa-upload"></i>&nbsp; Giao xử lý</button>
+                            <button has-permission="forwarddocument" class="btn btn-sm btn-white b-margin-5" ng-click="forwardDocument()"><i class="fa fa-share"></i>&nbsp;Chuyển tiếp</button>
+                            <button class="btn btn-sm btn-white b-margin-5" ng-show="checkHistory" ng-click="historyAddedBookDocument()"><i class="fa fa-chain"></i>&nbsp;Tình trạng vào sổ</button>
+                            <button class="btn btn-sm btn-white b-margin-5" ng-click="BindList()">Quay lại</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <div class="col-sm-12 alert alert-info">
+                                        <b>
+                                            <a class="doc-detail-info" target="_blank" href="{{baseUrl}}{{documentInfo.attachmentPath}}">  {{documentInfo.documentNumber}}<span ng-hide="checkNumber()"> - </span>  {{documentInfo.title}} ({{documentInfo.documentDate|date:'dd/MM/yyyy'}})</a>
+                                        </b>
+                                        <br /><br />
+                                        <p><b>Nơi nhận:</b> {{documentInfo.recipientsDivision}}</p>
+                                        <br />
+                                        <p><a href="javascript:void(0);" ng-click="historyDocument()"><small class="text-muted ng-binding"><i class="text-muted glyphicon glyphicon-ok"></i> {{countReadDoc}} </small></a></p>
+                                    </div>
+                                </div>
+                                <div class="form-group normal-text">
+                                    <div class="col-sm-12">
+                                        <b><i class="fa fa-outdent header-icon-detail-item"></i>&nbsp;&nbsp;THÔNG TIN CHI TIẾT</b>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-3" ng-hide="deliveredDocument()">
+                                        Ngày đến: {{documentInfo.receivedDate|date:'dd/MM/yyyy'}}
+                                    </div>
+                                    <div class="col-sm-9">
+                                        Người kí:&nbsp;&nbsp;&nbsp;&nbsp;{{documentInfo.signedBy}}
+                                    </div>
+                                </div>
+                                <div class="hr-line-solid"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        Nơi gửi:
+                                    </div>
+                                    <div class="col-sm-9">
+                                        {{documentInfo.externalFromDivision}}
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-solid"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        Lĩnh vực:
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div ng-repeat="item in documentField">{{item.title}}</div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-solid"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        Loại:
+                                    </div>
+                                    <div class="col-sm-9">
+                                        {{documentInfo.docType}}
+                                    </div>
+                                </div>
+                                <div class="hr-line-solid"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        Độ mật: {{documentInfo.secretLevelText}}
+                                    </div>
+                                    <div class="col-sm-3">
+                                        Độ khẩn: {{documentInfo.urgencyLevelText}}
+                                    </div>
+                                    <div class="col-sm-3">
+                                        Số bản: {{documentInfo.numberOfCopies}}
+                                    </div>
+                                    <div class="col-sm-3">
+                                        Số trang: {{documentInfo.numberOfPages}}
+                                    </div>
+                                </div>
+                                <div class="hr-line-solid"></div>
+                                <div class="form-group" ng-show="{{documentInfo.legalDocument}}">
+                                    <div class="col-sm-12">
+                                        Văn bản quy phạm pháp luật
+                                    </div>
+                                </div>
+                                <div class="hr-line-solid" ng-show="{{documentInfo.legalDocument}}"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        Nơi lưu:
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <ng-bind-html ng-bind-html="documentInfo.originalSavingPlace"> </ng-bind-html>
+                                    </div>
+                                </div>
+                                <div class="hr-line-solid"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        Ghi chú:
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <ng-bind-html ng-bind-html="documentInfo.note"> </ng-bind-html>
+                                    </div>
+                                </div>
+                                <div class="hr-line-solid"></div>
+                                <div class="ibox float-e-margins" ng-hide="countTask()">
+                                    <div class="ibox-title">
+                                        <b><i class="fa fa-file-text header-icon-detail-item"></i>&nbsp;&nbsp;CÔNG VIỆC LIÊN QUAN</b>
+                                    </div>
+                                    <div class="ibox-content" style="background:#f4f6fa;">
+                                        <div class="form-group">
+                                            <table class="footable table table-stripped toggle-arrow-tiny data-table">
+                                                <tbody>
+                                                    <tr ng-repeat="item in task">
+                                                        <td class="center-col order-col" style="width:20px"><a href="javascript:void(0);" target="_blank">{{$index+1}}</a></td>
+                                                        <td class="center-col"><a href="javascript:void(0);" ng-click="taskDocument(item.id)" target="_blank">{{item.code}}</a></td>
+                                                        <td class="percent-50"><a href="javascript:void(0);" ng-click="taskDocument(item.id)" target="_blank">{{item.title}}</a></td>
+                                                        <td><a href="javascript:void(0);" ng-click="taskDocument(item.id)" target="_blank">{{item.fullName}}</a></td>
+                                                        <td class="center-col"><a href="javascript:void(0);" ng-click="taskDocument(item.id)" target="_blank">{{item.status}}</a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group normal-text">
+                                    <div class="col-sm-12">
+                                        <b><i class="fa fa-user-md header-icon-detail-item"></i>&nbsp;&nbsp;CẬP NHẬT</b>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Ngày tạo:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{documentInfo.createdOn | date:'dd/MM/yyyy hh:mm:ss'}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Người tạo:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{documentInfo.fullName|statusNullFilter}}
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        Ngày vào sổ:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{documentInfo.documentBookAddedOn || 'Chưa xác định' | date:'dd/MM/yyyy'}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4" style="padding-right:10px;">
+                                        Người vào sổ:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        {{documentInfo.documentBookAdded|statusNullFilter}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body form-actions list-task-actions">
+                        <div class="btn-group">
+                            <button has-permission="assigndocument" class="btn btn-sm btn-white b-margin-5" ng-click="assignDocument()"><i class="fa fa-upload"></i>&nbsp; Giao xử lý</button>
+                            <button has-permission="forwarddocument" class="btn btn-sm btn-white b-margin-5" ng-click="forwardDocument()"><i class="fa fa-share"></i>&nbsp;Chuyển tiếp</button>
+                            <button class="btn btn-sm btn-white b-margin-5" ng-show="checkHistory"  ng-click="historyAddedBookDocument()"><i class="fa fa-chain"></i>&nbsp;Tình trạng vào sổ</button>
+                            <button class="btn btn-sm btn-white b-margin-5" ng-click="BindList()">Quay lại</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="historyDocument.html">
+    <div id="historyModal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">LỊCH SỬ ĐỌC VĂN BẢN</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row">
+                <uib-tabset active="active" class="home-desk-list-task-min-heght">
+                    <uib-tab index="0">
+                        <uib-tab-heading style="color:#0784cb!important;">
+                            <i class="glyphicon glyphicon-ok"></i> Đã đọc
+                        </uib-tab-heading>
+                        <table class="footable table table-stripped toggle-arrow-tiny">
+                            <tbody>
+                                <tr ng-repeat="item in  $ctr.listItems">
+                                    <td ng-if="item.state" class="ng-binding  no-top-border">
+                                        <div class="b-margin-0">
+                                            <img class="chat-avatar img-circle" src="{{baseUrl}}{{item.avatar ||  'Uploads/Avatar/no-avatar.jpg'}}"><span>
+                                                {{item.fullName}}
+                                            </span>
+                                            <p> <small class="text-muted ng-binding"><i class="glyphicon glyphicon-time"></i> {{item.attempOn|date:'dd/MM/yyyy | hh:mm'}}</small></p>
+                                        </div>
+                                    </td>
+                                    <td ng-if="item.state" class="auto-display no-top-border" style="width:450px; vertical-align:top">
+                                        {{item.position}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </uib-tab>
+                    <uib-tab index="1">
+                        <uib-tab-heading style="color:#888!important;">
+                            Chưa đọc
+                        </uib-tab-heading>
+                        <table class="footable table table-stripped toggle-arrow-tiny">
+                            <tbody>
+                                <tr ng-repeat="item in  $ctr.listItems">
+                                    <td ng-if="!item.state" class="ng-binding  no-top-border">
+                                        <div ng-if="!item.state" class="b-margin-0">
+                                            <img class="chat-avatar img-circle" src="{{baseUrl}}{{item.avatar ||  'Uploads/Avatar/no-avatar.jpg'}}"><span>
+                                                {{item.fullName}}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td ng-if="!item.state" class="auto-display no-top-border" style="width:450px;vertical-align:top">{{item.position}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="historyAddedBookDocument.html">
+    <div id="historyAddedBookModal" class="big-modal">
+        <div class="modal-header">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"></button>
+            <h4 class="modal-title" id="modal-title">
+                <span style="">TÌNH TRẠNG VÀO SỔ</span>
+            </h4>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="row b-margin-15">
+                <div class="col-sm-12">
+                    <input type="text" class="input-sm form-control" ng-model="$ctr.titleDoc" disabled />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <table class="footable table table-stripped toggle-arrow-tiny">
+                                <thead>
+                                    <tr>
+                                        <th width="30px;" class="center-col order-col">STT</th>
+                                        <th class="percent-50">ĐƠN VỊ</th>
+                                        <th class="center-col"></th>
+                                        <th width="150px;" class="center-col">NGÀY VÀO SỔ</th>
+                                        <th class="auto-display">NGƯỜI VÀO SỔ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in $ctr.listAddedBook">
+                                        <td class="center-col">{{$index+1}}</td>
+                                        <td class="percent-50">{{item.departmentName}}</td>
+                                        <td class="center-col">
+                                            <i class="fa fa-{{item.addedDocumentBook|addedBookFilter}}"></i>
+                                        </td>
+                                        <td style="width:150px" class="center-col">{{item.documentBookAddedOn ||''|date:'dd/MM/yyyy | hh:mm'}}</td>
+                                        <td>{{item.fullName}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-sm btn-warning" ng-click="$ctr.cancel()">Đóng</a>
+        </div>
+    </div>
+</script>
+<style type="text/css">
+    @media(min-width: 768px) {
+        .modal-dialog {
+            width: 750px;
+            margin: 30px auto;
+        }
+    }
+
+    #historyModal .pagination {
+        margin: 10px 0px 0px 0;
+    }
+    #historyModal .table {
+        margin-bottom: 0px;
+    }
+    .ibox {
+        margin-bottom: 0px;
+    }
+
+    .modal-body {
+        height: 450px;
+        overflow-y: auto;
+    }
+
+    .angucomplete-dropdown {
+        width: 100%;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format: 'dd/mm/yyyy'
+        });
+    });
+</script>

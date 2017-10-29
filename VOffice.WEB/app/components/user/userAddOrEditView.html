@@ -1,0 +1,100 @@
+﻿<form class="form-horizontal" novalidate name="frmAddOrEditUser" role="form" ng-submit="save()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-10">
+            <h2>{{titleForm}}</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/">Trang chủ </a>
+                </li>
+                <li class="active">
+                    <strong>{{titleForm}}</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+        <div class="row">
+            <div class="col-lg-12 animated fadeInRight">
+                <div class="form-box-header">
+                    <div class="pull-left form-actions">
+                        <p class="required-notic">(Những trường <span class="label-required">*</span> là bắt buộc nhập)</p>
+                    </div>
+                    <div class="pull-right form-actions">
+                        <button class="btn btn-sm btn-primary" ng-disabled="frmAddOrEditUser.$invalid" type="submit">Cập nhật</button>
+                        <button class="btn btn-sm btn-white" type="button" ng-click="BindList()">Hủy bỏ</button>
+                    </div>
+                </div>
+                <div class="form-box">
+                    <div class="form-body" style="padding-bottom:130px;">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Tài khoản</label>
+                            <div class="col-sm-6">
+                                <input type="email" ng-disabled="disableUserName" placeholder="Tài khoản" name="_username" ng-model="user.userName" id="username" class="form-control" maxlength="256" required>
+                                <span ng-show="frmAddOrEditUser._username.$error.required && !frmAddOrEditUser._username.$pristine" class="field-validation-error">Tài khoản không được trống</span>
+                                <span ng-show="frmAddOrEditUser._username.$error.email && !frmAddOrEditUser._username.$pristine" class="field-validation-error">Tài khoản không đúng định dạng email</span>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="showPassword">
+                            <label class="col-lg-3 control-label">Mật khẩu</label>
+                            <div class="col-sm-6">
+                                <input type="password" name="_newPassword" ng-model="user.password" placeholder="Mật khẩu" class="form-control" maxlength="50" required>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-hide="showPassword">
+                            <label class="col-lg-3 control-label">Nhập lại mật khẩu</label>
+                            <div class="col-sm-6">
+                                <input type="password" name="_confirmPassword" ng-model="user.confirmPassword" required compare-to="user.password" placeholder="Nhập lại mật khẩu" class="form-control" maxlength="50">
+                                <span ng-show="frmAddOrEditUser._confirmPassword.$error.compareTo && !frmAddOrEditUser._confirmPassword.$pristine" class="field-validation-error">Mật khẩu mới không khớp</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Tài khoản Google</label>
+                            <div class="col-sm-6">
+                                <input type="email" id="googleAccount" ng-model="user.googleAccount" name="_googleAccount" placeholder="Tài khoản Google" class="form-control" maxlength="256" />
+                                <span ng-show="frmAddOrEditUser._googleAccount.$error.email && !frmAddOrEditUser._googleAccount.$pristine" class="field-validation-error">Tài khoản google không đúng định dạng</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Chọn cán bộ</label>
+                            <div class="col-sm-6">
+                                <tags-input placeholder="Chọn cán bộ" ng-model="staffs"
+                                            display-property="fullName" replace-spaces-with-dashes="false"
+                                            key-property="id" max-tags="1" on-tag-added="forceOneTag($tag)" template="staff-template">
+                                    <auto-complete source="loadStaff($query)"
+                                                   min-length="0"
+                                                   debounce-delay="0"
+                                                   template="autocomplete-template"
+                                                   max-results-to-show="10"></auto-complete>
+                                </tags-input>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-body text-right tooltip-demo form-actions">
+                        <button class="btn btn-sm btn-primary" ng-disabled="frmAddOrEditUser.$invalid" type="submit">Cập nhật</button>
+                        <button class="btn btn-sm btn-white" type="button" ng-click="BindList()">Hủy bỏ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" ng-model="sysAdmin" />
+</form>
+
+<script type="text/ng-template" id="staff-template">
+    <div class="feed-element display-avatar-suggest">
+        <img ng-src="{{data.avatar}}" class="img-circle" style="width:22px; height:22px;" ng-if="data.avatar" />
+        <span>{{$getDisplayText()}}</span>
+        <a class="tag-remove-button" ng-click="$removeTag()">&#10006;</a>
+    </div>
+
+</script>
+
+<script type="text/ng-template" id="autocomplete-template">
+    <div class="left-panel feed-element" style="padding-bottom:0px;">
+        <img class="img-circle" ng-src="{{data.avatar}}" />
+        <span ng-bind-html="$highlight($getDisplayText())"></span>
+    </div>
+</script>
+
+
